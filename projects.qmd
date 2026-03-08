@@ -1,0 +1,92 @@
+---
+title: "Projects"
+resources:
+  - Projects/
+---
+
+::: {.projects-intro}
+The projects below showcase my work in spatial analysis, remote sensing, 
+and geospatial data science. Each project uses real datasets to address 
+real environmental questions, from wildfire impact assessment to land cover 
+change detection, reflecting the kind of work I am passionate about and 
+ready to bring to a professional setting.
+:::
+
+::: {.project-grid}
+
+::: {.project-card}
+### Wildfire Burn Severity and Post-Fire Vegetation Recovery
+#### Remote Sensing for Ecosystem Management
+
+A Landsat 8 time-series analysis of the 2017 Prouton Lakes fire near Williams 
+Lake, BC. This project quantifies burn severity across the fire perimeter using 
+delta NBR and tracks post-fire vegetation recovery through NDVI composites from 
+2013 to 2021.
+
+`R` `terra` `ggplot2` `sf` `Landsat 8` `NDVI` `NBR` `dNBR`
+
+::: {.project-links}
+[View Project](Projects/Lab8_wildfire/GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+:::
+
+:::
+
+::: {.project-card}
+### Land Cover Classification of the Southern Gulf Islands
+#### Remote Sensing · Land Cover Mapping
+
+Landsat 9 multispectral imagery acquired over the Southern Gulf Islands, BC was
+used to classify five land cover types which are forest, grassland/shrub, urban, exposed
+soil, and water using supervised maximum likelihood classification. Training
+polygons were manually delineated across the study area and used to extract
+spectral signatures for each class. Classification accuracy was assessed through
+a confusion matrix, yielding an overall accuracy of 79.6%, with water achieving
+perfect producer and user accuracy and exposed soil presenting the greatest
+spectral confusion.
+
+`R` `RStoolbox` `terra` `ggplot2` `Landsat 9` `Maximum Likelihood` `Accuracy Assessment`
+
+::: {.project-links}
+[View Project](Projects/Lab6_classification/GEM520_Lab6_Supervised_Classification_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+:::
+:::
+
+::: {.project-card}
+### Vegetation Change Detection and Forest Cover Dynamics
+#### Remote Sensing · Time-Series Analysis
+
+A 20-year MODIS NDVI time series (MOD13Q1, 2001–2020) was analyzed to characterize seasonal vegetation patterns and detect abrupt changes in greenness at two regions of interest in Yellowhead Country, Alberta, using the BFAST monitoring algorithm. A second analysis examined a 33-year Landsat-based land cover time series near Williams Lake, BC, to quantify annual forest area gain and loss between 1984 and 2016. Together, the two analyses demonstrate how multi-temporal satellite data can reveal both gradual ecological trends and abrupt disturbance events across different spatial and temporal scales.
+
+`R` `terra` `bfast` `ggplot2` `MODIS` `NDVI` `BFAST` `Land Cover` `Time-Series`
+
+::: {.project-links}
+[View Project](Projects/Lab7_interpolation/GEM520_Lab7_TimeSeries_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+:::
+:::
+
+::: {.project-card}
+### Spatial Data Analysis of the Gulf Islands
+#### Vector Geoprocessing · LiDAR · Spectral Analysis
+
+This project brought together three types of spatial data to analyze the Gulf Islands of BC. I used vector geoprocessing to identify which islands have ferry terminals and calculated distances from the Tsawwassen terminal to each Gulf Island terminal. I then worked with a LiDAR-derived DEM of Pender Island to examine terrain characteristics including slope distribution and reclassified slope classes. Finally, I used a Landsat 5 TM image to compute NDWI, apply a water mask, and extract spectral signatures for three land cover classes, identifying coniferous forest, broadleaf forest, and developed or exposed surfaces based on their reflectance patterns.
+
+`R` `terra` `sf` `ggplot2` `LiDAR` `DEM` `Landsat 5` `NDWI` `Spectral Signatures`
+
+::: {.project-links}
+[View Project](Projects/Lab5_spectral/GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+:::
+:::
+
+
+::: {.project-card}
+### Exploring Vancouver Street Trees
+#### Data Analysis · Data Visualization
+
+I used the City of Vancouver's open street tree dataset to explore how trees are distributed across species and neighbourhoods city-wide. Starting from messy, wide-format data, I reshaped and cleaned the dataset using tidyverse tools, removed unrealistic records, and computed diameter and count summaries by species and height rank. I then brought in street length and neighbourhood area data to calculate tree density per kilometre of street, which gave a much more meaningful picture of how well-treed each neighbourhood is compared to just counting trees. The analysis shows that South Cambie has the highest tree density in the city, while species like Kwanzan Flowering Cherry tend to be small and concentrated in lower height classes compared to Maple, which shows a wider range of sizes across the city.
+
+`R` `tidyverse` `ggplot2` `dplyr` `tidyr` `ggrepel`
+
+::: {.project-links}
+[View Project](Projects/Lab3_lidar/GEM520_Lab3_StreetTrees_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+:::
+:::

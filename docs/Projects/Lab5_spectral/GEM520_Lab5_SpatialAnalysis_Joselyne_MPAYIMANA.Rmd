@@ -1,0 +1,473 @@
+---
+title: "Spatial Data Analysis of the Gulf Islands"
+subtitle: "Vector Geoprocessing, LiDAR Terrain Analysis, and Landsat Spectral Signature Characterization on Pender Island, British Columbia"
+author: "Joselyne MPAYIMANA"
+#date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.width = 9,
+  fig.height = 6
+)
+
+# Base path — update this to match your local directory if reproducing this analysis
+base_path <- "C:/MGEM/GEM520 Remote Sensing for Ecosystem Management/Labs/Lab5"
+
+# Derived paths
+data_path <- file.path(base_path, "data")
+
+# Key file paths
+islands_path     <- file.path(data_path, "islands_polygons.shp")
+ferry_path       <- file.path(data_path, "ferry_terminals.shp")
+pender_dtm_path  <- file.path(data_path, "pender_island_dtm.tif")
+pender_shp_path  <- file.path(data_path, "pender_island.shp")
+gulf_ls_path     <- file.path(data_path, "LT05_L2SP_20060723_GulfIslands.tif")
+roi_path         <- file.path(data_path, "ROI_pender_island.shp")
+wavelength_path  <- file.path(data_path, "bands_wavelength.csv")
+
+if (!dir.exists(file.path(base_path, "outputs")))
+  dir.create(file.path(base_path, "outputs"), showWarnings = FALSE)
+```
+
+```{css, echo=FALSE}
+body, h1, h2, h3, h4, h5, h6, p, li,
+td, th, figcaption, .caption {
+  font-family: "Times New Roman", Times, serif !important;
+}
+body {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+}
+h1, h2, h3, h4 { color: #e8eaf0 !important; }
+h2 { border-bottom: 1px solid #2d3a4f; padding-bottom: 0.3rem; }
+.navbar, #TOC { background-color: #0f1923 !important; }
+#TOC a { color: #a78bfa !important; }
+#TOC a:hover { color: #ffffff !important; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 1.2rem; }
+th {
+  background-color: #1a2535 !important;
+  color: #a78bfa !important;
+  padding: 8px 12px;
+  border: 1px solid #2d3a4f;
+}
+td {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+  padding: 7px 12px;
+  border: 1px solid #2d3a4f;
+}
+tr:hover td { background-color: #1a2535 !important; }
+pre, code {
+  background-color: #1a2535 !important;
+  color: #c8cdd8 !important;
+  border: 1px solid #2d3a4f;
+  border-radius: 6px;
+}
+p code, li code {
+  background-color: #2e4a7a !important;
+  color: #ffffff !important;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.88rem;
+}
+blockquote {
+  border-left: 4px solid #a78bfa;
+  background-color: #1a2535;
+  padding: 0.8rem 1.2rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.figure .caption, figcaption {
+  color: #7a8fa6 !important;
+  font-size: 0.88rem;
+  text-align: center;
+  margin-top: 0.4rem;
+}
+hr { border-color: #2d3a4f; }
+a { color: #a78bfa !important; }
+a:hover { color: #ffffff !important; }
+```
+
+---
+
+# Project Overview
+
+This project demonstrates a multi-part geospatial workflow applied to the Gulf Islands of British Columbia, integrating vector geoprocessing, LiDAR-derived terrain analysis, and multispectral remote sensing. The study area — the Southern Gulf Islands archipelago and Pender Island specifically — provides a rich and spatially complex landscape for exploring the complementary strengths of different spatial data types.
+
+The analysis is organized into three parts:
+
+1. **Gulf Islands vector analysis** — The island polygon dataset is explored and reprojected, ferry terminal locations are spatially joined to island boundaries, and distances between terminals are computed.
+
+2. **Pender Island terrain analysis** — A LiDAR-derived digital elevation model (DEM) is used to characterize island topography through summary statistics, slope derivation, and slope reclassification.
+
+3. **Landsat spectral analysis** — A Landsat 5 TM image of the Gulf Islands is used to compute a water mask via NDWI, mask land-based pixels, and characterize the spectral signatures of three land cover classes on Pender Island.
+
+---
+
+## Data Sources
+
+| Dataset | Description | Source |
+|---|---|---|
+| `islands_polygons.shp` | Boundary polygons of the Gulf Islands | BC Data |
+| `ferry_terminals.shp` | Ferry terminal point locations | BC Data |
+| `pender_island_dtm.tif` | LiDAR-derived DEM of Pender Island (1 m) | [LidarBC Open Portal](https://governmentofbc.maps.arcgis.com/apps/MapSeries/index.html?appid=d06b37979b0c4709b7fcf2a1ed458e03) |
+| `LT05_L2SP_20060723_GulfIslands.tif` | Landsat 5 TM surface reflectance, July 2006 | [USGS Earth Explorer](https://earthexplorer.usgs.gov/) |
+| `ROI_pender_island.shp` | Land cover ROI polygons on Pender Island | Field-delineated |
+
+---
+
+## Packages
+
+```{r packages, message=FALSE}
+library(terra)      # Raster data processing
+library(sf)         # Vector data handling
+library(tidyverse)  # Data manipulation and visualization
+```
+
+---
+
+# Part 1: Gulf Islands Vector Analysis
+
+## Island Boundaries and Coordinate Reprojection
+
+The Gulf Islands polygon dataset contains boundaries for 209 islands. The original CRS (WGS84 geographic coordinates) is reprojected to NAD83 / BC Albers (EPSG:3005), the standard projected CRS for BC, to enable accurate area and distance calculations in metres.
+
+```{r step1-islands, fig.cap="Gulf Islands boundaries in NAD83 / BC Albers projected coordinates (EPSG:3005). The BC Albers projection minimizes area distortion across the province, making it suitable for spatial analysis."}
+# Loading island polygons
+islands <- sf::st_read(islands_path, quiet = TRUE)
+
+# Reprojecting to NAD83 / BC Albers (EPSG:3005)
+islands_proj <- sf::st_transform(islands, crs = 3005)
+
+# Plotting projected geometry with axes
+plot(sf::st_geometry(islands_proj),
+     axes = TRUE,
+     main = "Gulf Islands — NAD83 / BC Albers (EPSG:3005)",
+     col  = "#1a4a2e",
+     border = "#a78bfa")
+```
+
+The dataset contains **`r nrow(islands)` island features** across **`r ncol(islands) - 1` attribute columns** (`Island_ID`, `SLNDTP`, `GNSNM1`).
+
+---
+
+## Ferry Terminal Spatial Join
+
+Six ferry terminals serve the Gulf Islands region. A spatial join identifies which islands host a terminal, and their areas are computed in the projected CRS.
+
+```{r step2-ferry}
+# Loading ferry terminals
+ferry <- sf::st_read(ferry_path, quiet = TRUE)
+
+# Inner spatial join: islands that contain a ferry terminal
+islands_ferry <- sf::st_join(islands_proj, ferry, left = FALSE) %>%
+  dplyr::mutate(area = sf::st_area(geometry))
+
+# Largest island with a ferry terminal
+largest_island <- islands_ferry %>% dplyr::slice_max(area, n = 1)
+```
+
+```{r step2-ferry-table, echo=FALSE}
+islands_ferry %>%
+  sf::st_drop_geometry() %>%
+  dplyr::select(GNSNM1, TRMNL_NM, area) %>%
+  dplyr::mutate(area_ha = round(as.numeric(area) / 10000, 1)) %>%
+  dplyr::select(-area) %>%
+  dplyr::rename(`Island` = GNSNM1, `Ferry Terminal` = TRMNL_NM, `Area (ha)` = area_ha) %>%
+  knitr::kable(caption = "Gulf Islands with ferry terminals and their areas in hectares.")
+```
+
+The largest island in the dataset is **`r largest_island$GNSNM1`**, with an area of approximately **`r round(as.numeric(largest_island$area) / 10000, 0)` ha**.
+
+---
+
+## Distances from Tsawwassen Ferry Terminal
+
+```{r step3-distances}
+# Separating Tsawwassen and island terminals
+tsawwassen_ferry <- ferry %>% dplyr::filter(TRMNL_NM == "Tsawwassen Ferry Terminal")
+other_ferry      <- ferry %>% dplyr::filter(TRMNL_NM != "Tsawwassen Ferry Terminal")
+
+# Computing distances
+distance_table <- other_ferry %>%
+  dplyr::mutate(
+    distance_km = round(
+      as.numeric(sf::st_distance(tsawwassen_ferry, ., by_element = FALSE)) / 1000, 1
+    )
+  ) %>%
+  sf::st_drop_geometry() %>%
+  dplyr::select(TRMNL_NM, distance_km) %>%
+  dplyr::rename(`Ferry Terminal` = TRMNL_NM, `Distance from Tsawwassen (km)` = distance_km)
+
+knitr::kable(distance_table,
+             caption = "Straight-line distances from Tsawwassen Ferry Terminal to Gulf Island terminals.")
+```
+
+---
+
+# Part 2: Pender Island Terrain Analysis
+
+## Digital Elevation Model
+
+The LiDAR-derived DEM provides bare-earth elevation at 1 m resolution across North and South Pender Island. Summary statistics and the elevation distribution are examined to characterize island topography.
+
+```{r step4-dem, fig.cap="LiDAR-derived Digital Elevation Model of Pender Island. Warmer colours indicate higher elevation; cooler colours indicate lower terrain near the coastline."}
+# Loading the DEM
+pender_dtm <- terra::rast(pender_dtm_path)
+names(pender_dtm) <- "elevation"
+
+# Plotting the DEM
+plot(pender_dtm,
+     main = "DEM of Pender Island",
+     xlab = "Easting (m)",
+     ylab = "Northing (m)")
+```
+
+```{r step4-dem-stats}
+# Summary statistics helper
+my_summary_stats <- function(x) {
+  c(max  = max(x,  na.rm = TRUE),
+    min  = min(x,  na.rm = TRUE),
+    mean = mean(x, na.rm = TRUE),
+    sd   = sd(x,   na.rm = TRUE))
+}
+
+terra::global(pender_dtm, fun = my_summary_stats)
+```
+
+```{r step4-histogram, fig.cap="Frequency distribution of elevation values on Pender Island. The right-skewed distribution reflects the island's predominantly low-lying coastal terrain, with a smaller proportion of higher-elevation interior terrain."}
+hist(pender_dtm,
+     main = "Elevation Distribution on Pender Island",
+     xlab = "Elevation (m)",
+     col  = "steelblue4")
+```
+
+---
+
+## Slope Derivation and Reclassification
+
+Slope is derived from the DEM and reclassified into four categories to support terrain suitability analysis and land management planning.
+
+```{r step5-slope, fig.cap="Reclassified slope map of Pender Island. Class 1 (0–10°) represents gentle terrain suitable for development or agriculture; Class 4 (30–90°) represents steep slopes with significant erosion risk and limited accessibility."}
+# Deriving slope in degrees
+pender_slope <- terra::terrain(pender_dtm, v = "slope", unit = "degrees", neighbors = 8)
+
+# Reclassification matrix: from–to–becomes
+rcl_matrix <- matrix(
+  c(0,  10, 1,
+    10, 20, 2,
+    20, 30, 3,
+    30, 90, 4),
+  ncol = 3, byrow = TRUE
+)
+
+slope_rcl <- terra::classify(pender_slope, rcl = rcl_matrix,
+                              include.lowest = TRUE, right = TRUE)
+
+plot(slope_rcl,
+     main = "Reclassified Slope — Pender Island",
+     col  = c("#2d6a4f", "#74c69d", "#f4a261", "#e76f51"),
+     axes = TRUE)
+legend("topright",
+       legend = c("Class 1: 0–10°", "Class 2: 10–20°",
+                  "Class 3: 20–30°", "Class 4: 30–90°"),
+       fill   = c("#2d6a4f", "#74c69d", "#f4a261", "#e76f51"),
+       bty    = "n", cex = 0.85)
+```
+
+The majority of Pender Island falls within the gentler slope classes (Class 1 and 2), reflecting the island's generally low-relief topography. Steeper slopes are concentrated along coastal bluffs and the central ridge.
+
+---
+
+# Part 3: Landsat Spectral Analysis
+
+## Multispectral Image Preparation
+
+A Landsat 5 TM surface reflectance image acquired on July 23, 2006 covers the Gulf Islands at 30 m resolution across six spectral bands.
+
+```{r step6-landsat-bands-table, echo=FALSE}
+data.frame(
+  Band   = 1:6,
+  Name   = c("Blue", "Green", "Red", "NIR", "SWIR 1", "SWIR 2"),
+  `Wavelength (nm)` = c("450–520", "520–600", "630–690", "770–900", "1550–1750", "2090–2350"),
+  `Resolution (m)`  = rep(30, 6)
+) %>%
+  knitr::kable(caption = "Landsat 5 TM bands used in this analysis.")
+```
+
+```{r step6-load-landsat}
+# Loading Landsat image and naming bands
+gulf_ls        <- terra::rast(gulf_ls_path)
+names(gulf_ls) <- c("blue", "green", "red", "nir", "swir1", "swir2")
+
+# Basic properties
+res(gulf_ls)
+nlyr(gulf_ls)
+ext(gulf_ls)
+```
+
+---
+
+## True and False Color Composites
+
+```{r step7-rgb, fig.cap="True color composite (left) and false color composite using NIR–Red–Green (right) of the Gulf Islands, July 2006. In the false color image, healthy vegetation appears in red tones due to high NIR reflectance; water bodies appear dark."}
+par(mfrow = c(1, 2))
+
+terra::plotRGB(gulf_ls, r = 3, g = 2, b = 1, stretch = "lin",
+               main = "True Color (R-G-B)")
+
+terra::plotRGB(gulf_ls, r = 4, g = 3, b = 2, stretch = "lin",
+               main = "False Color (NIR-R-G)")
+
+par(mfrow = c(1, 1))
+```
+
+In the false color composite, vegetation appears in bright red tones because healthy plant canopies have characteristically high reflectance in the NIR band, which is assigned to the red display channel. Water bodies appear dark due to strong NIR absorption.
+
+---
+
+## Cropping and Masking to Pender Island
+
+```{r step8-crop-mask, fig.cap="Pender Island Landsat 5 image after cropping to the island boundary extent and masking pixels outside the island polygon. Only land pixels are retained for subsequent spectral analysis."}
+# Loading Pender Island boundary and reprojecting to match Landsat CRS
+pender <- sf::st_read(pender_shp_path, quiet = TRUE) %>%
+  sf::st_transform(crs = sf::st_crs(gulf_ls))
+
+# Crop to extent, then mask to polygon boundary
+pender_ls        <- terra::crop(gulf_ls, pender)
+pender_ls_masked <- terra::mask(pender_ls, pender)
+
+terra::plotRGB(pender_ls_masked, r = 3, g = 2, b = 1, stretch = "lin",
+               main = "Pender Island — Masked True Color")
+plot(pender$geometry, border = "yellow", lwd = 2, add = TRUE)
+```
+
+---
+
+## Water Masking via NDWI
+
+The Normalized Difference Water Index (NDWI) is used to identify and mask water pixels, preventing mixed-pixel contamination in the spectral signature analysis.
+
+$$NDWI = \frac{GREEN - NIR}{GREEN + NIR}$$
+
+```{r step9-ndwi, fig.cap="NDWI of Pender Island (left) and the mode-filtered binary water mask (right). Pixels with NDWI > 0 are classified as water (blue); all other pixels are classified as land (green). The mode filter removes isolated misclassified pixels to produce a smoother, more coherent water boundary."}
+# NDWI function
+calc_ndwi <- function(green, nir) (green - nir) / (green + nir)
+
+pender_ndwi <- terra::app(pender_ls, fun = function(x) calc_ndwi(x[2], x[4]))
+
+# Binary water mask (1 = water, 0 = land)
+water_mask <- terra::ifel(pender_ndwi > 0, 1, 0)
+
+# Mode filter to smooth isolated misclassified pixels
+get_mode <- function(x, na.rm = TRUE) {
+  if (na.rm) x <- x[!is.na(x)]
+  ux <- unique(x)
+  ux[which.max(tabulate(match(x, ux)))]
+}
+
+water_mask_mode <- terra::focal(water_mask, w = 3, fun = get_mode)
+
+# Plotting both masks side by side
+mask_compare        <- c(water_mask, water_mask_mode)
+names(mask_compare) <- c("Original Water Mask", "Mode-Filtered Mask")
+plot(mask_compare, col = c("lightgreen", "steelblue4"))
+```
+
+Applying the mode filter smooths the binary water mask by replacing each pixel's value with the most common value in its 3 x 3 neighbourhood. This removes isolated misclassified pixels (salt-and-pepper noise) and produces cleaner, more continuous water and land boundaries, a standard pre-processing step before spectral analysis.
+
+```{r step9-apply-mask, fig.cap="NIR band of Pender Island after applying the water mask. Water pixels are set to NA, isolating the land surface reflectance signal for subsequent spectral analysis."}
+# Applying water mask to Landsat image
+pender_ls_mask <- terra::mask(pender_ls, water_mask_mode, maskvalue = 1)
+
+plot(pender_ls_mask[["nir"]],
+     main = "NIR Band - Water Mask Applied",
+     col  = terrain.colors(50))
+```
+
+---
+
+## Spectral Signature Analysis
+
+Mean reflectance was extracted across three land cover ROIs to characterize their spectral signatures and identify land cover type based on band response patterns.
+
+```{r step10-spectral, fig.cap="Spectral signatures of three land cover classes on Pender Island derived from Landsat 5 TM surface reflectance. Class B shows the classic vegetation red-edge response (low visible, high NIR); Class A shows flatter reflectance consistent with developed or exposed surfaces; Class C shows intermediate NIR with elevated SWIR, consistent with broadleaf forest."}
+# Loading ROI polygons
+roi_pender <- sf::st_read(roi_path, quiet = TRUE) %>%
+  tibble::rowid_to_column(var = "ID")
+
+# Extracting mean reflectance per ROI
+roi_reflectance <- terra::extract(pender_ls_mask, roi_pender, fun = mean, na.rm = TRUE)
+
+# Joining with land cover labels
+lc_reflectance <- dplyr::inner_join(
+  roi_reflectance,
+  sf::st_drop_geometry(roi_pender),
+  by = "ID"
+)
+
+# Reshaping to long format
+lc_reflectance_long <- lc_reflectance %>%
+  tidyr::pivot_longer(
+    cols      = c(blue, green, red, nir, swir1, swir2),
+    names_to  = "band",
+    values_to = "reflectance"
+  )
+
+# Joining with wavelength data
+bands <- read.csv(wavelength_path)
+lc_reflectance_long <- dplyr::left_join(lc_reflectance_long, bands, by = "band")
+
+# Plotting spectral signatures
+ggplot(lc_reflectance_long,
+       aes(x = wavelength, y = reflectance, color = lc_class, group = lc_class)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  scale_color_manual(values = c("A" = "#e07b39", "B" = "#2d9e6b", "C" = "#5b8db8")) +
+  labs(
+    title  = "Spectral Signatures of Land Cover Classes - Pender Island",
+    x      = "Wavelength (nm)",
+    y      = "Mean Surface Reflectance",
+    color  = "Land Cover Class"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+```
+
+### Land Cover Class Identification
+
+| Class | Spectral Pattern | Identified Land Cover |
+|---|---|---|
+| A | High visible reflectance, low NIR | Developed areas / exposed soil |
+| B | Low visible, sharp NIR increase, steep SWIR decline | Coniferous forest |
+| C | Moderate NIR, elevated SWIR reflectance | Broadleaf forest |
+
+**Class A** shows relatively high and flat reflectance across the visible spectrum with low NIR response, a pattern typical of impervious surfaces, bare soil, or exposed rock, which lack the cellular structure that drives NIR reflectance in vegetation.
+
+**Class B** exhibits low visible reflectance, a sharp increase in the NIR, and a pronounced decline into the SWIR bands — the classic spectral signature of dense, healthy coniferous forest. The sharp NIR peak reflects high internal leaf scattering, while the SWIR absorption is driven by canopy moisture content.
+
+**Class C** shows an intermediate NIR response with elevated SWIR reflectance relative to Class B, consistent with broadleaf forest. Broadleaf canopies typically have slightly lower NIR reflectance and higher SWIR compared to dense coniferous stands due to differences in canopy structure, leaf morphology, and moisture content.
+
+---
+
+# Summary
+
+This project demonstrates how vector geoprocessing, LiDAR terrain analysis, and multispectral remote sensing can be combined within a single spatial workflow to characterize a complex island landscape.
+
+The Gulf Islands vector analysis established the spatial framework, identifying which islands are served by ferry and quantifying travel distances from the mainland terminal. The Pender Island DEM analysis revealed a predominantly low-relief topography with steeper slopes concentrated along coastal bluffs, a pattern with direct implications for land use planning and erosion risk assessment. The Landsat spectral analysis successfully distinguished three land cover types based on their reflectance profiles, demonstrating how targeted band combinations and spectral indices can extract ecologically meaningful information from passive optical imagery.
+
+Together, these methods form a practical toolkit applicable to environmental consulting, resource management, and land use planning contexts across coastal British Columbia.

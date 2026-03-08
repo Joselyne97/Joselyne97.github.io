@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joselyne MPAYIMANA">
+
+<title>Spatial Data Analysis of the Gulf Islands – Joselyne MPAYIMANA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0beff70ece8962be7af54e7b3e9a01c9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Joselyne MPAYIMANA</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../experience.html"> 
+<span class="menu-text">Experience</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../leadership_and_training.html"> 
+<span class="menu-text">Leadership and Training</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link active" data-scroll-target="#project-overview">Project Overview</a>
+  <ul class="collapse">
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
+  </ul></li>
+  <li><a href="#part-1-gulf-islands-vector-analysis" id="toc-part-1-gulf-islands-vector-analysis" class="nav-link" data-scroll-target="#part-1-gulf-islands-vector-analysis">Part 1: Gulf Islands Vector Analysis</a>
+  <ul class="collapse">
+  <li><a href="#island-boundaries-and-coordinate-reprojection" id="toc-island-boundaries-and-coordinate-reprojection" class="nav-link" data-scroll-target="#island-boundaries-and-coordinate-reprojection">Island Boundaries and Coordinate Reprojection</a></li>
+  <li><a href="#ferry-terminal-spatial-join" id="toc-ferry-terminal-spatial-join" class="nav-link" data-scroll-target="#ferry-terminal-spatial-join">Ferry Terminal Spatial Join</a></li>
+  <li><a href="#distances-from-tsawwassen-ferry-terminal" id="toc-distances-from-tsawwassen-ferry-terminal" class="nav-link" data-scroll-target="#distances-from-tsawwassen-ferry-terminal">Distances from Tsawwassen Ferry Terminal</a></li>
+  </ul></li>
+  <li><a href="#part-2-pender-island-terrain-analysis" id="toc-part-2-pender-island-terrain-analysis" class="nav-link" data-scroll-target="#part-2-pender-island-terrain-analysis">Part 2: Pender Island Terrain Analysis</a>
+  <ul class="collapse">
+  <li><a href="#digital-elevation-model" id="toc-digital-elevation-model" class="nav-link" data-scroll-target="#digital-elevation-model">Digital Elevation Model</a></li>
+  <li><a href="#slope-derivation-and-reclassification" id="toc-slope-derivation-and-reclassification" class="nav-link" data-scroll-target="#slope-derivation-and-reclassification">Slope Derivation and Reclassification</a></li>
+  </ul></li>
+  <li><a href="#part-3-landsat-spectral-analysis" id="toc-part-3-landsat-spectral-analysis" class="nav-link" data-scroll-target="#part-3-landsat-spectral-analysis">Part 3: Landsat Spectral Analysis</a>
+  <ul class="collapse">
+  <li><a href="#multispectral-image-preparation" id="toc-multispectral-image-preparation" class="nav-link" data-scroll-target="#multispectral-image-preparation">Multispectral Image Preparation</a></li>
+  <li><a href="#true-and-false-color-composites" id="toc-true-and-false-color-composites" class="nav-link" data-scroll-target="#true-and-false-color-composites">True and False Color Composites</a></li>
+  <li><a href="#cropping-and-masking-to-pender-island" id="toc-cropping-and-masking-to-pender-island" class="nav-link" data-scroll-target="#cropping-and-masking-to-pender-island">Cropping and Masking to Pender Island</a></li>
+  <li><a href="#water-masking-via-ndwi" id="toc-water-masking-via-ndwi" class="nav-link" data-scroll-target="#water-masking-via-ndwi">Water Masking via NDWI</a></li>
+  <li><a href="#spectral-signature-analysis" id="toc-spectral-signature-analysis" class="nav-link" data-scroll-target="#spectral-signature-analysis">Spectral Signature Analysis</a>
+  <ul class="collapse">
+  <li><a href="#land-cover-class-identification" id="toc-land-cover-class-identification" class="nav-link" data-scroll-target="#land-cover-class-identification">Land Cover Class Identification</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Spatial Data Analysis of the Gulf Islands</h1>
+<p class="subtitle lead">Vector Geoprocessing, LiDAR Terrain Analysis, and Landsat Spectral Signature Characterization on Pender Island, British Columbia</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joselyne MPAYIMANA </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell" data-layout-align="center">
+<style type="text/css">
+body, h1, h2, h3, h4, h5, h6, p, li,
+td, th, figcaption, .caption {
+  font-family: "Times New Roman", Times, serif !important;
+}
+body {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+}
+h1, h2, h3, h4 { color: #e8eaf0 !important; }
+h2 { border-bottom: 1px solid #2d3a4f; padding-bottom: 0.3rem; }
+.navbar, #TOC { background-color: #0f1923 !important; }
+#TOC a { color: #a78bfa !important; }
+#TOC a:hover { color: #ffffff !important; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 1.2rem; }
+th {
+  background-color: #1a2535 !important;
+  color: #a78bfa !important;
+  padding: 8px 12px;
+  border: 1px solid #2d3a4f;
+}
+td {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+  padding: 7px 12px;
+  border: 1px solid #2d3a4f;
+}
+tr:hover td { background-color: #1a2535 !important; }
+pre, code {
+  background-color: #1a2535 !important;
+  color: #c8cdd8 !important;
+  border: 1px solid #2d3a4f;
+  border-radius: 6px;
+}
+p code, li code {
+  background-color: #2e4a7a !important;
+  color: #ffffff !important;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.88rem;
+}
+blockquote {
+  border-left: 4px solid #a78bfa;
+  background-color: #1a2535;
+  padding: 0.8rem 1.2rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.figure .caption, figcaption {
+  color: #7a8fa6 !important;
+  font-size: 0.88rem;
+  text-align: center;
+  margin-top: 0.4rem;
+}
+hr { border-color: #2d3a4f; }
+a { color: #a78bfa !important; }
+a:hover { color: #ffffff !important; }
+</style>
+</div>
+<hr>
+<section id="project-overview" class="level1">
+<h1>Project Overview</h1>
+<p>This project demonstrates a multi-part geospatial workflow applied to the Gulf Islands of British Columbia, integrating vector geoprocessing, LiDAR-derived terrain analysis, and multispectral remote sensing. The study area — the Southern Gulf Islands archipelago and Pender Island specifically — provides a rich and spatially complex landscape for exploring the complementary strengths of different spatial data types.</p>
+<p>The analysis is organized into three parts:</p>
+<ol type="1">
+<li><p><strong>Gulf Islands vector analysis</strong> — The island polygon dataset is explored and reprojected, ferry terminal locations are spatially joined to island boundaries, and distances between terminals are computed.</p></li>
+<li><p><strong>Pender Island terrain analysis</strong> — A LiDAR-derived digital elevation model (DEM) is used to characterize island topography through summary statistics, slope derivation, and slope reclassification.</p></li>
+<li><p><strong>Landsat spectral analysis</strong> — A Landsat 5 TM image of the Gulf Islands is used to compute a water mask via NDWI, mask land-based pixels, and characterize the spectral signatures of three land cover classes on Pender Island.</p></li>
+</ol>
+<hr>
+<section id="data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Description</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>islands_polygons.shp</code></td>
+<td>Boundary polygons of the Gulf Islands</td>
+<td>BC Data</td>
+</tr>
+<tr class="even">
+<td><code>ferry_terminals.shp</code></td>
+<td>Ferry terminal point locations</td>
+<td>BC Data</td>
+</tr>
+<tr class="odd">
+<td><code>pender_island_dtm.tif</code></td>
+<td>LiDAR-derived DEM of Pender Island (1 m)</td>
+<td><a href="https://governmentofbc.maps.arcgis.com/apps/MapSeries/index.html?appid=d06b37979b0c4709b7fcf2a1ed458e03">LidarBC Open Portal</a></td>
+</tr>
+<tr class="even">
+<td><code>LT05_L2SP_20060723_GulfIslands.tif</code></td>
+<td>Landsat 5 TM surface reflectance, July 2006</td>
+<td><a href="https://earthexplorer.usgs.gov/">USGS Earth Explorer</a></td>
+</tr>
+<tr class="odd">
+<td><code>ROI_pender_island.shp</code></td>
+<td>Land cover ROI polygons on Pender Island</td>
+<td>Field-delineated</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)      <span class="co"># Raster data processing</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)         <span class="co"># Vector data handling</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)  <span class="co"># Data manipulation and visualization</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="part-1-gulf-islands-vector-analysis" class="level1">
+<h1>Part 1: Gulf Islands Vector Analysis</h1>
+<section id="island-boundaries-and-coordinate-reprojection" class="level2">
+<h2 class="anchored" data-anchor-id="island-boundaries-and-coordinate-reprojection">Island Boundaries and Coordinate Reprojection</h2>
+<p>The Gulf Islands polygon dataset contains boundaries for 209 islands. The original CRS (WGS84 geographic coordinates) is reprojected to NAD83 / BC Albers (EPSG:3005), the standard projected CRS for BC, to enable accurate area and distance calculations in metres.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading island polygons</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>islands <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(islands_path, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reprojecting to NAD83 / BC Albers (EPSG:3005)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>islands_proj <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_transform</span>(islands, <span class="at">crs =</span> <span class="dv">3005</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting projected geometry with axes</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sf<span class="sc">::</span><span class="fu">st_geometry</span>(islands_proj),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Gulf Islands — NAD83 / BC Albers (EPSG:3005)"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">col  =</span> <span class="st">"#1a4a2e"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">border =</span> <span class="st">"#a78bfa"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step1-islands-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Gulf Islands boundaries in NAD83 / BC Albers projected coordinates (EPSG:3005). The BC Albers projection minimizes area distortion across the province, making it suitable for spatial analysis.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The dataset contains <strong>209 island features</strong> across <strong>3 attribute columns</strong> (<code>Island_ID</code>, <code>SLNDTP</code>, <code>GNSNM1</code>).</p>
+<hr>
+</section>
+<section id="ferry-terminal-spatial-join" class="level2">
+<h2 class="anchored" data-anchor-id="ferry-terminal-spatial-join">Ferry Terminal Spatial Join</h2>
+<p>Six ferry terminals serve the Gulf Islands region. A spatial join identifies which islands host a terminal, and their areas are computed in the projected CRS.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading ferry terminals</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ferry <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(ferry_path, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inner spatial join: islands that contain a ferry terminal</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>islands_ferry <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_join</span>(islands_proj, ferry, <span class="at">left =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">area =</span> sf<span class="sc">::</span><span class="fu">st_area</span>(geometry))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Largest island with a ferry terminal</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>largest_island <span class="ot">&lt;-</span> islands_ferry <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">slice_max</span>(area, <span class="at">n =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Gulf Islands with ferry terminals and their areas in hectares.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Island</th>
+<th style="text-align: left;">Ferry Terminal</th>
+<th style="text-align: right;">Area (ha)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">38</td>
+<td style="text-align: left;">Mayne Island</td>
+<td style="text-align: left;">Village Bay Ferry Terminal</td>
+<td style="text-align: right;">2336.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">47</td>
+<td style="text-align: left;">Galiano Island</td>
+<td style="text-align: left;">Sturdies Bay Ferry Terminal</td>
+<td style="text-align: right;">5815.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">98</td>
+<td style="text-align: left;">Saturna Island</td>
+<td style="text-align: left;">Lyall Harbour Ferry Terminal</td>
+<td style="text-align: right;">3224.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">145</td>
+<td style="text-align: left;">Saltspring Island</td>
+<td style="text-align: left;">Long Harbour Ferry Terminal</td>
+<td style="text-align: right;">18549.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">183</td>
+<td style="text-align: left;">North Pender Island</td>
+<td style="text-align: left;">Otter Bay Ferry Terminal</td>
+<td style="text-align: right;">2708.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The largest island in the dataset is <strong>Saltspring Island</strong>, with an area of approximately <strong>1.8549^{4} ha</strong>.</p>
+<hr>
+</section>
+<section id="distances-from-tsawwassen-ferry-terminal" class="level2">
+<h2 class="anchored" data-anchor-id="distances-from-tsawwassen-ferry-terminal">Distances from Tsawwassen Ferry Terminal</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Separating Tsawwassen and island terminals</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tsawwassen_ferry <span class="ot">&lt;-</span> ferry <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(TRMNL_NM <span class="sc">==</span> <span class="st">"Tsawwassen Ferry Terminal"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>other_ferry      <span class="ot">&lt;-</span> ferry <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(TRMNL_NM <span class="sc">!=</span> <span class="st">"Tsawwassen Ferry Terminal"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Computing distances</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>distance_table <span class="ot">&lt;-</span> other_ferry <span class="sc">%&gt;%</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">distance_km =</span> <span class="fu">round</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">as.numeric</span>(sf<span class="sc">::</span><span class="fu">st_distance</span>(tsawwassen_ferry, ., <span class="at">by_element =</span> <span class="cn">FALSE</span>)) <span class="sc">/</span> <span class="dv">1000</span>, <span class="dv">1</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(TRMNL_NM, distance_km) <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="st">`</span><span class="at">Ferry Terminal</span><span class="st">`</span> <span class="ot">=</span> TRMNL_NM, <span class="st">`</span><span class="at">Distance from Tsawwassen (km)</span><span class="st">`</span> <span class="ot">=</span> distance_km)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(distance_table,</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Straight-line distances from Tsawwassen Ferry Terminal to Gulf Island terminals."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Straight-line distances from Tsawwassen Ferry Terminal to Gulf Island terminals.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Ferry Terminal</th>
+<th style="text-align: right;">Distance from Tsawwassen (km)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Village Bay Ferry Terminal</td>
+<td style="text-align: right;">22.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Otter Bay Ferry Terminal</td>
+<td style="text-align: right;">26.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lyall Harbour Ferry Terminal</td>
+<td style="text-align: right;">23.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sturdies Bay Ferry Terminal</td>
+<td style="text-align: right;">19.8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Long Harbour Ferry Terminal</td>
+<td style="text-align: right;">28.9</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="part-2-pender-island-terrain-analysis" class="level1">
+<h1>Part 2: Pender Island Terrain Analysis</h1>
+<section id="digital-elevation-model" class="level2">
+<h2 class="anchored" data-anchor-id="digital-elevation-model">Digital Elevation Model</h2>
+<p>The LiDAR-derived DEM provides bare-earth elevation at 1 m resolution across North and South Pender Island. Summary statistics and the elevation distribution are examined to characterize island topography.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the DEM</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pender_dtm <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(pender_dtm_path)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(pender_dtm) <span class="ot">&lt;-</span> <span class="st">"elevation"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the DEM</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pender_dtm,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"DEM of Pender Island"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Easting (m)"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Northing (m)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step4-dem-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>LiDAR-derived Digital Elevation Model of Pender Island. Warmer colours indicate higher elevation; cooler colours indicate lower terrain near the coastline.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary statistics helper</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>my_summary_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">max  =</span> <span class="fu">max</span>(x,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">min  =</span> <span class="fu">min</span>(x,  <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd   =</span> <span class="fu">sd</span>(x,   <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">global</span>(pender_dtm, <span class="at">fun =</span> my_summary_stats)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               max       min     mean       sd
+elevation 242.9722 -2.322638 62.17792 41.75229</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(pender_dtm,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Elevation Distribution on Pender Island"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Elevation (m)"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col  =</span> <span class="st">"steelblue4"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step4-histogram-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Frequency distribution of elevation values on Pender Island. The right-skewed distribution reflects the island’s predominantly low-lying coastal terrain, with a smaller proportion of higher-elevation interior terrain.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="slope-derivation-and-reclassification" class="level2">
+<h2 class="anchored" data-anchor-id="slope-derivation-and-reclassification">Slope Derivation and Reclassification</h2>
+<p>Slope is derived from the DEM and reclassified into four categories to support terrain suitability analysis and land management planning.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Deriving slope in degrees</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pender_slope <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">terrain</span>(pender_dtm, <span class="at">v =</span> <span class="st">"slope"</span>, <span class="at">unit =</span> <span class="st">"degrees"</span>, <span class="at">neighbors =</span> <span class="dv">8</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reclassification matrix: from–to–becomes</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>rcl_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">10</span>, <span class="dv">1</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">2</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">3</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="dv">30</span>, <span class="dv">90</span>, <span class="dv">4</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>slope_rcl <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">classify</span>(pender_slope, <span class="at">rcl =</span> rcl_matrix,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>                              <span class="at">include.lowest =</span> <span class="cn">TRUE</span>, <span class="at">right =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(slope_rcl,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Reclassified Slope — Pender Island"</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">col  =</span> <span class="fu">c</span>(<span class="st">"#2d6a4f"</span>, <span class="st">"#74c69d"</span>, <span class="st">"#f4a261"</span>, <span class="st">"#e76f51"</span>),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Class 1: 0–10°"</span>, <span class="st">"Class 2: 10–20°"</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Class 3: 20–30°"</span>, <span class="st">"Class 4: 30–90°"</span>),</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill   =</span> <span class="fu">c</span>(<span class="st">"#2d6a4f"</span>, <span class="st">"#74c69d"</span>, <span class="st">"#f4a261"</span>, <span class="st">"#e76f51"</span>),</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty    =</span> <span class="st">"n"</span>, <span class="at">cex =</span> <span class="fl">0.85</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step5-slope-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Reclassified slope map of Pender Island. Class 1 (0–10°) represents gentle terrain suitable for development or agriculture; Class 4 (30–90°) represents steep slopes with significant erosion risk and limited accessibility.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The majority of Pender Island falls within the gentler slope classes (Class 1 and 2), reflecting the island’s generally low-relief topography. Steeper slopes are concentrated along coastal bluffs and the central ridge.</p>
+<hr>
+</section>
+</section>
+<section id="part-3-landsat-spectral-analysis" class="level1">
+<h1>Part 3: Landsat Spectral Analysis</h1>
+<section id="multispectral-image-preparation" class="level2">
+<h2 class="anchored" data-anchor-id="multispectral-image-preparation">Multispectral Image Preparation</h2>
+<p>A Landsat 5 TM surface reflectance image acquired on July 23, 2006 covers the Gulf Islands at 30 m resolution across six spectral bands.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Landsat 5 TM bands used in this analysis.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Band</th>
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">Wavelength..nm.</th>
+<th style="text-align: right;">Resolution..m.</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Blue</td>
+<td style="text-align: left;">450–520</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">Green</td>
+<td style="text-align: left;">520–600</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">Red</td>
+<td style="text-align: left;">630–690</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">NIR</td>
+<td style="text-align: left;">770–900</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">SWIR 1</td>
+<td style="text-align: left;">1550–1750</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">SWIR 2</td>
+<td style="text-align: left;">2090–2350</td>
+<td style="text-align: right;">30</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading Landsat image and naming bands</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>gulf_ls        <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(gulf_ls_path)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(gulf_ls) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"red"</span>, <span class="st">"nir"</span>, <span class="st">"swir1"</span>, <span class="st">"swir2"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic properties</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(gulf_ls)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 30 30</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nlyr</span>(gulf_ls)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(gulf_ls)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SpatExtent : 466215, 502035, 5371545, 5413755 (xmin, xmax, ymin, ymax)</code></pre>
+</div>
+</div>
+<hr>
+</section>
+<section id="true-and-false-color-composites" class="level2">
+<h2 class="anchored" data-anchor-id="true-and-false-color-composites">True and False Color Composites</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plotRGB</span>(gulf_ls, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">main =</span> <span class="st">"True Color (R-G-B)"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plotRGB</span>(gulf_ls, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">main =</span> <span class="st">"False Color (NIR-R-G)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step7-rgb-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>True color composite (left) and false color composite using NIR–Red–Green (right) of the Gulf Islands, July 2006. In the false color image, healthy vegetation appears in red tones due to high NIR reflectance; water bodies appear dark.</figcaption>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>In the false color composite, vegetation appears in bright red tones because healthy plant canopies have characteristically high reflectance in the NIR band, which is assigned to the red display channel. Water bodies appear dark due to strong NIR absorption.</p>
+<hr>
+</section>
+<section id="cropping-and-masking-to-pender-island" class="level2">
+<h2 class="anchored" data-anchor-id="cropping-and-masking-to-pender-island">Cropping and Masking to Pender Island</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading Pender Island boundary and reprojecting to match Landsat CRS</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>pender <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(pender_shp_path, <span class="at">quiet =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_transform</span>(<span class="at">crs =</span> sf<span class="sc">::</span><span class="fu">st_crs</span>(gulf_ls))</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop to extent, then mask to polygon boundary</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>pender_ls        <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">crop</span>(gulf_ls, pender)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>pender_ls_masked <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">mask</span>(pender_ls, pender)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plotRGB</span>(pender_ls_masked, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">main =</span> <span class="st">"Pender Island — Masked True Color"</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pender<span class="sc">$</span>geometry, <span class="at">border =</span> <span class="st">"yellow"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step8-crop-mask-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Pender Island Landsat 5 image after cropping to the island boundary extent and masking pixels outside the island polygon. Only land pixels are retained for subsequent spectral analysis.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="water-masking-via-ndwi" class="level2">
+<h2 class="anchored" data-anchor-id="water-masking-via-ndwi">Water Masking via NDWI</h2>
+<p>The Normalized Difference Water Index (NDWI) is used to identify and mask water pixels, preventing mixed-pixel contamination in the spectral signature analysis.</p>
+<p><span class="math display">\[NDWI = \frac{GREEN - NIR}{GREEN + NIR}\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NDWI function</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>calc_ndwi <span class="ot">&lt;-</span> <span class="cf">function</span>(green, nir) (green <span class="sc">-</span> nir) <span class="sc">/</span> (green <span class="sc">+</span> nir)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>pender_ndwi <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">app</span>(pender_ls, <span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">calc_ndwi</span>(x[<span class="dv">2</span>], x[<span class="dv">4</span>]))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Binary water mask (1 = water, 0 = land)</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>water_mask <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">ifel</span>(pender_ndwi <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Mode filter to smooth isolated misclassified pixels</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>get_mode <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (na.rm) x <span class="ot">&lt;-</span> x[<span class="sc">!</span><span class="fu">is.na</span>(x)]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  ux <span class="ot">&lt;-</span> <span class="fu">unique</span>(x)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  ux[<span class="fu">which.max</span>(<span class="fu">tabulate</span>(<span class="fu">match</span>(x, ux)))]</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>water_mask_mode <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">focal</span>(water_mask, <span class="at">w =</span> <span class="dv">3</span>, <span class="at">fun =</span> get_mode)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting both masks side by side</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>mask_compare        <span class="ot">&lt;-</span> <span class="fu">c</span>(water_mask, water_mask_mode)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(mask_compare) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Original Water Mask"</span>, <span class="st">"Mode-Filtered Mask"</span>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mask_compare, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"lightgreen"</span>, <span class="st">"steelblue4"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step9-ndwi-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>NDWI of Pender Island (left) and the mode-filtered binary water mask (right). Pixels with NDWI &gt; 0 are classified as water (blue); all other pixels are classified as land (green). The mode filter removes isolated misclassified pixels to produce a smoother, more coherent water boundary.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Applying the mode filter smooths the binary water mask by replacing each pixel’s value with the most common value in its 3 x 3 neighbourhood. This removes isolated misclassified pixels (salt-and-pepper noise) and produces cleaner, more continuous water and land boundaries, a standard pre-processing step before spectral analysis.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Applying water mask to Landsat image</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pender_ls_mask <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">mask</span>(pender_ls, water_mask_mode, <span class="at">maskvalue =</span> <span class="dv">1</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pender_ls_mask[[<span class="st">"nir"</span>]],</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"NIR Band - Water Mask Applied"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col  =</span> <span class="fu">terrain.colors</span>(<span class="dv">50</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step9-apply-mask-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>NIR band of Pender Island after applying the water mask. Water pixels are set to NA, isolating the land surface reflectance signal for subsequent spectral analysis.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="spectral-signature-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="spectral-signature-analysis">Spectral Signature Analysis</h2>
+<p>Mean reflectance was extracted across three land cover ROIs to characterize their spectral signatures and identify land cover type based on band response patterns.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading ROI polygons</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>roi_pender <span class="ot">&lt;-</span> sf<span class="sc">::</span><span class="fu">st_read</span>(roi_path, <span class="at">quiet =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">rowid_to_column</span>(<span class="at">var =</span> <span class="st">"ID"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting mean reflectance per ROI</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>roi_reflectance <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(pender_ls_mask, roi_pender, <span class="at">fun =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining with land cover labels</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>lc_reflectance <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">inner_join</span>(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  roi_reflectance,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  sf<span class="sc">::</span><span class="fu">st_drop_geometry</span>(roi_pender),</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"ID"</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshaping to long format</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>lc_reflectance_long <span class="ot">&lt;-</span> lc_reflectance <span class="sc">%&gt;%</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols      =</span> <span class="fu">c</span>(blue, green, red, nir, swir1, swir2),</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to  =</span> <span class="st">"band"</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"reflectance"</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining with wavelength data</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>bands <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wavelength_path)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>lc_reflectance_long <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(lc_reflectance_long, bands, <span class="at">by =</span> <span class="st">"band"</span>)</span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting spectral signatures</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(lc_reflectance_long,</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> wavelength, <span class="at">y =</span> reflectance, <span class="at">color =</span> lc_class, <span class="at">group =</span> lc_class)) <span class="sc">+</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"A"</span> <span class="ot">=</span> <span class="st">"#e07b39"</span>, <span class="st">"B"</span> <span class="ot">=</span> <span class="st">"#2d9e6b"</span>, <span class="st">"C"</span> <span class="ot">=</span> <span class="st">"#5b8db8"</span>)) <span class="sc">+</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">title  =</span> <span class="st">"Spectral Signatures of Land Cover Classes - Pender Island"</span>,</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">x      =</span> <span class="st">"Wavelength (nm)"</span>,</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">y      =</span> <span class="st">"Mean Surface Reflectance"</span>,</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">color  =</span> <span class="st">"Land Cover Class"</span></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA_files/figure-html/step10-spectral-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Spectral signatures of three land cover classes on Pender Island derived from Landsat 5 TM surface reflectance. Class B shows the classic vegetation red-edge response (low visible, high NIR); Class A shows flatter reflectance consistent with developed or exposed surfaces; Class C shows intermediate NIR with elevated SWIR, consistent with broadleaf forest.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="land-cover-class-identification" class="level3">
+<h3 class="anchored" data-anchor-id="land-cover-class-identification">Land Cover Class Identification</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Spectral Pattern</th>
+<th>Identified Land Cover</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>High visible reflectance, low NIR</td>
+<td>Developed areas / exposed soil</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>Low visible, sharp NIR increase, steep SWIR decline</td>
+<td>Coniferous forest</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>Moderate NIR, elevated SWIR reflectance</td>
+<td>Broadleaf forest</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Class A</strong> shows relatively high and flat reflectance across the visible spectrum with low NIR response, a pattern typical of impervious surfaces, bare soil, or exposed rock, which lack the cellular structure that drives NIR reflectance in vegetation.</p>
+<p><strong>Class B</strong> exhibits low visible reflectance, a sharp increase in the NIR, and a pronounced decline into the SWIR bands — the classic spectral signature of dense, healthy coniferous forest. The sharp NIR peak reflects high internal leaf scattering, while the SWIR absorption is driven by canopy moisture content.</p>
+<p><strong>Class C</strong> shows an intermediate NIR response with elevated SWIR reflectance relative to Class B, consistent with broadleaf forest. Broadleaf canopies typically have slightly lower NIR reflectance and higher SWIR compared to dense coniferous stands due to differences in canopy structure, leaf morphology, and moisture content.</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>This project demonstrates how vector geoprocessing, LiDAR terrain analysis, and multispectral remote sensing can be combined within a single spatial workflow to characterize a complex island landscape.</p>
+<p>The Gulf Islands vector analysis established the spatial framework, identifying which islands are served by ferry and quantifying travel distances from the mainland terminal. The Pender Island DEM analysis revealed a predominantly low-relief topography with steeper slopes concentrated along coastal bluffs, a pattern with direct implications for land use planning and erosion risk assessment. The Landsat spectral analysis successfully distinguished three land cover types based on their reflectance profiles, demonstrating how targeted band combinations and spectral indices can extract ecologically meaningful information from passive optical imagery.</p>
+<p>Together, these methods form a practical toolkit applicable to environmental consulting, resource management, and land use planning contexts across coastal British Columbia.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,487 @@
+---
+title: "Vegetation Change Detection and Forest Cover Dynamics"
+subtitle: "MODIS NDVI Time-Series Analysis and Land Cover Change in Yellowhead Country and Williams Lake, British Columbia"
+author: "Joselyne MPAYIMANA"
+#date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.width = 9,
+  fig.height = 6
+)
+
+# Base path — update this to match your local directory if reproducing this analysis
+base_path <- "C:/MGEM/GEM520 Remote Sensing for Ecosystem Management/Labs/Lab7"
+
+
+# Derived paths
+data_path  <- file.path(base_path, "data")
+ts_dir     <- file.path(data_path, "MOD13Q1_TS")
+vlce_dir   <- file.path(data_path, "VLCE_TS")
+roi_path   <- file.path(data_path, "roi_MOD13Q1.shp")
+reclass_path <- file.path(data_path, "lc_reclassification.csv")
+```
+
+```{css, echo=FALSE}
+/* Global font */
+body, h1, h2, h3, h4, h5, h6, p, li,
+td, th, figcaption, .caption {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
+/* Dark background */
+body {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+}
+
+/* Headings */
+h1, h2, h3, h4 { color: #e8eaf0 !important; }
+h2 { border-bottom: 1px solid #2d3a4f; padding-bottom: 0.3rem; }
+
+/* Navbar / TOC */
+.navbar, #TOC { background-color: #0f1923 !important; }
+#TOC a { color: #a78bfa !important; }
+#TOC a:hover { color: #ffffff !important; }
+
+/* Tables */
+table { border-collapse: collapse; width: 100%; margin-bottom: 1.2rem; }
+th {
+  background-color: #1a2535 !important;
+  color: #a78bfa !important;
+  padding: 8px 12px;
+  border: 1px solid #2d3a4f;
+}
+td {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+  padding: 7px 12px;
+  border: 1px solid #2d3a4f;
+}
+tr:hover td { background-color: #1a2535 !important; }
+
+/* Code blocks */
+pre, code {
+  background-color: #1a2535 !important;
+  color: #c8cdd8 !important;
+  border: 1px solid #2d3a4f;
+  border-radius: 6px;
+}
+
+/* Inline code */
+p code, li code {
+  background-color: #2e4a7a !important;
+  color: #ffffff !important;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.88rem;
+}
+
+/* Callout / blockquote boxes */
+blockquote {
+  border-left: 4px solid #a78bfa;
+  background-color: #1a2535;
+  padding: 0.8rem 1.2rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Figure captions */
+.figure .caption, figcaption {
+  color: #7a8fa6 !important;
+  font-size: 0.88rem;
+  text-align: center;
+  margin-top: 0.4rem;
+}
+
+/* Horizontal rule */
+hr { border-color: #2d3a4f; }
+
+/* Links */
+a { color: #a78bfa !important; }
+a:hover { color: #ffffff !important; }
+
+/* Page title block */
+.quarto-title h1, h1.title {
+  color: #ffffff !important;
+  font-size: 2rem;
+  font-weight: 800;
+}
+.subtitle { color: #a78bfa !important; }
+```
+
+---
+
+# Project Overview
+
+Detecting vegetation change from satellite time-series data is fundamental to monitoring ecosystem dynamics, assessing the impacts of disturbance, and supporting land management decisions. This project addresses two related questions using complementary datasets and methods.
+
+**Part 1** focuses on a region in Yellowhead Country, Alberta, where a 20-year time series of MODIS NDVI composites (MOD13Q1, 2001–2020) is used to characterize seasonal vegetation patterns and detect abrupt changes in greenness at two regions of interest using the BFAST (Breaks For Additive Seasonal and Trend) monitoring algorithm.
+
+**Part 2** shifts to the Williams Lake area of British Columbia, where a 33-year land cover time series classified from Landsat imagery (1984–2016) is used to quantify annual forest area gain and loss, and to examine how forest cover has evolved over time in a landscape subject to active management.
+
+Together, these analyses demonstrate how multi-temporal satellite data can reveal both gradual ecological trends and abrupt disturbance events across different spatial and temporal scales.
+
+---
+
+## Data Sources
+
+| Dataset | Description | Source |
+|---|---|---|
+| MOD13Q1 MODIS NDVI | 16-day NDVI composites at 250 m, 2001–2020 | [LP DAAC / NASA](https://lpdaac.usgs.gov/products/mod13q1v006/) |
+| Regions of Interest | Two ROI polygons in Yellowhead Country, AB | Field-defined shapefile |
+| VLCE Land Cover Time Series | Annual 30 m Landsat-based land cover, 1984–2016 | [Hermosilla et al., 2018](https://www.tandfonline.com/doi/full/10.1080/07038992.2018.1437719) |
+| Land Cover Reclassification Table | Forested / non-forested reclassification scheme | Provided |
+
+---
+
+## Packages
+
+```{r packages, message=FALSE}
+library(terra)      # Raster data processing
+library(sf)         # Vector data handling
+library(readr)      # CSV reading
+library(stringr)    # String manipulation
+library(lubridate)  # Date parsing
+library(dplyr)      # Data manipulation
+library(tidyr)      # Data tidying
+library(ggplot2)    # Data visualization
+library(bfast)      # BFAST change detection
+```
+
+---
+
+# Part 1: MODIS NDVI Time-Series Analysis
+
+## Study Area and Dataset
+
+The MOD13Q1 product provides 16-day NDVI composites at 250 m spatial resolution derived from the MODIS Terra satellite. Key product characteristics are summarized below.
+
+| Parameter | Value |
+|---|---|
+| Spatial resolution | 250 m |
+| Temporal resolution | 16-day composites |
+| Temporal availability | February 2000 to present |
+| Valid NDVI range (raw) | -2000 to 10000 (scale factor: 0.0001) |
+| Valid NDVI range (scaled) | -0.2 to 1.0 |
+
+The time series used in this analysis spans 2001 to 2020, with 23 composites per year, covering a study area in the Yellowhead Country region of Alberta.
+
+---
+
+## Loading and Preparing the Time Series
+
+```{r step1-load-ts}
+# Listing all NDVI tif files
+ndvi_files <- list.files(path = ts_dir, pattern = "tif$", full.names = TRUE)
+
+# Extracting dates from filenames (format: A + 4-digit year + 3-digit day of year)
+date_ts <- stringr::str_extract(ndvi_files, "A\\d{7}") |>
+  stringr::str_sub(2, 8)
+
+# Converting to Date class
+dates <- lubridate::as_date(date_ts, format = "%Y%j")
+
+# Summarizing files per year
+df_dates <- data.frame(Dates = dates) |>
+  dplyr::mutate(Year = lubridate::year(Dates))
+
+year_summary <- df_dates |>
+  dplyr::group_by(Year) |>
+  dplyr::summarise(Files = n())
+
+year_summary
+```
+
+The time series spans **2001 to 2020**, with **23 composites per year** — one every 16 days, consistent with the MOD13Q1 product specification.
+
+---
+
+## Median NDVI Across the Time Series
+
+```{r step2-median-ndvi, fig.cap="Median NDVI across the full 2001–2020 time series. Higher values (yellow-green) indicate persistently vegetated areas; lower values indicate sparse or bare surfaces."}
+# Loading all NDVI layers
+ndvi_ts <- terra::rast(ndvi_files)
+names(ndvi_ts) <- as.character(date_ts)
+
+# Computing pixel-wise median across the full time series
+ndvi_ts_med <- terra::app(ndvi_ts, fun = median, na.rm = TRUE)
+
+plot(ndvi_ts_med,
+     main = "Median NDVI (2001–2020) — Yellowhead Country, Alberta",
+     col  = terrain.colors(100))
+```
+
+The median NDVI map provides a stable, cloud-free baseline of vegetation productivity across the study area. Persistently high NDVI values correspond to forested and densely vegetated areas, while lower values indicate grasslands, agricultural areas, or sparsely vegetated surfaces.
+
+---
+
+## Seasonal NDVI Patterns at the Regions of Interest
+
+Two regions of interest (ROI A and ROI B) were defined within the study area to examine how NDVI varies seasonally and over time.
+
+```{r step3-roi-extract}
+# Loading ROI shapefile
+roi <- terra::vect(roi_path)
+
+# Extracting mean NDVI per ROI for each layer
+ndvi_roi <- terra::extract(ndvi_ts, roi, fun = mean, na.rm = TRUE)
+
+# Adding ROI ID and renaming columns to dates
+ndvi_roi$ID <- roi$ID
+colnames(ndvi_roi)[2:ncol(ndvi_roi)] <- as.character(date_ts)
+
+# Pivoting to long format
+ndvi_roi_long <- ndvi_roi %>%
+  tidyr::pivot_longer(
+    cols     = -ID,
+    names_to = "Date",
+    values_to = "NDVI"
+  ) %>%
+  dplyr::mutate(Date = lubridate::as_date(Date, format = "%Y%j"))
+```
+
+```{r step3-seasonal-summary, fig.cap="Mean NDVI by month (May to September) for both ROIs combined, averaged over the period 2001–2006. July records the highest mean NDVI, consistent with peak growing season conditions in boreal Alberta."}
+# Monthly NDVI summary: May–September, first year to 2006, both ROIs combined
+start_year <- lubridate::year(min(ndvi_roi_long$Date, na.rm = TRUE))
+
+ndvi_roi_summary <- ndvi_roi_long %>%
+  dplyr::filter(lubridate::month(Date) %in% 5:9,
+                lubridate::year(Date) >= start_year,
+                lubridate::year(Date) <= 2006) %>%
+  dplyr::group_by(Month = lubridate::month(Date)) %>%
+  dplyr::summarise(mean_NDVI = mean(NDVI, na.rm = TRUE)) %>%
+  dplyr::arrange(Month)
+
+# Connected scatter plot
+ggplot(ndvi_roi_summary, aes(x = Month, y = mean_NDVI, group = 1)) +
+  geom_point(color = "black", size = 3) +
+  geom_line(color = "darkred", linewidth = 1) +
+  scale_x_continuous(
+    breaks = 5:9,
+    labels = c("May", "June", "July", "August", "September")
+  ) +
+  labs(
+    title = "Mean Monthly NDVI at Regions of Interest (May–September, 2001–2006)",
+    x     = "Month",
+    y     = "Mean NDVI"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5))
+```
+
+NDVI peaks in **July** (mean = `r round(ndvi_roi_summary$mean_NDVI[ndvi_roi_summary$Month == 7], 3)`), consistent with maximum canopy development during the boreal growing season. August remains nearly as high before values begin to decline through September as senescence begins.
+
+---
+
+## BFAST Change Detection
+
+The BFAST (Breaks For Additive Seasonal and Trend) monitoring algorithm was applied to the full NDVI time series at each ROI to detect statistically significant deviations from expected seasonal behavior. For ROI A, monitoring began in 2008; for ROI B, in 2006.
+
+```{r step4-bfast, fig.cap="BFAST monitoring results for ROI A (top) and ROI B (bottom). The vertical dashed line marks the start of the monitoring period; a detected break is indicated where the NDVI trajectory departs significantly from the stable historical pattern."}
+# Separating ROI A and ROI B time series
+ndvi_roi_A <- ndvi_roi_long %>% dplyr::filter(ID == "A")
+ndvi_roi_B <- ndvi_roi_long %>% dplyr::filter(ID == "B")
+
+freq       <- 23   # 23 composites per year for MOD13Q1
+start_year <- lubridate::year(min(ndvi_roi_long$Date))
+
+ts_A <- ts(data = ndvi_roi_A$NDVI, frequency = freq, start = c(start_year, 1))
+ts_B <- ts(data = ndvi_roi_B$NDVI, frequency = freq, start = c(start_year, 1))
+
+# Running BFAST monitor
+bfast_A <- bfastmonitor(ts_A, start = c(2008, 1))
+bfast_B <- bfastmonitor(ts_B, start = c(2006, 1))
+
+# Plotting results
+par(mfrow = c(1, 2))
+plot(bfast_A, main = "BFAST Monitoring — ROI A")
+plot(bfast_B, main = "BFAST Monitoring — ROI B")
+par(mfrow = c(1, 1))
+```
+
+### Interpretation of Detected Breaks
+
+| ROI | Break Detected | Approximate Date | Direction | Likely Cause |
+|---|---|---|---|---|
+| A | 2011(14) | ~July 2011 | Decrease | Forest loss — likely wildfire or harvesting |
+| B | 2008(10) | ~May 2008 | Increase | Vegetation regrowth following prior disturbance |
+
+**ROI A** shows a sharp NDVI decline detected around the 14th observation of 2011, corresponding to approximately July 2011. The abrupt decrease followed by sustained low NDVI is consistent with a stand-replacing disturbance such as wildfire or clear-cut harvesting, which removes forest canopy and exposes bare soil or early regeneration.
+
+**ROI B** shows an NDVI increase detected around the 10th observation of 2008 (approximately May 2008). The upward shift in greenness is consistent with vegetation recovery or secondary regrowth following an earlier disturbance event, with the canopy sufficiently re-established by 2008 to trigger a detectable change in the BFAST stable history model.
+
+---
+
+# Part 2: Land Cover Time-Series Analysis
+
+## Study Area and Dataset
+
+The second analysis focuses on a 25 x 20 km area near Williams Lake, BC, a landscape subject to active forest management including harvesting and regeneration. The Virtual Land Cover Engine (VLCE) provides annual 30 m land cover maps derived from Landsat imagery for the period 1984–2016, classifying pixels into 12 classes including coniferous, broadleaf, mixed wood, wetland-treed, and several non-forested types.
+
+---
+
+## Loading and Exploring the Land Cover Time Series
+
+```{r step5-load-vlce}
+# Listing all VLCE tif files
+flist_vlce <- list.files(path = vlce_dir, pattern = "tif$", full.names = TRUE)
+
+# Extracting year from filenames
+year_ts <- stringr::str_extract(flist_vlce, "\\d{4}") %>% as.integer()
+
+# Loading all layers as a single SpatRaster
+vlce_ts <- terra::rast(flist_vlce)
+names(vlce_ts) <- as.character(year_ts)
+
+vlce_ts
+```
+
+```{r step5-plot-1984-2016, fig.cap="Land cover classification for the Williams Lake study area in 1984 (left) and 2016 (right). Visible changes include expansion of broadleaf and coniferous cover and increased shrubland extent, reflecting forest management activity and regeneration dynamics over the 33-year period."}
+# Plotting first and last years side by side
+vlce_1984 <- vlce_ts[[1]]
+vlce_2016 <- vlce_ts[[terra::nlyr(vlce_ts)]]
+
+par(mfrow = c(1, 2), mar = c(3, 3, 3, 3))
+plot(vlce_1984, main = "Land Cover — 1984")
+plot(vlce_2016, main = "Land Cover — 2016")
+par(mfrow = c(1, 1))
+```
+
+Between 1984 and 2016, the study area shows a net expansion of broadleaf and coniferous forest cover, alongside increased shrubland in areas previously classified as herbs or exposed land. Stable classes include water, snow/ice, and rock/rubble, which show minimal change across the period. These patterns are consistent with a landscape undergoing cycles of harvesting, natural disturbance, and subsequent regeneration.
+
+---
+
+## Reclassifying to Forested / Non-Forested
+
+For the forest dynamics analysis, all land cover classes are reclassified into a binary scheme: forested (1) — comprising coniferous, broadleaf, mixed wood, and wetland-treed — and non-forested (0).
+
+```{r step6-reclassify}
+# Loading reclassification table
+lc_reclass <- read.csv(reclass_path)
+rc_matrix <- lc_reclass[, c("org_value", "new_value")]
+
+# Classifying one layer at a time to avoid memory overflow
+ts_forested_list <- lapply(1:terra::nlyr(vlce_ts), function(i) {
+  terra::classify(vlce_ts[[i]], rcl = rc_matrix)
+})
+
+# Stacking back into a single SpatRaster
+ts_forested <- terra::rast(ts_forested_list)
+names(ts_forested) <- names(vlce_ts)
+
+ts_forested
+```
+
+---
+
+## Computing Annual Forest Gain and Loss
+
+A lagged difference (lag = 1 year) is applied to the binary forested/non-forested time series to identify pixels that transitioned between forested and non-forested states between consecutive years. A value of **-1** indicates forest loss (forested at T-1, non-forested at T); a value of **+1** indicates forest gain (non-forested at T-1, forested at T).
+
+```{r step7-lagged-diff}
+ts_forested_lag <- terra::diff(ts_forested, lag = 1)
+```
+
+```{r step8-gain-loss}
+# Years corresponding to the lagged difference layers (1985–2016)
+years_lag <- 1985:2016
+
+# Forest gain per year (pixels == 1), converted to hectares (30m pixels)
+gain_vals <- terra::global(ts_forested_lag == 1, fun = "sum")$sum * 30 * 30 / 10000
+forest_gain <- data.frame(year = years_lag, gain = gain_vals)
+
+# Forest loss per year (pixels == -1), converted to hectares
+loss_vals <- terra::global(ts_forested_lag == -1, fun = "sum")$sum * 30 * 30 / 10000
+forest_loss <- data.frame(year = years_lag, loss = loss_vals)
+
+# Joining and computing net change
+forest_change <- dplyr::left_join(forest_gain, forest_loss, by = "year") %>%
+  dplyr::mutate(net_change = gain - loss)
+
+forest_change
+```
+
+---
+
+## Forest Cover Dynamics: Net Annual Change
+
+```{r step9-net-change-plot, fig.cap="Net annual change in forest cover (hectares) from 1985 to 2016. Years above the dashed zero line indicate net forest gain; years below indicate net forest loss. Pronounced loss years likely correspond to harvesting events, while gain years reflect regeneration."}
+ggplot(forest_change, aes(x = year, y = net_change)) +
+  geom_line(color = "black", linewidth = 0.9) +
+  geom_abline(slope = 0, intercept = 0, linetype = "dashed", color = "black") +
+  scale_x_continuous(breaks = forest_change$year) +
+  labs(
+    title = "Net Annual Change in Forest Cover",
+    x     = "Year of Observation",
+    y     = "Net Forest Change (hectares)"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(
+    plot.title   = element_text(hjust = 0.5, face = "bold"),
+    axis.text.x  = element_text(angle = 45, hjust = 1, size = 8)
+  )
+```
+
+---
+
+## Forest Gain and Loss by Year
+
+```{r step10-gain-loss-plot, fig.cap="Annual forest area gained (salmon) and lost (teal) in hectares, 1985–2016. Loss bars extend below zero for visual separation. Years with large loss events are consistent with harvesting cycles; recovery is reflected in subsequent gain years."}
+# Reshaping to long format for stacked bar chart
+forest_gain_long <- forest_gain %>%
+  rename(value = gain) %>%
+  mutate(Change_Type = "gain")
+
+forest_loss_long <- forest_loss %>%
+  rename(value = loss) %>%
+  mutate(value = -value,
+         Change_Type = "loss")
+
+forest_gainloss <- dplyr::bind_rows(forest_gain_long, forest_loss_long)
+
+ggplot(forest_gainloss, aes(x = year, y = value, fill = Change_Type)) +
+  geom_col() +
+  scale_fill_manual(
+    values = c("gain" = "salmon", "loss" = "turquoise3"),
+    name   = "Change Type",
+    labels = c("Gain", "Loss")
+  ) +
+  scale_x_continuous(breaks = forest_gainloss$year) +
+  labs(
+    title = "Yearly Forest Area Gain and Loss",
+    x     = "Year",
+    y     = "Forest Change (ha)"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(
+    plot.title  = element_text(hjust = 0.5, face = "bold"),
+    axis.text.x = element_text(angle = 60, hjust = 1, size = 7)
+  )
+```
+
+---
+
+# Summary
+
+This project demonstrates the complementary value of multi-temporal satellite datasets for vegetation monitoring across different spatial and temporal scales.
+
+In Yellowhead Country, MODIS NDVI time-series analysis revealed distinct seasonal greenness patterns peaking in July across both regions of interest. BFAST change detection identified significant departures from expected NDVI behavior: an abrupt decline at ROI A around July 2011 consistent with stand-replacing disturbance, and a greenness increase at ROI B in May 2008 consistent with canopy recovery following prior disturbance.
+
+Near Williams Lake, the VLCE land cover time series (1984–2016) showed a landscape shaped by cycles of harvesting and regeneration. Annual forest gain and loss quantification reveals that the balance between these processes varies considerably from year to year, with pronounced loss events likely tied to harvesting operations and subsequent gain reflecting the progression of regenerating stands back into forested cover.
+
+Together, these methods form a robust toolkit for environmental analysts working on forest monitoring, disturbance assessment, and land management reporting.

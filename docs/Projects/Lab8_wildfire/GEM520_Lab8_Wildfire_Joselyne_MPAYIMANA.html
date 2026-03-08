@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joselyne MPAYIMANA">
+
+<title>Wildfire Burn Severity and Post-Fire Vegetation Recovery – Joselyne MPAYIMANA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0beff70ece8962be7af54e7b3e9a01c9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Joselyne MPAYIMANA</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../experience.html"> 
+<span class="menu-text">Experience</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../leadership_and_training.html"> 
+<span class="menu-text">Leadership and Training</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link active" data-scroll-target="#project-overview">Project Overview</a>
+  <ul class="collapse">
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
+  </ul></li>
+  <li><a href="#historical-wildfire-context-in-british-columbia" id="toc-historical-wildfire-context-in-british-columbia" class="nav-link" data-scroll-target="#historical-wildfire-context-in-british-columbia">Historical Wildfire Context in British Columbia</a>
+  <ul class="collapse">
+  <li><a href="#annual-burned-area-in-bc-by-fire-cause" id="toc-annual-burned-area-in-bc-by-fire-cause" class="nav-link" data-scroll-target="#annual-burned-area-in-bc-by-fire-cause">Annual Burned Area in BC by Fire Cause</a></li>
+  <li><a href="#key-findings-2017-fire-season" id="toc-key-findings-2017-fire-season" class="nav-link" data-scroll-target="#key-findings-2017-fire-season">Key Findings: 2017 Fire Season</a></li>
+  </ul></li>
+  <li><a href="#landsat-8-pre-processing-and-vegetation-index-calculation" id="toc-landsat-8-pre-processing-and-vegetation-index-calculation" class="nav-link" data-scroll-target="#landsat-8-pre-processing-and-vegetation-index-calculation">Landsat 8 Pre-processing and Vegetation Index Calculation</a>
+  <ul class="collapse">
+  <li><a href="#true-color-composites-before-and-after-the-fire" id="toc-true-color-composites-before-and-after-the-fire" class="nav-link" data-scroll-target="#true-color-composites-before-and-after-the-fire">True Color Composites: Before and After the Fire</a></li>
+  </ul></li>
+  <li><a href="#ndvi-and-nbr-yearly-composites" id="toc-ndvi-and-nbr-yearly-composites" class="nav-link" data-scroll-target="#ndvi-and-nbr-yearly-composites">NDVI and NBR Yearly Composites</a>
+  <ul class="collapse">
+  <li><a href="#ndvi-time-series-across-the-prouton-lakes-fire-area" id="toc-ndvi-time-series-across-the-prouton-lakes-fire-area" class="nav-link" data-scroll-target="#ndvi-time-series-across-the-prouton-lakes-fire-area">NDVI Time-Series Across the Prouton Lakes Fire Area</a></li>
+  </ul></li>
+  <li><a href="#burn-severity-classification" id="toc-burn-severity-classification" class="nav-link" data-scroll-target="#burn-severity-classification">Burn Severity Classification</a>
+  <ul class="collapse">
+  <li><a href="#burn-severity-map" id="toc-burn-severity-map" class="nav-link" data-scroll-target="#burn-severity-map">Burn Severity Map</a></li>
+  </ul></li>
+  <li><a href="#post-fire-vegetation-recovery" id="toc-post-fire-vegetation-recovery" class="nav-link" data-scroll-target="#post-fire-vegetation-recovery">Post-Fire Vegetation Recovery</a>
+  <ul class="collapse">
+  <li><a href="#yearly-ndvi-composites-20182021" id="toc-yearly-ndvi-composites-20182021" class="nav-link" data-scroll-target="#yearly-ndvi-composites-20182021">Yearly NDVI Composites: 2018–2021</a></li>
+  <li><a href="#ndvi-distribution-by-burn-severity-class" id="toc-ndvi-distribution-by-burn-severity-class" class="nav-link" data-scroll-target="#ndvi-distribution-by-burn-severity-class">NDVI Distribution by Burn Severity Class</a></li>
+  </ul></li>
+  <li><a href="#reflection-and-future-directions" id="toc-reflection-and-future-directions" class="nav-link" data-scroll-target="#reflection-and-future-directions">Reflection and Future Directions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Wildfire Burn Severity and Post-Fire Vegetation Recovery</h1>
+<p class="subtitle lead">A Landsat 8 Time-Series Analysis of the 2017 Prouton Lakes Fire, British Columbia</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joselyne MPAYIMANA </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<style type="text/css">
+/* ── Global font ─────────────────────────────── */
+body, h1, h2, h3, h4, h5, h6, p, li,
+td, th, figcaption, .caption {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
+/* ── Dark background theme ───────────────────── */
+body {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+}
+
+/* ── Headings ────────────────────────────────── */
+h1, h2, h3, h4 {
+  color: #ffffff !important;
+}
+
+/* ── Table of contents ───────────────────────── */
+#TOC, .tocify {
+  font-family: "Times New Roman", Times, serif !important;
+  background-color: #1a2535 !important;
+  border: 1px solid #ffffff15 !important;
+  color: #e8eaf0 !important;
+}
+
+.tocify-item a, .tocify-subheader a {
+  color: #a78bfa !important;
+}
+
+.tocify-item.active a {
+  color: #ffffff !important;
+}
+
+/* ── Tables ──────────────────────────────────── */
+table {
+  background-color: #1a2535 !important;
+  color: #e8eaf0 !important;
+  border-color: #ffffff20 !important;
+}
+
+th {
+  background-color: #2e4a7a !important;
+  color: #ffffff !important;
+}
+
+tr:nth-child(even) {
+  background-color: #162030 !important;
+}
+
+/* ── Code blocks ─────────────────────────────── */
+pre, code {
+  font-family: "Courier New", Courier, monospace !important;
+  font-size: 0.9rem;
+  background-color: #1a2535 !important;
+  color: #a78bfa !important;
+  border: 1px solid #ffffff15 !important;
+}
+
+/* ── Code folding button ─────────────────────── */
+.code-folding-btn {
+  background-color: #2e4a7a !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* ── Links ───────────────────────────────────── */
+a {
+  color: #a78bfa !important;
+}
+
+a:hover {
+  color: #ffffff !important;
+}
+
+/* ── Page title block ────────────────────────── */
+.title, .subtitle {
+  color: #ffffff !important;
+}
+
+.author, .date {
+  color: #a78bfa !important;
+}
+
+</style>
+</div>
+<hr>
+<section id="project-overview" class="level1">
+<h1>Project Overview</h1>
+<p>The summer of 2017 was one of the most destructive wildfire seasons in British Columbia’s recorded history, with over 1.2 million hectares burned, approximately 65,000 people displaced, and an estimated $649 million spent on fire suppression. This project focuses on the <strong>Prouton Lakes fire (Fire ID: C30870)</strong>, which burned part of the Alex Fraser Research Forest near Williams Lake, BC — situated on the traditional, ancestral, and unceded territory of the T’exelcemc, Xatsu’ll, and Esket First Nations.</p>
+<p>The analysis addresses two interconnected questions:</p>
+<ol type="1">
+<li><p><strong>How severe was the burn?</strong> Using the delta Normalized Burn Ratio (dNBR) derived from Landsat 8 imagery, burn severity is classified across four categories, from unburned to high severity and mapped spatially across the fire perimeter.</p></li>
+<li><p><strong>How has vegetation recovered since the fire?</strong> Using NDVI time-series composites from 2018 to 2021, post-fire vegetation recovery is tracked and compared across burn severity classes.</p></li>
+</ol>
+<p>This type of analysis is directly applicable to forest ecosystem monitoring, wildfire impact assessment, and climate resilience planning, all of which are growing priorities for land managers and environmental consultants in British Columbia.</p>
+<hr>
+<section id="data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Description</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Landsat 8 OLI Collection 2 Level-2</td>
+<td>Surface reflectance time-series, July–August 2013–2021</td>
+<td><a href="https://earthexplorer.usgs.gov/">USGS Earth Explorer</a></td>
+</tr>
+<tr class="even">
+<td>BC Historical Fire Perimeters</td>
+<td>Polygon shapefile of historical wildfire boundaries</td>
+<td><a href="https://catalogue.data.gov.bc.ca/dataset/fire-perimeters-historical">BC Data Catalogue</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Landsat 8 Bands Used:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Band</th>
+<th>Name</th>
+<th>Wavelength (μm)</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Band 2</td>
+<td>Blue</td>
+<td>0.45–0.51</td>
+<td>30 m</td>
+</tr>
+<tr class="even">
+<td>Band 3</td>
+<td>Green</td>
+<td>0.53–0.59</td>
+<td>30 m</td>
+</tr>
+<tr class="odd">
+<td>Band 4</td>
+<td>Red</td>
+<td>0.64–0.67</td>
+<td>30 m</td>
+</tr>
+<tr class="even">
+<td>Band 5</td>
+<td>Near Infrared (NIR)</td>
+<td>0.85–0.88</td>
+<td>30 m</td>
+</tr>
+<tr class="odd">
+<td>Band 6</td>
+<td>SWIR 1</td>
+<td>1.57–1.65</td>
+<td>30 m</td>
+</tr>
+<tr class="even">
+<td>Band 7</td>
+<td>SWIR 2</td>
+<td>2.11–2.29</td>
+<td>30 m</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)         <span class="co"># Vector data handling</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)      <span class="co"># Data manipulation</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)    <span class="co"># Data visualization</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)      <span class="co"># Raster data processing</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)    <span class="co"># String manipulation</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)  <span class="co"># Date parsing</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)       <span class="co"># Thematic mapping</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)      <span class="co"># Functional programming tools</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)      <span class="co"># Data tidying</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="historical-wildfire-context-in-british-columbia" class="level1">
+<h1>Historical Wildfire Context in British Columbia</h1>
+<p>Before focusing on the Prouton Lakes fire, it is important to understand the broader wildfire context in BC. This section uses the provincial historical fire perimeters dataset to characterize the 2017 fire season and situate the Prouton Lakes fire within it.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the BC historical fire perimeters shapefile</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fire_shp <span class="ot">&lt;-</span> <span class="fu">st_read</span>(fire_shp_path, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating a non-spatial data frame for fast tabular summaries</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fire_df <span class="ot">&lt;-</span> <span class="fu">st_drop_geometry</span>(fire_shp) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SIZE_HA =</span> <span class="fu">as.numeric</span>(SIZE_HA))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtering to 2017 fire season</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fires_2017 <span class="ot">&lt;-</span> fire_df <span class="sc">%&gt;%</span> <span class="fu">filter</span>(FIRE_YEAR <span class="sc">==</span> <span class="dv">2017</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>n_fires_2017      <span class="ot">&lt;-</span> <span class="fu">nrow</span>(fires_2017)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>total_area_2017   <span class="ot">&lt;-</span> <span class="fu">sum</span>(fires_2017<span class="sc">$</span>SIZE_HA, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Three largest fires in 2017</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>top3_2017 <span class="ot">&lt;-</span> fires_2017 <span class="sc">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(SIZE_HA)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(FIRE_NO, FIRE_CAUSE, SIZE_HA)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Prouton Lakes fire specifically</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>prouton_stats <span class="ot">&lt;-</span> fire_df <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(FIRE_NO <span class="sc">==</span> <span class="st">"C30870"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(FIRE_NO, SIZE_HA)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Annual burned area summarized by fire cause (for bar plot)</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>burned_per_year <span class="ot">&lt;-</span> fire_df <span class="sc">%&gt;%</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(FIRE_YEAR, FIRE_CAUSE) <span class="sc">%&gt;%</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_area =</span> <span class="fu">sum</span>(SIZE_HA, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(FIRE_YEAR))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="annual-burned-area-in-bc-by-fire-cause" class="level2">
+<h2 class="anchored" data-anchor-id="annual-burned-area-in-bc-by-fire-cause">Annual Burned Area in BC by Fire Cause</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(burned_per_year, <span class="fu">aes</span>(<span class="at">x =</span> FIRE_YEAR, <span class="at">y =</span> total_area <span class="sc">/</span> <span class="dv">1000</span>, <span class="at">fill =</span> FIRE_CAUSE)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Lightning"</span> <span class="ot">=</span> <span class="st">"#e07b39"</span>, <span class="st">"Person"</span> <span class="ot">=</span> <span class="st">"#5b8db8"</span>, <span class="st">"Unknown"</span> <span class="ot">=</span> <span class="st">"#a0a0a0"</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">"#d0d0d0"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">"Total Area Burned Per Year in British Columbia"</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Categorized by fire cause — 1950 to present"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">"Year"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">"Total Burned Area (thousands of hectares)"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill     =</span> <span class="st">"Fire Cause"</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x     =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title      =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-html/step1-barplot-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Total area burned per year in BC, coloured by the cause of fire. The 2017 season is visibly one of the most severe on record, dominated by lightning-caused fires.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="key-findings-2017-fire-season" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings-2017-fire-season">Key Findings: 2017 Fire Season</h2>
+<ul>
+<li>In 2017, <strong>342 wildfires</strong> were recorded across British Columbia, burning a total of <strong>1,222,205 hectares</strong> of land.</li>
+<li>The three largest fires of 2017 were:</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Three largest wildfires recorded in BC in 2017</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Fire ID</th>
+<th style="text-align: left;">Cause</th>
+<th style="text-align: right;">Area (ha)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">C10784</td>
+<td style="text-align: left;">Lightning</td>
+<td style="text-align: right;">520885.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">C50647</td>
+<td style="text-align: left;">Lightning</td>
+<td style="text-align: right;">239339.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">K20637</td>
+<td style="text-align: left;">Person</td>
+<td style="text-align: right;">192016.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li>The <strong>Prouton Lakes fire (C30870)</strong> burned approximately <strong>859.3 hectares</strong>, representing a relatively localized but well-documented fire with variable burn severity, making it well-suited for detailed remote sensing analysis.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="landsat-8-pre-processing-and-vegetation-index-calculation" class="level1">
+<h1>Landsat 8 Pre-processing and Vegetation Index Calculation</h1>
+<p>Landsat 8 Collection 2 Level-2 surface reflectance products were used for this analysis. These products have been atmospherically corrected using the LaSRC algorithm, meaning pixel values represent bottom-of-atmosphere (BOA) reflectance and are directly comparable across time and space, a critical property for multi-temporal change detection.</p>
+<p>Each product was processed through the following pipeline:</p>
+<ol type="1">
+<li><strong>Stack</strong> the seven surface reflectance bands into a single multi-layer raster</li>
+<li><strong>Mask</strong> pixels flagged as non-clear in the <code>QA_PIXEL</code> layer (retaining only pixels with QA value <code>21824</code>, indicating clear conditions)</li>
+<li><strong>Crop</strong> the masked stack to the Prouton Lakes fire extent</li>
+<li><strong>Calculate</strong> NDVI and NBR for each cropped and masked product</li>
+<li><strong>Save</strong> all outputs to disk for use in subsequent analysis steps</li>
+</ol>
+<p><span class="math display">\[NDVI = \frac{NIR - Red}{NIR + Red}\]</span></p>
+<p><span class="math display">\[NBR = \frac{NIR - SWIR2}{NIR + SWIR2}\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the Prouton Lakes fire polygon</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fire_shp_all     <span class="ot">&lt;-</span> <span class="fu">st_read</span>(fire_shp_path, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>prouton_fire_sf  <span class="ot">&lt;-</span> fire_shp_all <span class="sc">%&gt;%</span> <span class="fu">filter</span>(FIRE_NO <span class="sc">==</span> <span class="st">"C30870"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>prouton_fire_vect <span class="ot">&lt;-</span> <span class="fu">vect</span>(prouton_fire_sf)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Getting all Landsat product folders</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>product_folders <span class="ot">&lt;-</span> <span class="fu">list.dirs</span>(<span class="at">path =</span> landsat_path, <span class="at">recursive =</span> <span class="cn">FALSE</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Total Landsat products found:"</span>, <span class="fu">length</span>(product_folders), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Total Landsat products found: 35 </code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating output subdirectories</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sr_out   <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output_path, <span class="st">"LC08_L2SP_048023_SR"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ndvi_out <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output_path, <span class="st">"LC08_L2SP_048023_NDVI"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>nbr_out  <span class="ot">&lt;-</span> <span class="fu">file.path</span>(output_path, <span class="st">"LC08_L2SP_048023_NBR"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="fu">c</span>(sr_out, ndvi_out, nbr_out)) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">dir.exists</span>(d)) <span class="fu">dir.create</span>(d, <span class="at">showWarnings =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Processing loop — iterates over all 35 Landsat products</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (folder <span class="cf">in</span> product_folders) {</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  productID <span class="ot">&lt;-</span> <span class="fu">basename</span>(folder)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Locating surface reflectance bands (B1–B7) and QA layer</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  sr_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(folder, <span class="at">pattern =</span> <span class="st">"SR_B[1-7]</span><span class="sc">\\</span><span class="st">.TIF$"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                         <span class="at">full.names =</span> <span class="cn">TRUE</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  qa_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(folder, <span class="at">pattern =</span> <span class="st">"QA_PIXEL</span><span class="sc">\\</span><span class="st">.TIF$"</span>,</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>                         <span class="at">full.names =</span> <span class="cn">TRUE</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Skipping incomplete products</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(sr_files) <span class="sc">&lt;</span> <span class="dv">7</span> <span class="sc">||</span> <span class="fu">length</span>(qa_files) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">message</span>(<span class="st">"Skipping incomplete product: "</span>, productID)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">next</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sorting bands in order (B1 to B7) to ensure consistent indexing</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  band_nums <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">str_extract</span>(<span class="fu">basename</span>(sr_files), <span class="st">"(?&lt;=SR_B)</span><span class="sc">\\</span><span class="st">d"</span>))</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  sr_files  <span class="ot">&lt;-</span> sr_files[<span class="fu">order</span>(band_nums)]</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Stacking bands and scaling to reflectance (0–1)</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  sr_stack <span class="ot">&lt;-</span> <span class="fu">rast</span>(sr_files) <span class="sc">/</span> <span class="dv">10000</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  qa_rast  <span class="ot">&lt;-</span> <span class="fu">rast</span>(qa_files[<span class="dv">1</span>])</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Reprojecting fire vector to match raster CRS</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  prouton_fire_vect <span class="ot">&lt;-</span> <span class="fu">project</span>(prouton_fire_vect, <span class="fu">crs</span>(sr_stack))</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cloud masking: retaining only clear pixels (QA = 21824)</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  sr_masked <span class="ot">&lt;-</span> <span class="fu">ifel</span>(qa_rast <span class="sc">==</span> <span class="dv">21824</span>, sr_stack, <span class="cn">NA</span>)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Cropping to the Prouton Lakes fire extent</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  sr_crop <span class="ot">&lt;-</span> <span class="fu">crop</span>(sr_masked, prouton_fire_vect)</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculating spectral indices</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Band indices: B4 = Red, B5 = NIR, B7 = SWIR2</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  ndvi_r <span class="ot">&lt;-</span> (sr_crop[[<span class="dv">5</span>]] <span class="sc">-</span> sr_crop[[<span class="dv">4</span>]]) <span class="sc">/</span> (sr_crop[[<span class="dv">5</span>]] <span class="sc">+</span> sr_crop[[<span class="dv">4</span>]])</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  nbr_r  <span class="ot">&lt;-</span> (sr_crop[[<span class="dv">5</span>]] <span class="sc">-</span> sr_crop[[<span class="dv">7</span>]]) <span class="sc">/</span> (sr_crop[[<span class="dv">5</span>]] <span class="sc">+</span> sr_crop[[<span class="dv">7</span>]])</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Writing outputs to disk</span></span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(sr_crop, <span class="fu">file.path</span>(sr_out,   <span class="fu">paste0</span>(productID, <span class="st">"_SR.tif"</span>)),   <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(ndvi_r,  <span class="fu">file.path</span>(ndvi_out, <span class="fu">paste0</span>(productID, <span class="st">"_NDVI.tif"</span>)), <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(nbr_r,   <span class="fu">file.path</span>(nbr_out,  <span class="fu">paste0</span>(productID, <span class="st">"_NBR.tif"</span>)),  <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="true-color-composites-before-and-after-the-fire" class="level2">
+<h2 class="anchored" data-anchor-id="true-color-composites-before-and-after-the-fire">True Color Composites: Before and After the Fire</h2>
+<p>Comparing true color composites from before (July 7, 2015) and after (July 15, 2018) the fire provides immediate visual confirmation of the fire’s impact on the landscape. Healthy forest appears as deep green in the pre-fire image, while the post-fire image reveals large areas of exposed soil and dead vegetation.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper function to locate a product folder by acquisition date</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>find_product_by_date <span class="ot">&lt;-</span> <span class="cf">function</span>(products, date_str) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  match <span class="ot">&lt;-</span> products[<span class="fu">str_detect</span>(products, date_str)]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(match) <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">return</span>(<span class="cn">NA_character_</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(match[<span class="dv">1</span>])</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper function to build a true color RGB raster cropped to the AOI</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>build_truecolor <span class="ot">&lt;-</span> <span class="cf">function</span>(folder, aoi_vect) {</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(folder) <span class="sc">||</span> <span class="fu">is.null</span>(folder)) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  sr_files  <span class="ot">&lt;-</span> <span class="fu">list.files</span>(folder, <span class="at">pattern =</span> <span class="st">"SR_B[2-4]</span><span class="sc">\\</span><span class="st">.TIF$"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                           <span class="at">full.names =</span> <span class="cn">TRUE</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  band_nums <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">str_extract</span>(<span class="fu">basename</span>(sr_files), <span class="st">"(?&lt;=SR_B)</span><span class="sc">\\</span><span class="st">d"</span>))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  sr_files  <span class="ot">&lt;-</span> sr_files[<span class="fu">order</span>(band_nums)]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(sr_files) <span class="sc">&lt;</span> <span class="dv">3</span>) <span class="fu">return</span>(<span class="cn">NULL</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  rgb      <span class="ot">&lt;-</span> <span class="fu">rast</span>(sr_files) <span class="sc">/</span> <span class="dv">10000</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  aoi_proj <span class="ot">&lt;-</span> <span class="fu">project</span>(aoi_vect, <span class="fu">crs</span>(rgb))</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  rgb      <span class="ot">&lt;-</span> <span class="fu">crop</span>(rgb, aoi_proj)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  rgb      <span class="ot">&lt;-</span> <span class="fu">mask</span>(rgb, aoi_proj)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(rgb)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>pre_folder  <span class="ot">&lt;-</span> <span class="fu">find_product_by_date</span>(product_folders, <span class="st">"20150707"</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>post_folder <span class="ot">&lt;-</span> <span class="fu">find_product_by_date</span>(product_folders, <span class="st">"20180715"</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>pre_rgb  <span class="ot">&lt;-</span> <span class="fu">build_truecolor</span>(pre_folder,  prouton_fire_vect)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>post_rgb <span class="ot">&lt;-</span> <span class="fu">build_truecolor</span>(post_folder, prouton_fire_vect)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(pre_rgb) <span class="sc">&amp;&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(post_rgb)) {</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">no.readonly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>))</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotRGB</span>(pre_rgb,  <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>, <span class="at">axes =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>          <span class="at">main =</span> <span class="st">"Pre-Fire: July 7, 2015"</span>)</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">lines</span>(prouton_fire_vect, <span class="at">col =</span> <span class="st">"yellow"</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plotRGB</span>(post_rgb, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>, <span class="at">axes =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>          <span class="at">main =</span> <span class="st">"Post-Fire: July 15, 2018"</span>)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">lines</span>(prouton_fire_vect, <span class="at">col =</span> <span class="st">"yellow"</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtext</span>(<span class="st">"True Color Composites — Prouton Lakes Fire Area"</span>,</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">side =</span> <span class="dv">3</span>, <span class="at">outer =</span> <span class="cn">TRUE</span>, <span class="at">line =</span> <span class="fl">0.5</span>, <span class="at">font =</span> <span class="dv">2</span>, <span class="at">cex =</span> <span class="fl">1.1</span>)</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(old_par)</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-html/step2-truecolor-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>True color composites of the Prouton Lakes fire area. Left: pre-fire (July 7, 2015). Right: post-fire (July 15, 2018). The yellow boundary delineates the fire perimeter.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ndvi-and-nbr-yearly-composites" class="level1">
+<h1>NDVI and NBR Yearly Composites</h1>
+<p>For each year between 2013 and 2021, a yearly composite was created by averaging all available NDVI and NBR values from July and August acquisitions. Using the summer growing season window ensures that inter-annual comparisons reflect vegetation productivity rather than seasonal phenological differences.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to list index files, extract acquisition dates, and filter for Jul/Aug</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>get_composite_files <span class="ot">&lt;-</span> <span class="cf">function</span>(folder_path, index_name) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list.files</span>(folder_path,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">pattern  =</span> <span class="fu">paste0</span>(<span class="st">"_"</span>, index_name, <span class="st">"</span><span class="sc">\\</span><span class="st">.tif$"</span>),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">full.names =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(<span class="at">file =</span> .) <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">date_str =</span> <span class="fu">str_extract</span>(<span class="fu">basename</span>(file), <span class="st">"</span><span class="sc">\\</span><span class="st">d{8}"</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">date     =</span> <span class="fu">ymd</span>(date_str),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">year     =</span> <span class="fu">year</span>(date),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">month    =</span> <span class="fu">month</span>(date)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="dv">8</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(file, year, month)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>ndvi_info <span class="ot">&lt;-</span> <span class="fu">get_composite_files</span>(ndvi_out, <span class="st">"NDVI"</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>nbr_info  <span class="ot">&lt;-</span> <span class="fu">get_composite_files</span>(nbr_out,  <span class="st">"NBR"</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Grouping files by year</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>grouped_ndvi <span class="ot">&lt;-</span> ndvi_info <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">files =</span> <span class="fu">list</span>(file), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>grouped_nbr  <span class="ot">&lt;-</span> nbr_info  <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">files =</span> <span class="fu">list</span>(file), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Initializing results data frame</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>yearly_avg_ndvi_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">year =</span> <span class="fu">integer</span>(), <span class="at">avg_ndvi =</span> <span class="fu">numeric</span>())</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop: creating yearly composites and extracting mean NDVI across fire area</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(grouped_ndvi)) {</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  y               <span class="ot">&lt;-</span> grouped_ndvi<span class="sc">$</span>year[i]</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>  ndvi_year_files <span class="ot">&lt;-</span> grouped_ndvi<span class="sc">$</span>files[[i]]</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  nbr_year_files  <span class="ot">&lt;-</span> grouped_nbr<span class="sc">$</span>files[[i]]</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Stacking all images for the year and computing pixel-wise mean</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  ndvi_composite <span class="ot">&lt;-</span> <span class="fu">app</span>(<span class="fu">rast</span>(ndvi_year_files), <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  nbr_composite  <span class="ot">&lt;-</span> <span class="fu">app</span>(<span class="fu">rast</span>(nbr_year_files),  <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Saving yearly composites</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(ndvi_composite,</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>              <span class="fu">file.path</span>(composite_dir, <span class="fu">paste0</span>(<span class="st">"NDVI_YearlyComposite_"</span>, y, <span class="st">".tif"</span>)),</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(nbr_composite,</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>              <span class="fu">file.path</span>(composite_dir, <span class="fu">paste0</span>(<span class="st">"NBR_YearlyComposite_"</span>,  y, <span class="st">".tif"</span>)),</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extracting spatially averaged NDVI across the fire perimeter</span></span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>  avg_ndvi <span class="ot">&lt;-</span> <span class="fu">global</span>(ndvi_composite, <span class="at">fun =</span> <span class="st">"mean"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>  yearly_avg_ndvi_df <span class="ot">&lt;-</span> yearly_avg_ndvi_df <span class="sc">%&gt;%</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_row</span>(<span class="at">year =</span> y, <span class="at">avg_ndvi =</span> avg_ndvi<span class="sc">$</span>mean)</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>yearly_avg_ndvi_df<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(yearly_avg_ndvi_df<span class="sc">$</span>year)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="ndvi-time-series-across-the-prouton-lakes-fire-area" class="level2">
+<h2 class="anchored" data-anchor-id="ndvi-time-series-across-the-prouton-lakes-fire-area">NDVI Time-Series Across the Prouton Lakes Fire Area</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(yearly_avg_ndvi_df, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> avg_ndvi, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#3a7d44"</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#3a7d44"</span>, <span class="at">size =</span> <span class="fl">3.5</span>, <span class="at">shape =</span> <span class="dv">21</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="st">"white"</span>, <span class="at">stroke =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2017</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"firebrick"</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">2017.2</span>, <span class="at">y =</span> <span class="fu">max</span>(yearly_avg_ndvi_df<span class="sc">$</span>avg_ndvi),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Fire year (2017)"</span>, <span class="at">color =</span> <span class="st">"firebrick"</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="fl">3.8</span>) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">"Average NDVI Across the Prouton Lakes Fire Area (2013–2021)"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"July–August composite averages | Landsat 8 OLI"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">"Year"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">"Mean NDVI"</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> yearly_avg_ndvi_df<span class="sc">$</span>year) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title   =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x  =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-html/step3-plot-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Average NDVI across the Prouton Lakes fire area from 2013 to 2021. The dashed red line marks 2017, the year of the fire. The sharp decline between 2016 and 2018 captures the immediate vegetation loss, while the upward trend from 2018 onward indicates progressive post-fire recovery.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The time series reveals a clear pre-fire baseline (2013–2016), a sharp decline in vegetation productivity following the 2017 fire, and a gradual recovery trajectory through 2021. This pattern is consistent with known post-fire succession dynamics in BC’s interior forests, where initial recolonization by grasses and shrubs precedes the slower return of coniferous canopy cover.</p>
+<hr>
+</section>
+</section>
+<section id="burn-severity-classification" class="level1">
+<h1>Burn Severity Classification</h1>
+<p>Burn severity was estimated using the <strong>delta Normalized Burn Ratio (dNBR)</strong>, calculated as the difference between pre-fire (2015) and post-fire (2018) NBR composites:</p>
+<p><span class="math display">\[dNBR = NBR_{prefire} - NBR_{postfire}\]</span></p>
+<p>Higher dNBR values indicate greater spectral change between the two time periods, which corresponds to more severe burning. The following thresholds were applied:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>dNBR Range</th>
+<th>Burn Severity Class</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>−0.2 to 0.15</td>
+<td>Unburned</td>
+</tr>
+<tr class="even">
+<td>0.15 to 0.25</td>
+<td>Low severity</td>
+</tr>
+<tr class="odd">
+<td>0.25 to 0.30</td>
+<td>Medium severity</td>
+</tr>
+<tr class="even">
+<td>0.30 to 1.00</td>
+<td>High severity</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading pre- and post-fire NBR composites</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>nbr_pre  <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">file.path</span>(composite_dir, <span class="st">"NBR_YearlyComposite_2015.tif"</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>nbr_post <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">file.path</span>(composite_dir, <span class="st">"NBR_YearlyComposite_2018.tif"</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating dNBR</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>dnbr_rast       <span class="ot">&lt;-</span> nbr_pre <span class="sc">-</span> nbr_post</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dnbr_rast) <span class="ot">&lt;-</span> <span class="st">"dNBR"</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Saving dNBR raster</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(dnbr_rast,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">file.path</span>(composite_dir, <span class="st">"dNBR_2015_2018.tif"</span>),</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Applying reclassification matrix to assign severity classes</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>reclass_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="fl">0.15</span>,  <span class="dv">1</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.15</span>, <span class="fl">0.25</span>,  <span class="dv">2</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.25</span>, <span class="fl">0.30</span>,  <span class="dv">3</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="fl">0.30</span>,  <span class="cn">Inf</span>,  <span class="dv">4</span>),</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncol =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>severity_rast        <span class="ot">&lt;-</span> <span class="fu">classify</span>(dnbr_rast, reclass_matrix, <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(severity_rast) <span class="ot">&lt;-</span> <span class="st">"Burn_Severity"</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Assigning descriptive factor levels to severity classes</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(severity_rast) <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">id    =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>),</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="fu">c</span>(<span class="st">"unburned"</span>, <span class="st">"low severity"</span>, <span class="st">"medium severity"</span>, <span class="st">"high severity"</span>)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Saving the classified raster</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(severity_rast,</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>            <span class="fu">file.path</span>(composite_dir, <span class="st">"Burn_Severity_Classes_Factor.tif"</span>),</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">overwrite =</span> <span class="cn">TRUE</span>, <span class="at">datatype =</span> <span class="st">"INT1U"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="burn-severity-map" class="level2">
+<h2 class="anchored" data-anchor-id="burn-severity-map">Burn Severity Map</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>severity_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"unburned"</span>        <span class="ot">=</span> <span class="st">"#bdb76b"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"low severity"</span>    <span class="ot">=</span> <span class="st">"#ffcc99"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"medium severity"</span> <span class="ot">=</span> <span class="st">"#ff6600"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"high severity"</span>   <span class="ot">=</span> <span class="st">"#8b0000"</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensuring fire perimeter vector is available</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"prouton_fire_vect"</span>)) {</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  prouton_fire_sf   <span class="ot">&lt;-</span> <span class="fu">st_read</span>(fire_shp_path, <span class="at">quiet =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(FIRE_NO <span class="sc">==</span> <span class="st">"C30870"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  prouton_fire_vect <span class="ot">&lt;-</span> <span class="fu">vect</span>(prouton_fire_sf)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(severity_rast,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">col  =</span> severity_colors,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Burn Severity Classification: Prouton Lakes Fire (2017)"</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg  =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Burn Severity"</span>),</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">box  =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">lines</span>(prouton_fire_vect, <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-html/step4-map-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Classified burn severity map of the Prouton Lakes fire area (2017), derived from dNBR using Landsat 8 composites from 2015 (pre-fire) and 2018 (post-fire). The black outline delineates the official fire perimeter.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The burn severity map shows considerable spatial heterogeneity within the fire perimeter, with a mix of unburned patches, low severity areas, and concentrated zones of high severity burning. This pattern is characteristic of mixed-severity fires in BC’s interior forests, where topography, fuel moisture, and wind interact to produce variable burn intensities across the landscape.</p>
+<hr>
+</section>
+</section>
+<section id="post-fire-vegetation-recovery" class="level1">
+<h1>Post-Fire Vegetation Recovery</h1>
+<p>Understanding how vegetation recovers across different burn severity classes is critical for forest managers and ecosystem monitoring programs. High severity areas lose more biomass and take longer to recover than low severity or unburned areas. This section quantifies those recovery trajectories using NDVI values extracted for each burn severity class from 2018 to 2021.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting burn severity raster to dissolved polygons (one per class)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>severity_polygons <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">as.polygons</span>(severity_rast, <span class="at">dissolve =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(severity_polygons) <span class="ot">&lt;-</span> <span class="st">"Burn_Severity"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extracting all NDVI pixel values for each post-fire year and severity class</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>extracted_data_list <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>), <span class="cf">function</span>(y) {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  ndvi_rast   <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="fu">file.path</span>(composite_dir,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                                        <span class="fu">paste0</span>(<span class="st">"NDVI_YearlyComposite_"</span>, y, <span class="st">".tif"</span>)))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  ndvi_extract <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(ndvi_rast, severity_polygons,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">ID =</span> <span class="cn">FALSE</span>, <span class="at">fun =</span> <span class="cn">NULL</span>, <span class="at">bind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(ndvi_extract, <span class="at">geom =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">Burn_Severity =</span> <span class="dv">1</span>, <span class="at">NDVI_Value =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(NDVI_Value)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Year =</span> y)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Combining all years and converting severity to an ordered factor</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>recovery_df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(extracted_data_list) <span class="sc">%&gt;%</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">Burn_Severity =</span> <span class="fu">case_when</span>(</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>      Burn_Severity <span class="sc">==</span> <span class="dv">1</span> <span class="sc">~</span> <span class="st">"unburned"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>      Burn_Severity <span class="sc">==</span> <span class="dv">2</span> <span class="sc">~</span> <span class="st">"low severity"</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>      Burn_Severity <span class="sc">==</span> <span class="dv">3</span> <span class="sc">~</span> <span class="st">"medium severity"</span>,</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>      Burn_Severity <span class="sc">==</span> <span class="dv">4</span> <span class="sc">~</span> <span class="st">"high severity"</span>,</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span>               <span class="sc">~</span> <span class="fu">as.character</span>(Burn_Severity)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">Burn_Severity =</span> <span class="fu">factor</span>(</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>      Burn_Severity,</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels  =</span> <span class="fu">c</span>(<span class="st">"unburned"</span>, <span class="st">"low severity"</span>, <span class="st">"medium severity"</span>, <span class="st">"high severity"</span>),</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">Year =</span> <span class="fu">factor</span>(Year)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="yearly-ndvi-composites-20182021" class="level2">
+<h2 class="anchored" data-anchor-id="yearly-ndvi-composites-20182021">Yearly NDVI Composites: 2018–2021</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>old_par <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">no.readonly =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">1</span>), <span class="at">oma =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">2.5</span>, <span class="dv">0</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (y <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">2018</span>, <span class="dv">2019</span>, <span class="dv">2020</span>, <span class="dv">2021</span>)) {</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  ndvi_rast <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">rast</span>(<span class="fu">file.path</span>(composite_dir,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">paste0</span>(<span class="st">"NDVI_YearlyComposite_"</span>, y, <span class="st">".tif"</span>)))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(ndvi_rast,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">range =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">col   =</span> <span class="fu">hcl.colors</span>(<span class="dv">50</span>, <span class="at">palette =</span> <span class="st">"Greens"</span>),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">main  =</span> <span class="fu">paste</span>(<span class="st">"NDVI Composite —"</span>, y),</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">axes  =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  terra<span class="sc">::</span><span class="fu">lines</span>(prouton_fire_vect, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="fl">1.2</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">"Post-Fire NDVI Recovery: Prouton Lakes Fire Area (2018–2021)"</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">side =</span> <span class="dv">3</span>, <span class="at">outer =</span> <span class="cn">TRUE</span>, <span class="at">line =</span> <span class="fl">0.8</span>, <span class="at">cex =</span> <span class="fl">1.2</span>, <span class="at">font =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-html/step5-ndvi-maps-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Annual NDVI composites across the Prouton Lakes fire area from 2018 to 2021 (standardized scale: 0–0.5). The progressive greening visible from 2018 onward reflects early-stage vegetation recovery, with higher NDVI values in unburned and low severity areas.</figcaption>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(old_par)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="ndvi-distribution-by-burn-severity-class" class="level2">
+<h2 class="anchored" data-anchor-id="ndvi-distribution-by-burn-severity-class">NDVI Distribution by Burn Severity Class</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(recovery_df, <span class="fu">aes</span>(<span class="at">x =</span> Burn_Severity, <span class="at">y =</span> NDVI_Value, <span class="at">fill =</span> Year)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">position    =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">outlier.alpha =</span> <span class="fl">0.15</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth     =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"2018"</span> <span class="ot">=</span> <span class="st">"#e41a1c"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">"2019"</span> <span class="ot">=</span> <span class="st">"#f5a623"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>               <span class="st">"2020"</span> <span class="ot">=</span> <span class="st">"#4daf4a"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>               <span class="st">"2021"</span> <span class="ot">=</span> <span class="st">"#377eb8"</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title    =</span> <span class="st">"Post-Fire NDVI Recovery by Burn Severity Class (2018–2021)"</span>,</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Each boxplot represents the distribution of NDVI pixel values per class per year"</span>,</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x        =</span> <span class="st">"Burn Severity Class"</span>,</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y        =</span> <span class="st">"NDVI"</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill     =</span> <span class="st">"Year"</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title      =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x     =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"right"</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-html/step5-boxplot-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Distribution of NDVI values by burn severity class from 2018 to 2021. Higher burn severity classes show consistently lower median NDVI values in the immediate post-fire years, with gradual convergence toward unburned levels by 2021, particularly in low and medium severity areas.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The boxplots confirm a clear and ecologically meaningful pattern: high severity burn areas show the lowest NDVI values in 2018 and the slowest recovery trajectory through 2021. Unburned and low severity areas maintain relatively higher NDVI throughout the post-fire period, consistent with minimal disruption to the existing vegetation structure. The narrowing gap between severity classes from 2018 to 2021 suggests active but gradual recovery, with early successional species beginning to re-establish across the burned landscape.</p>
+<hr>
+</section>
+</section>
+<section id="reflection-and-future-directions" class="level1">
+<h1>Reflection and Future Directions</h1>
+<p>This analysis successfully quantified the spatial distribution of burn severity across the Prouton Lakes fire and tracked post-fire vegetation recovery using a multi-year NDVI time series. Several methodological refinements and extensions could strengthen this work in a professional or research context:</p>
+<p><strong>Methodological refinements:</strong></p>
+<ul>
+<li><p>In the pre-processing step, pixels were masked to the fire boundary rather than cropped to the bounding extent. While this produced more precise spatial outputs, a simple crop to the bounding box would have been computationally faster for exploratory work. Future implementations could offer both approaches depending on the use case.</p></li>
+<li><p>The dNBR classification thresholds used here are based on standard literature values. Field-validated severity thresholds specific to BC’s interior forests could improve classification accuracy and would be a meaningful addition for any operational application.</p></li>
+<li><p>Cloud masking was performed using a single QA flag value (21824 = clear conditions). Incorporating additional masking for cloud shadow and snow could further improve data quality, particularly for the earlier years in the time series.</p></li>
+</ul>
+<p><strong>Potential extensions:</strong></p>
+<ul>
+<li>Extending the time series beyond 2021 would allow monitoring of longer-term recovery trajectories, including the potential return of coniferous canopy cover.</li>
+<li>Incorporating Sentinel-2 imagery (10 m resolution) alongside Landsat 8 (30 m) could provide finer spatial detail for burn severity mapping.</li>
+<li>Overlaying the burn severity map with ecosystem classification layers (e.g., BEC zones) would allow recovery rates to be compared across different forest types.</li>
+<li>This analysis framework is directly transferable to other BC wildfires, including the 2023 season, which surpassed 2017 as the most severe on record.</li>
+</ul>
+<hr>
+<p><em>Analysis conducted using R (terra, sf, ggplot2, dplyr). Data sourced from USGS Earth Explorer and the BC Data Catalogue.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joselyne MPAYIMANA">
+
+<title>Land Cover Classification of the Southern Gulf Islands – Joselyne MPAYIMANA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-4d9afe2b8d18ee9fa5d0d57b5ed4214d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-0beff70ece8962be7af54e7b3e9a01c9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Joselyne MPAYIMANA</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resume.html"> 
+<span class="menu-text">Resume</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../experience.html"> 
+<span class="menu-text">Experience</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../leadership_and_training.html"> 
+<span class="menu-text">Leadership and Training</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link active" data-scroll-target="#project-overview">Project Overview</a>
+  <ul class="collapse">
+  <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data Sources</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
+  </ul></li>
+  <li><a href="#study-area-and-imagery" id="toc-study-area-and-imagery" class="nav-link" data-scroll-target="#study-area-and-imagery">Study Area and Imagery</a></li>
+  <li><a href="#training-and-validation-data" id="toc-training-and-validation-data" class="nav-link" data-scroll-target="#training-and-validation-data">Training and Validation Data</a>
+  <ul class="collapse">
+  <li><a href="#polygon-summary-by-class" id="toc-polygon-summary-by-class" class="nav-link" data-scroll-target="#polygon-summary-by-class">Polygon Summary by Class</a></li>
+  <li><a href="#training-and-validation-split" id="toc-training-and-validation-split" class="nav-link" data-scroll-target="#training-and-validation-split">Training and Validation Split</a></li>
+  </ul></li>
+  <li><a href="#spectral-signatures" id="toc-spectral-signatures" class="nav-link" data-scroll-target="#spectral-signatures">Spectral Signatures</a></li>
+  <li><a href="#maximum-likelihood-classification" id="toc-maximum-likelihood-classification" class="nav-link" data-scroll-target="#maximum-likelihood-classification">Maximum Likelihood Classification</a></li>
+  <li><a href="#accuracy-assessment" id="toc-accuracy-assessment" class="nav-link" data-scroll-target="#accuracy-assessment">Accuracy Assessment</a>
+  <ul class="collapse">
+  <li><a href="#confusion-matrix" id="toc-confusion-matrix" class="nav-link" data-scroll-target="#confusion-matrix">Confusion Matrix</a></li>
+  <li><a href="#accuracy-metrics" id="toc-accuracy-metrics" class="nav-link" data-scroll-target="#accuracy-metrics">Accuracy Metrics</a></li>
+  <li><a href="#key-findings" id="toc-key-findings" class="nav-link" data-scroll-target="#key-findings">Key Findings</a></li>
+  </ul></li>
+  <li><a href="#reflection-and-future-directions" id="toc-reflection-and-future-directions" class="nav-link" data-scroll-target="#reflection-and-future-directions">Reflection and Future Directions</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Land Cover Classification of the Southern Gulf Islands</h1>
+<p class="subtitle lead">Supervised Maximum Likelihood Classification Using Landsat 9 Imagery</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joselyne MPAYIMANA </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell" data-layout-align="center">
+<style type="text/css">
+/* Global font */
+body, h1, h2, h3, h4, h5, h6, p, li,
+td, th, figcaption, .caption {
+  font-family: "Times New Roman", Times, serif !important;
+}
+
+/* Dark background theme */
+body {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  color: #ffffff !important;
+}
+
+/* Table of contents */
+#TOC, .tocify {
+  font-family: "Times New Roman", Times, serif !important;
+  background-color: #1a2535 !important;
+  border: 1px solid #ffffff15 !important;
+  color: #e8eaf0 !important;
+}
+
+.tocify-item a, .tocify-subheader a {
+  color: #a78bfa !important;
+}
+
+.tocify-item.active a {
+  color: #ffffff !important;
+}
+
+/* Tables */
+table {
+  background-color: #1a2535 !important;
+  color: #e8eaf0 !important;
+  border-color: #ffffff20 !important;
+}
+
+th {
+  background-color: #2e4a7a !important;
+  color: #ffffff !important;
+}
+
+tr:nth-child(even) {
+  background-color: #162030 !important;
+}
+
+/* Code blocks */
+pre, code {
+  font-family: "Courier New", Courier, monospace !important;
+  font-size: 0.9rem;
+  background-color: #1a2535 !important;
+  color: #a78bfa !important;
+  border: 1px solid #ffffff15 !important;
+}
+
+/* Code folding button */
+.code-folding-btn {
+  background-color: #2e4a7a !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* Links */
+a {
+  color: #a78bfa !important;
+}
+
+a:hover {
+  color: #ffffff !important;
+}
+
+/* Page title block */
+.title, .subtitle {
+  color: #ffffff !important;
+}
+
+.author, .date {
+  color: #a78bfa !important;
+}
+</style>
+</div>
+<hr>
+<section id="project-overview" class="level1">
+<h1>Project Overview</h1>
+<p>Land cover mapping is one of the most widely used applications of remote sensing in environmental management, forestry, and urban planning. Knowing what covers the land, whether forest, water, developed areas, or bare soil, is fundamental to monitoring ecosystem health, tracking land use change, and supporting evidence-based planning decisions.</p>
+<p>This project applies <strong>supervised Maximum Likelihood Classification (MLC)</strong> to a Landsat 9 multispectral image of the <strong>Southern Gulf Islands, British Columbia</strong>, acquired on July 16, 2024. The goal is to classify the landscape into seven land cover categories using manually delineated training polygons and to assess the accuracy of the resulting map using a held-out validation dataset.</p>
+<p>The Southern Gulf Islands represent a ecologically sensitive and increasingly pressured landscape, making accurate and up-to-date land cover information particularly valuable for conservation planning and ecosystem monitoring in the region.</p>
+<hr>
+<section id="data-sources" class="level2">
+<h2 class="anchored" data-anchor-id="data-sources">Data Sources</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Dataset</th>
+<th>Description</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Landsat 9 OLI Level-2 Surface Reflectance</td>
+<td>6-band multispectral image, July 16, 2024</td>
+<td><a href="https://earthexplorer.usgs.gov/">USGS Earth Explorer</a></td>
+</tr>
+<tr class="even">
+<td>Classification Polygons</td>
+<td>Manually delineated training and validation areas in QGIS</td>
+<td>Field interpretation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Landsat 9 Bands Used:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Band</th>
+<th>Name</th>
+<th>Wavelength (um)</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Band 2</td>
+<td>Blue</td>
+<td>0.45-0.51</td>
+<td>30 m</td>
+</tr>
+<tr class="even">
+<td>Band 3</td>
+<td>Green</td>
+<td>0.53-0.59</td>
+<td>30 m</td>
+</tr>
+<tr class="odd">
+<td>Band 4</td>
+<td>Red</td>
+<td>0.64-0.67</td>
+<td>30 m</td>
+</tr>
+<tr class="even">
+<td>Band 5</td>
+<td>Near Infrared (NIR)</td>
+<td>0.85-0.88</td>
+<td>30 m</td>
+</tr>
+<tr class="odd">
+<td>Band 6</td>
+<td>SWIR 1</td>
+<td>1.57-1.65</td>
+<td>30 m</td>
+</tr>
+<tr class="even">
+<td>Band 7</td>
+<td>SWIR 2</td>
+<td>2.11-2.29</td>
+<td>30 m</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Land Cover Classes:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Broadleaf Forest</td>
+<td>Deciduous trees with broad leaves</td>
+</tr>
+<tr class="even">
+<td>Coniferous Forest</td>
+<td>Evergreen needle-leaved trees</td>
+</tr>
+<tr class="odd">
+<td>Exposed Soil and Rocks</td>
+<td>Bare ground, rocky outcrops</td>
+</tr>
+<tr class="even">
+<td>High Density Developed</td>
+<td>Urban core, dense infrastructure</td>
+</tr>
+<tr class="odd">
+<td>Low Density Developed</td>
+<td>Suburban areas, sparse development</td>
+</tr>
+<tr class="even">
+<td>Non-forest Vegetation</td>
+<td>Grassland, shrubs, agricultural fields</td>
+</tr>
+<tr class="odd">
+<td>Water</td>
+<td>Ocean, lakes, rivers</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="packages" class="level2">
+<h2 class="anchored" data-anchor-id="packages">Packages</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(RStoolbox)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<hr>
+</section>
+</section>
+<section id="study-area-and-imagery" class="level1">
+<h1>Study Area and Imagery</h1>
+<p>The Landsat 9 scene covers the Southern Gulf Islands of British Columbia, a complex landscape of forested islands, coastal waters, and scattered rural and residential development. The image was acquired during peak summer conditions, which provides good spectral separability between land cover types due to full leaf-out in broadleaf forests and minimal cloud cover.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the Landsat 9 surface reflectance image</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ls_image <span class="ot">&lt;-</span> <span class="fu">rast</span>(landsat_path)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Displaying image properties</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ls_image</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>class       : SpatRaster 
+size        : 1407, 1194, 6  (nrow, ncol, nlyr)
+resolution  : 30, 30  (x, y)
+extent      : 466215, 502035, 5371545, 5413755  (xmin, xmax, ymin, ymax)
+coord. ref. : WGS 84 / UTM zone 10N 
+source      : LC09_L2SP_047026_20240716_20240717_02_T1_SR_BSTACK.tif 
+names       : blue, green, red, nir, swir1, swir2 
+min values  :    0,     0,   0,   0,     0,     0 
+max values  :    1,     1,   1,   1,     1,     1 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># True color composite (Red = Band 3, Green = Band 2, Blue = Band 1)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plotRGB</span>(ls_image, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">main =</span> <span class="st">"True Color Composite - Southern Gulf Islands (July 16, 2024)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab6_Supervised_Classification_Joselyne_MPAYIMANA_files/figure-html/load-image-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>True color composite of the Southern Gulf Islands study area (Landsat 9, July 16, 2024). Red, green, and blue bands are displayed with a linear stretch. Deep green tones indicate dense forest cover, while lighter tones reflect developed areas, exposed soils, and coastal features.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="training-and-validation-data" class="level1">
+<h1>Training and Validation Data</h1>
+<p>Supervised classification requires manually identified sample areas that represent each land cover class in the image. These training polygons were delineated in QGIS by visually interpreting the Landsat imagery and cross-referencing with Google Satellite imagery to confirm land cover identity.</p>
+<p>A total of <strong>104 polygons</strong> were delineated across seven land cover classes. To ensure an unbiased accuracy assessment, 70% of the polygons in each class were used for training and the remaining 30% were reserved for independent validation.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the classification polygons</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>class_poly <span class="ot">&lt;-</span> <span class="fu">st_read</span>(polygons_path, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensuring geometry validity</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>class_poly <span class="ot">&lt;-</span> <span class="fu">st_make_valid</span>(class_poly)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Converting land cover class to ordered factor</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>class_poly <span class="ot">&lt;-</span> class_poly <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">lc_class =</span> <span class="fu">factor</span>(lc_class,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Broadleaf Forest"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Coniferous Forest"</span>,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Exposed soil and rocks"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"High density developed"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Low density developed"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Non-forest vegetation"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Water"</span>)))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizing polygons on the image</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>terra<span class="sc">::</span><span class="fu">plotRGB</span>(ls_image, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(class_poly[, <span class="st">"lc_class"</span>], <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">key.width =</span> <span class="fu">lcm</span>(<span class="dv">5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab6_Supervised_Classification_Joselyne_MPAYIMANA_files/figure-html/load-polygons-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Training and validation polygons overlaid on the Landsat 9 true color composite. Each color represents a different land cover class across the Southern Gulf Islands study area.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<section id="polygon-summary-by-class" class="level2">
+<h2 class="anchored" data-anchor-id="polygon-summary-by-class">Polygon Summary by Class</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarizing polygon counts per land cover class</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>poly_summary <span class="ot">&lt;-</span> class_poly <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lc_class) <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n_poly =</span> <span class="fu">n</span>())</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(poly_summary,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Land Cover Class"</span>, <span class="st">"Number of Polygons"</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Number of delineated polygons per land cover class"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Number of delineated polygons per land cover class</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Land Cover Class</th>
+<th style="text-align: right;">Number of Polygons</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Broadleaf Forest</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Coniferous Forest</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Exposed soil and rocks</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">High density developed</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Low density developed</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-forest vegetation</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Water</td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="training-and-validation-split" class="level2">
+<h2 class="anchored" data-anchor-id="training-and-validation-split">Training and Validation Split</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Removing any existing ID column and reassigning clean IDs</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>class_poly <span class="ot">&lt;-</span> class_poly <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">any_of</span>(<span class="st">"ID"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">rowid_to_column</span>(<span class="at">var =</span> <span class="st">"ID"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling 70% of polygons per class for training</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>poly_train <span class="ot">&lt;-</span> class_poly <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lc_class) <span class="sc">%&gt;%</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sample_frac</span>(<span class="fl">0.7</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">set =</span> <span class="st">"training"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="at">to =</span> <span class="st">"POLYGON"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Using remaining 30% for validation</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>poly_val <span class="ot">&lt;-</span> class_poly <span class="sc">%&gt;%</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>ID <span class="sc">%in%</span> poly_train<span class="sc">$</span>ID) <span class="sc">%&gt;%</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">set =</span> <span class="st">"validation"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="at">to =</span> <span class="st">"POLYGON"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>poly_set <span class="ot">&lt;-</span> <span class="fu">rbind</span>(poly_train, poly_val)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting training vs validation split</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(poly_set[, <span class="st">"set"</span>], <span class="at">key.width =</span> <span class="fu">lcm</span>(<span class="dv">4</span>),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Training and Validation Polygon Distribution"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab6_Supervised_Classification_Joselyne_MPAYIMANA_files/figure-html/train-val-split-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Spatial distribution of training (70%) and validation (30%) polygons across the study area. The two sets are spatially distinct, ensuring that the accuracy assessment reflects the model’s ability to generalize beyond its training areas.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="spectral-signatures" class="level1">
+<h1>Spectral Signatures</h1>
+<p>Before running the classification, it is useful to examine the spectral signatures of each land cover class. A spectral signature describes how a class reflects energy across different wavelengths. Classes with distinct signatures are easier for the algorithm to separate; classes with overlapping signatures are more likely to be confused.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a unique join ID and extracting pixel values from all polygons</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>poly_set <span class="ot">&lt;-</span> poly_set <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">rowid_to_column</span>(<span class="at">var =</span> <span class="st">"join_id"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>ID)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>poly_set_vals <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">extract</span>(ls_image, <span class="fu">vect</span>(poly_set))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>poly_set_vals <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(poly_set, poly_set_vals,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">join_by</span>(join_id <span class="sc">==</span> ID)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>()</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Pivoting to long format for spectral analysis</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>poly_set_vals_long <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(poly_set_vals,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                                    blue<span class="sc">:</span>swir2,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">names_to  =</span> <span class="st">"band"</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">values_to =</span> <span class="st">"reflectance"</span>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating mean and percentile range per class and band</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>spectral_sign <span class="ot">&lt;-</span> poly_set_vals_long <span class="sc">%&gt;%</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lc_class, band) <span class="sc">%&gt;%</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">r_mean =</span> <span class="fu">mean</span>(reflectance,         <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">r_q05  =</span> <span class="fu">quantile</span>(reflectance, <span class="fl">0.05</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>            <span class="at">r_q95  =</span> <span class="fu">quantile</span>(reflectance, <span class="fl">0.95</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading band wavelength values and joining</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>bands_wavelength <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(wavelength_path, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>spectral_sign    <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(spectral_sign, bands_wavelength, <span class="at">by =</span> <span class="st">"band"</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting spectral signatures with uncertainty ribbons</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(spectral_sign, <span class="fu">aes</span>(<span class="at">x =</span> wavelength, <span class="at">y =</span> r_mean, <span class="at">group =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> r_q05, <span class="at">ymax =</span> r_q95), <span class="at">alpha =</span> <span class="fl">0.25</span>, <span class="at">fill =</span> <span class="st">"#a78bfa"</span>) <span class="sc">+</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"#ffffff"</span>, <span class="at">linewidth =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#a78bfa"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(lc_class)) <span class="sc">+</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dark</span>() <span class="sc">+</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#1a2535"</span>),</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text       =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#ffffff"</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#0f1923"</span>),</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background  =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"#0f1923"</span>),</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text        =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#e8eaf0"</span>),</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title       =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"#e8eaf0"</span>)</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Wavelength (um)"</span>,</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Reflectance"</span>,</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Spectral Signatures by Land Cover Class"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab6_Supervised_Classification_Joselyne_MPAYIMANA_files/figure-html/spectral-signatures-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Spectral signatures of the seven land cover classes across six Landsat 9 bands. The shaded ribbon represents the 5th to 95th percentile range of reflectance values within each class. Water stands out clearly due to its near-zero NIR and SWIR reflectance. The overlap between exposed soil, non-forest vegetation, and low density developed areas in the SWIR bands explains the lower classification accuracy observed for these classes.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The spectral signatures reveal important patterns that explain the classification results. Water is the most spectrally distinct class, with reflectance dropping sharply beyond the visible range. Coniferous and broadleaf forests show similar visible band reflectance but differ in the NIR, which helps separate them. The most challenging classes are exposed soil and rocks, non-forest vegetation, and low density developed areas, which share overlapping reflectance profiles particularly in the SWIR bands.</p>
+<hr>
+</section>
+<section id="maximum-likelihood-classification" class="level1">
+<h1>Maximum Likelihood Classification</h1>
+<p>Maximum Likelihood Classification works by modeling the statistical distribution of pixel values for each class using the training data, then assigning every pixel in the image to the class it most probably belongs to based on its spectral values. The algorithm assumes that reflectance values within each class follow a multivariate normal distribution.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The Maximum Likelihood Classification was run using the superClass() function</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># from the RStoolbox package. The code below shows the full workflow for reference.</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The output has been saved to disk and is loaded directly in the next chunk.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>poly_train % <span class="fu">rename</span>(<span class="at">class =</span> lc_class)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>poly_val   % <span class="fu">rename</span>(<span class="at">class =</span> lc_class)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>mlc_model <span class="ot">&lt;-</span> <span class="fu">superClass</span>(<span class="at">img         =</span> ls_image,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">trainData   =</span> poly_train,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">valData     =</span> poly_val,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">responseCol =</span> <span class="st">"class"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>                        <span class="at">model       =</span> <span class="st">"mlc"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nSamples    =</span> <span class="dv">500</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>classified_map <span class="ot">&lt;-</span> mlc_model<span class="sc">$</span>map</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(classified_map,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>            <span class="at">filename  =</span> classified_map_path,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>            <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>val_preds <span class="ot">&lt;-</span> mlc_model<span class="sc">$</span>validation<span class="sc">$</span>validationSamples</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading the pre-computed classified map from disk</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>classified_map <span class="ot">&lt;-</span> <span class="fu">rast</span>(classified_map_path)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>class_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#A6D96A"</span>,   <span class="co"># Broadleaf Forest</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"#33A02C"</span>,   <span class="co"># Coniferous Forest</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"#DE3B13"</span>,   <span class="co"># Exposed soil and rocks</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"#D63CF1"</span>,   <span class="co"># High density developed</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"#00D2D2"</span>,   <span class="co"># Low density developed</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"#F1A026"</span>,   <span class="co"># Non-forest vegetation</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"#2B83BA"</span>)   <span class="co"># Water</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(classified_map,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">col  =</span> class_colors,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Land Cover Classification - Southern Gulf Islands (Landsat 9, July 2024)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="GEM520_Lab6_Supervised_Classification_Joselyne_MPAYIMANA_files/figure-html/classification-load-1.png" class="img-fluid figure-img" width="864"></p>
+<figcaption>Land cover classification map of the Southern Gulf Islands produced using Maximum Likelihood Classification of Landsat 9 imagery. Seven land cover classes are shown across the study area.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="accuracy-assessment" class="level1">
+<h1>Accuracy Assessment</h1>
+<p>Accuracy assessment is a critical step in any remote sensing classification. It tells us how reliably the map represents actual land cover conditions on the ground. Three metrics are used here:</p>
+<ul>
+<li><strong>Overall Accuracy (OA):</strong> The proportion of all validation pixels correctly classified</li>
+<li><strong>Producer Accuracy (PA):</strong> For each class, the proportion of reference pixels correctly identified (measures omission errors)</li>
+<li><strong>User Accuracy (UA):</strong> For each class, the proportion of classified pixels that actually belong to that class (measures commission errors)</li>
+</ul>
+<section id="confusion-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="confusion-matrix">Confusion Matrix</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confusion matrix values from the original classification run</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall Accuracy: 0.7961519</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">916</span>, <span class="dv">277</span>,  <span class="dv">14</span>,   <span class="dv">0</span>,   <span class="dv">5</span>,   <span class="dv">6</span>,   <span class="dv">0</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">190</span>,<span class="dv">1871</span>,   <span class="dv">1</span>,   <span class="dv">2</span>,  <span class="dv">16</span>,   <span class="dv">0</span>,   <span class="dv">0</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="dv">6</span>,   <span class="dv">1</span>,  <span class="dv">82</span>,  <span class="dv">92</span>,  <span class="dv">10</span>, <span class="dv">462</span>,   <span class="dv">0</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2</span>,   <span class="dv">0</span>,   <span class="dv">7</span>, <span class="dv">413</span>, <span class="dv">181</span>,   <span class="dv">4</span>,   <span class="dv">0</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="dv">0</span>,   <span class="dv">1</span>,  <span class="dv">26</span>,  <span class="dv">63</span>, <span class="dv">348</span>,  <span class="dv">25</span>,   <span class="dv">0</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>     <span class="dv">21</span>,   <span class="dv">0</span>, <span class="dv">205</span>,   <span class="dv">1</span>,   <span class="dv">2</span>, <span class="dv">622</span>,   <span class="dv">0</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>      <span class="dv">0</span>,   <span class="dv">0</span>,   <span class="dv">0</span>,   <span class="dv">1</span>,   <span class="dv">0</span>,   <span class="dv">0</span>,<span class="dv">2079</span>),</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">7</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">Predicted =</span> <span class="fu">c</span>(<span class="st">"Broadleaf Forest"</span>, <span class="st">"Coniferous Forest"</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Exposed soil and rocks"</span>, <span class="st">"High density developed"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Low density developed"</span>, <span class="st">"Non-forest vegetation"</span>, <span class="st">"Water"</span>),</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">Reference =</span> <span class="fu">c</span>(<span class="st">"Broadleaf Forest"</span>, <span class="st">"Coniferous Forest"</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Exposed soil and rocks"</span>, <span class="st">"High density developed"</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Low density developed"</span>, <span class="st">"Non-forest vegetation"</span>, <span class="st">"Water"</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(conf_matrix,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption =</span> <span class="st">"Confusion matrix comparing predicted and reference land cover classes. Rows represent predicted classes and columns represent reference classes. Diagonal values indicate correct classifications."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Confusion matrix comparing predicted and reference land cover classes. Rows represent predicted classes and columns represent reference classes. Diagonal values indicate correct classifications.</caption>
+<colgroup>
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Broadleaf Forest</th>
+<th style="text-align: right;">Coniferous Forest</th>
+<th style="text-align: right;">Exposed soil and rocks</th>
+<th style="text-align: right;">High density developed</th>
+<th style="text-align: right;">Low density developed</th>
+<th style="text-align: right;">Non-forest vegetation</th>
+<th style="text-align: right;">Water</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Broadleaf Forest</td>
+<td style="text-align: right;">916</td>
+<td style="text-align: right;">277</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Coniferous Forest</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: right;">1871</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Exposed soil and rocks</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">92</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">462</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">High density developed</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">413</td>
+<td style="text-align: right;">181</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Low density developed</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">348</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-forest vegetation</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">205</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">622</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Water</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2079</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="accuracy-metrics" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-metrics">Accuracy Metrics</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall accuracy: proportion of correctly classified pixels</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(conf_matrix)) <span class="sc">/</span> <span class="fu">sum</span>(conf_matrix)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Producer accuracy: correctly classified per reference class (omission errors)</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">diag</span>(conf_matrix) <span class="sc">/</span> <span class="fu">colSums</span>(conf_matrix)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># User accuracy: correctly classified per predicted class (commission errors)</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(conf_matrix) <span class="sc">/</span> <span class="fu">rowSums</span>(conf_matrix)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Displaying results as a clean table</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>accuracy_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">Class             =</span> <span class="fu">names</span>(PA),</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Producer_Accuracy =</span> <span class="fu">round</span>(PA, <span class="dv">3</span>),</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">User_Accuracy     =</span> <span class="fu">round</span>(UA, <span class="dv">3</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(accuracy_df,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Land Cover Class"</span>,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"Producer Accuracy"</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"User Accuracy"</span>),</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">caption   =</span> <span class="fu">paste0</span>(<span class="st">"Per-class accuracy metrics. Overall Accuracy = "</span>,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">round</span>(OA, <span class="dv">3</span>), <span class="st">" ("</span>, <span class="fu">round</span>(OA <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">1</span>), <span class="st">"%)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Per-class accuracy metrics. Overall Accuracy = 0.796 (79.6%)</caption>
+<colgroup>
+<col style="width: 29%">
+<col style="width: 29%">
+<col style="width: 23%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Land Cover Class</th>
+<th style="text-align: right;">Producer Accuracy</th>
+<th style="text-align: right;">User Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Broadleaf Forest</td>
+<td style="text-align: left;">Broadleaf Forest</td>
+<td style="text-align: right;">0.807</td>
+<td style="text-align: right;">0.752</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Coniferous Forest</td>
+<td style="text-align: left;">Coniferous Forest</td>
+<td style="text-align: right;">0.870</td>
+<td style="text-align: right;">0.900</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Exposed soil and rocks</td>
+<td style="text-align: left;">Exposed soil and rocks</td>
+<td style="text-align: right;">0.245</td>
+<td style="text-align: right;">0.126</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">High density developed</td>
+<td style="text-align: left;">High density developed</td>
+<td style="text-align: right;">0.722</td>
+<td style="text-align: right;">0.680</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Low density developed</td>
+<td style="text-align: left;">Low density developed</td>
+<td style="text-align: right;">0.619</td>
+<td style="text-align: right;">0.752</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Non-forest vegetation</td>
+<td style="text-align: left;">Non-forest vegetation</td>
+<td style="text-align: right;">0.556</td>
+<td style="text-align: right;">0.731</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Water</td>
+<td style="text-align: left;">Water</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="key-findings" class="level2">
+<h2 class="anchored" data-anchor-id="key-findings">Key Findings</h2>
+<p>The classification achieved an overall accuracy of <strong>79.6%</strong>, which exceeds the 75% threshold commonly used as a minimum standard for land cover maps used in environmental decision-making.</p>
+<p><strong>Strongest performing classes:</strong></p>
+<p>Water achieved near-perfect accuracy (PA: 1.00, UA: 1.00), which is expected given its highly distinctive spectral signature. Strong absorption across NIR and SWIR bands makes water unambiguous to classify. Coniferous Forest also performed well (PA: 0.90, UA: 0.87), benefiting from its consistent dark-green spectral profile and structural uniformity across the study area.</p>
+<p><strong>Most challenging classes:</strong></p>
+<p>Exposed soil and rocks showed the lowest producer accuracy (PA: 0.13) and user accuracy (UA: 0.24). This is a common challenge in multispectral classification, particularly in landscapes like the Gulf Islands where bare soil, dry grass, and low-density developed surfaces share similar reflectance characteristics in the visible and SWIR bands. The spectral overlap between these classes means pixels are frequently misclassified across the exposed soil, non-forest vegetation, and low density developed categories.</p>
+<p><strong>Implications for real-world use:</strong></p>
+<p>While the overall accuracy is acceptable for broad-scale land cover mapping, the low accuracy of the exposed soil and rocks class means this map should be used cautiously for any analysis that specifically involves that class. For applications requiring finer discrimination between spectrally similar surface types, higher resolution imagery or additional input features such as texture or elevation data would improve classification performance.</p>
+<hr>
+</section>
+</section>
+<section id="reflection-and-future-directions" class="level1">
+<h1>Reflection and Future Directions</h1>
+<p>This project demonstrates a complete supervised classification workflow, from training data collection and spectral analysis through to accuracy assessment and map production. Several refinements could strengthen the analysis in a professional context:</p>
+<p><strong>On training data quality:</strong></p>
+<p>The relatively low accuracy of the exposed soil and non-forest vegetation classes likely reflects insufficient spectral diversity in the training polygons for those classes. In practice, increasing the number and spatial spread of training polygons for challenging classes, ideally with field verification, would improve discrimination between spectrally similar surfaces.</p>
+<p><strong>On classification approach:</strong></p>
+<p>Maximum Likelihood Classification assumes multivariate normality in the training data, which may not hold for heterogeneous classes like low density developed areas. Machine learning approaches such as Random Forest or Support Vector Machines often outperform MLC in landscapes with complex spectral mixing. A comparison of these methods would be a meaningful extension of this work.</p>
+<p><strong>On data inputs:</strong></p>
+<p>Using a single-date image limits the ability to distinguish between classes that look similar in summer but differ at other times of year. Incorporating multi-temporal imagery or adding auxiliary data such as a digital elevation model or LiDAR-derived canopy height could substantially improve class separability.</p>
+<p><strong>On the study area:</strong></p>
+<p>This classification framework is directly applicable to broader land cover monitoring across BC’s coastal ecosystems, including change detection applications that track vegetation loss, urban expansion, or post-disturbance recovery over time.</p>
+<hr>
+<p><em>Analysis conducted using R (terra, sf, RStoolbox, ggplot2, tidyverse). Landsat 9 imagery sourced from USGS Earth Explorer. Training polygons delineated in QGIS 3.32.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

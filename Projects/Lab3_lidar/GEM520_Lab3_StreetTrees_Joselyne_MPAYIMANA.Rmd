@@ -1,0 +1,372 @@
+---
+title: "Exploring Vancouver Street Trees"
+subtitle: "Data Cleaning, Species Analysis, and Neighbourhood Tree Density Using tidyverse"
+author: "Joselyne MPAYIMANA"
+#date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    number_sections: yes
+    theme: flatly
+    toc: yes
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    code_folding: show
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  fig.width = 9,
+  fig.height = 6
+)
+
+# Base path — update this to match your local directory if reproducing this analysis
+base_path <- "C:/Users/joselyn7.stu/OneDrive - UBC/MGEM Course/GEM520/Labs/Lab3"
+data_path <- file.path(base_path, "data")
+```
+
+```{css, echo=FALSE}
+body, h1, h2, h3, h4, h5, h6, p, li,
+td, th, figcaption, .caption {
+  font-family: "Times New Roman", Times, serif !important;
+}
+body {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+}
+h1, h2, h3, h4 { color: #e8eaf0 !important; }
+h2 { border-bottom: 1px solid #2d3a4f; padding-bottom: 0.3rem; }
+.navbar, #TOC { background-color: #0f1923 !important; }
+#TOC a { color: #a78bfa !important; }
+#TOC a:hover { color: #ffffff !important; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 1.2rem; }
+th {
+  background-color: #1a2535 !important;
+  color: #a78bfa !important;
+  padding: 8px 12px;
+  border: 1px solid #2d3a4f;
+}
+td {
+  background-color: #0f1923 !important;
+  color: #e8eaf0 !important;
+  padding: 7px 12px;
+  border: 1px solid #2d3a4f;
+}
+tr:hover td { background-color: #1a2535 !important; }
+pre, code {
+  background-color: #1a2535 !important;
+  color: #c8cdd8 !important;
+  border: 1px solid #2d3a4f;
+  border-radius: 6px;
+}
+p code, li code {
+  background-color: #2e4a7a !important;
+  color: #ffffff !important;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.88rem;
+}
+blockquote {
+  border-left: 4px solid #a78bfa;
+  background-color: #1a2535;
+  padding: 0.8rem 1.2rem;
+  margin: 1rem 0;
+  border-radius: 0 8px 8px 0;
+}
+.figure .caption, figcaption {
+  color: #7a8fa6 !important;
+  font-size: 0.88rem;
+  text-align: center;
+  margin-top: 0.4rem;
+}
+hr { border-color: #2d3a4f; }
+a { color: #a78bfa !important; }
+a:hover { color: #ffffff !important; }
+```
+
+---
+
+# Project Overview
+
+Vancouver's urban forest is one of the city's most visible and ecologically significant assets. This project uses the City of Vancouver's open street tree dataset to explore patterns in species composition, tree size, and the spatial distribution of trees across neighbourhoods.
+
+The analysis works through a full tidyverse workflow: reshaping messy data into tidy format, cleaning unrealistic values, computing summary statistics by species and neighbourhood, and building a series of visualizations that reveal how Vancouver's street trees vary across the city. The final part of the analysis brings in street length and neighbourhood area data to calculate tree density per kilometre of street, giving a more meaningful picture of how well-treed each neighbourhood actually is relative to its size.
+
+---
+
+## Dataset
+
+The data comes from the [Vancouver City Open Data Portal](https://opendata.vancouver.ca/explore/dataset/street-trees/information/) and covers trees on public streets across the city. Each record includes a tree ID, species (latin and common name), diameter at breast height (in inches), height rank (0 to 10), the street name, and the neighbourhood. Four supporting files are also used for street length and neighbourhood area.
+
+---
+
+## Packages
+
+```{r packages}
+library(tidyverse)
+library(ggrepel)
+```
+
+---
+
+# Data Preparation
+
+## Reshaping to Tidy Format
+
+The raw `trees_count.csv` file stores neighbourhood names as column headers rather than as values in a column. This is wide format and not tidy. I used `pivot_longer()` to collapse all neighbourhood columns into two columns: one for neighbourhood name and one for tree count.
+
+```{r step1-tidy-count}
+trees_count <- read.csv(file.path(data_path, "trees_count.csv"))
+
+trees_count_longer <- pivot_longer(trees_count,
+                                   cols        = 2:23,
+                                   names_to    = "neighborhood",
+                                   values_to   = "trees_count")
+trees_count_longer
+```
+
+Similarly, `trees_height_diam.csv` stores height rank and diameter as rows in a single `attribute` column instead of as separate variables. I used `pivot_wider()` to give each attribute its own column.
+
+```{r step1-tidy-height}
+trees_h_d <- read.csv(file.path(data_path, "trees_height_diam.csv"))
+
+trees_h_d_wider <- pivot_wider(trees_h_d,
+                                names_from  = "attribute",
+                                values_from = "value")
+trees_h_d_wider
+```
+
+---
+
+## Loading and Cleaning the Main Dataset
+
+```{r step2-load}
+street_trees <- read.csv(file.path(data_path, "street_trees.csv"))
+
+# Renaming columns to clean, consistent names
+street_trees <- rename(street_trees,
+  tree_id      = Tree.ID,
+  street       = Street.Name,
+  neighbourhood = Neighbourh,
+  species      = SpeciesName,
+  common_name  = CommonName,
+  height_rank  = hrank,
+  diameter_in  = Diameter,
+  year_planted = YearPlanted
+)
+```
+
+The dataset contains **`r nrow(street_trees)` trees** recorded across Vancouver's public streets.
+
+```{r step2-clean}
+# Converting diameter to cm
+street_trees <- street_trees %>%
+  mutate(diameter_cm = diameter_in * 2.54)
+
+# Converting height rank to an ordered factor
+height_rank_ordered <- sort(unique(street_trees$height_rank))
+street_trees <- street_trees %>%
+  mutate(height_rank = factor(height_rank,
+                               levels  = height_rank_ordered,
+                               ordered = TRUE))
+
+# Removing trees with diameter of 0 or more than 300 cm (3 m)
+trees_clean <- street_trees %>%
+  filter(diameter_cm > 0, diameter_cm <= 300)
+
+n_trees <- nrow(trees_clean)
+```
+
+Before filtering, **`r nrow(filter(street_trees, diameter_cm == 0))` trees** had a diameter of 0 and **`r nrow(filter(street_trees, diameter_cm > 300))` trees** had a diameter above 3 metres. After removing these unrealistic records, **`r n_trees` trees** remain in the cleaned dataset.
+
+---
+
+# Species Analysis
+
+## Diameter Summary by Species
+
+```{r step3-summary-sp}
+trees_summary_sp <- trees_clean %>%
+  group_by(common_name) %>%
+  summarise(
+    n_trees   = n(),
+    mean_diam = mean(diameter_cm),
+    min_diam  = min(diameter_cm),
+    max_diam  = max(diameter_cm),
+    sd_diam   = sd(diameter_cm)
+  )
+```
+
+## Five Most Common Species
+
+```{r step3-top5}
+top_5_sp <- trees_summary_sp %>%
+  arrange(desc(n_trees)) %>%
+  slice_head(n = 5) %>%
+  mutate(ntree_per = n_trees / n_trees * 100,
+         ntree_per = n_trees / nrow(trees_clean) * 100)
+
+top_5_sp %>%
+  select(common_name, n_trees, ntree_per) %>%
+  mutate(ntree_per = round(ntree_per, 2)) %>%
+  rename(`Species` = common_name,
+         `Count`   = n_trees,
+         `% of Total` = ntree_per) %>%
+  knitr::kable(caption = "Five most common street tree species in Vancouver.")
+```
+
+The most common street tree is **`r top_5_sp$common_name[1]`**, making up **`r round(top_5_sp$ntree_per[1], 1)`%** of all trees in the dataset. The top five species together account for **`r round(sum(top_5_sp$ntree_per), 1)`%** of the total.
+
+---
+
+## Diameter by Species and Height Rank
+
+I looked at how diameter varies across height ranks for the five most common species, focusing on height ranks 1 through 6.
+
+```{r step4-summary-sp-h}
+trees_summary_sp_h <- trees_clean %>%
+  group_by(common_name, height_rank) %>%
+  summarise(
+    n_trees   = n(),
+    mean_diam = mean(diameter_cm),
+    min_diam  = min(diameter_cm),
+    max_diam  = max(diameter_cm),
+    sd_diam   = sd(diameter_cm),
+    .groups   = "drop"
+  )
+
+trees_summary_trg <- trees_summary_sp_h %>%
+  filter(common_name %in% top_5_sp$common_name,
+         height_rank >= 1,
+         height_rank <= 6)
+```
+
+```{r step4-scatter, fig.cap="Mean trunk diameter by height rank for the five most common street tree species in Vancouver. Across all species, mean diameter increases with height rank, but the rate of increase differs by species."}
+ggplot(trees_summary_trg,
+       aes(x = height_rank, y = mean_diam, color = common_name, group = common_name)) +
+  geom_point(size = 3) +
+  geom_line(linewidth = 0.9) +
+  labs(
+    title  = "Mean Diameter by Height Rank for the Top 5 Street Tree Species",
+    x      = "Height Rank",
+    y      = "Mean Diameter (cm)",
+    color  = "Species"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+```{r step4-barplot, fig.cap="Number of trees per height rank for the five most common species. Most trees fall in the lower height ranks, and species like Kwanzan Flowering Cherry tend to be concentrated in shorter height classes compared to species such as Maple."}
+ggplot(trees_summary_trg,
+       aes(x = height_rank, y = n_trees, fill = common_name)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Number of Trees per Height Rank by Species",
+    x     = "Height Rank",
+    y     = "Number of Trees",
+    fill  = "Species"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+---
+
+## Diameter Distribution by Species
+
+```{r step5-density, fig.cap="Diameter distribution for the five most common street tree species. Kwanzan Flowering Cherry is strongly skewed towards smaller diameters, while Maple shows a wider spread, indicating a broader range of tree sizes across the city."}
+street_trees_trg <- trees_clean %>%
+  filter(common_name %in% top_5_sp$common_name)
+
+ggplot(street_trees_trg,
+       aes(x = diameter_cm, fill = common_name)) +
+  geom_density(alpha = 0.4) +
+  xlim(c(0, 100)) +
+  labs(
+    title = "Diameter Distribution of the Top 5 Street Tree Species",
+    x     = "Diameter (cm)",
+    y     = "Density",
+    fill  = "Species"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+Kwanzan Flowering Cherry is strongly skewed towards smaller diameters, meaning most of these trees are relatively young or small. Maple shows a much wider spread, suggesting a greater range of tree ages and sizes across the city.
+
+---
+
+# Neighbourhood Analysis
+
+## Tree Density per Kilometre of Street
+
+To compare how tree-rich each neighbourhood is relative to its street network, I joined the tree count summary with total street length data and calculated the number of trees per kilometre of street.
+
+```{r step6-density}
+# Street length by neighbourhood (converted to km)
+street_length <- read.csv(file.path(data_path, "public_street_length.csv"))
+street_length_tot <- street_length %>%
+  group_by(neighbourhood) %>%
+  summarise(total_length = sum(street_length) / 1000, .groups = "drop")
+
+# Tree summary by neighbourhood
+trees_summary_nei <- trees_clean %>%
+  group_by(neighbourhood) %>%
+  summarise(
+    n_trees   = n(),
+    mean_diam = mean(diameter_cm),
+    min_diam  = min(diameter_cm),
+    max_diam  = max(diameter_cm),
+    sd_diam   = sd(diameter_cm),
+    .groups   = "drop"
+  )
+
+# Joining and computing tree density
+trees_dens_nei <- trees_summary_nei %>%
+  inner_join(street_length_tot, by = "neighbourhood") %>%
+  mutate(tree_dens = n_trees / total_length)
+```
+
+```{r step7-area}
+# Neighbourhood area data
+nei_area <- read.csv(file.path(data_path, "local_area_areakm2.csv")) %>%
+  rename(neighbourhood = area_name)
+
+nei_area_df <- trees_dens_nei %>%
+  inner_join(nei_area, by = "neighbourhood") %>%
+  select(neighbourhood, mean_diam, tree_dens, area_km2)
+```
+
+```{r step7-scatter, fig.cap="Tree density (trees per km of street) versus neighbourhood area, with point size showing mean tree diameter. South Cambie has the highest tree density but is one of the smallest neighbourhoods. Dunbar-Southlands and Renfrew-Collingwood stand out as large neighbourhoods with high tree density."}
+ggplot(nei_area_df,
+       aes(x = tree_dens, y = area_km2,
+           size = mean_diam, color = neighbourhood)) +
+  geom_point(alpha = 0.5) +
+  geom_text_repel(aes(label = neighbourhood, color = neighbourhood),
+                  size = 3, show.legend = FALSE) +
+  scale_size_continuous(name = "Mean Tree Diameter (cm)") +
+  labs(
+    title = "Street Tree Density by Neighbourhood",
+    x     = "Trees per km of Street",
+    y     = "Neighbourhood Area (km²)"
+  ) +
+  theme_bw(base_size = 12) +
+  theme(legend.position = "bottom",
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  guides(color = "none")
+```
+
+South Cambie has the highest street tree density in the city, though its small area means it contributes relatively little to the overall count. Dunbar-Southlands and Renfrew-Collingwood have both high tree density and large areas, making them the most significant contributors to Vancouver's urban forest. Downtown has notably smaller mean tree diameters, making it the least interesting neighbourhood for someone looking to live among mature, large-diameter trees.
+
+---
+
+# Summary
+
+Working through this dataset gave me a clear picture of how Vancouver's street tree inventory is distributed across species and space. The Kwanzan Flowering Cherry dominates in count but tends to be small in diameter, while Maple trees show more variability in size, suggesting older planting history in some neighbourhoods. The neighbourhood-level analysis revealed that tree density per kilometre of street varies considerably across the city, and that area alone is not a reliable predictor of how well-treed a neighbourhood is. Combining tree counts, street length, and neighbourhood area together gave a much more informative view of where Vancouver's urban forest is most concentrated.

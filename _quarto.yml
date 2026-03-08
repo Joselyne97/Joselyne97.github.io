@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Joselyne MPAYIMANA"
+  navbar:
+    pinned: true
+    background: primary
+    search: true
+    left:
+      - href: index.qmd
+        text: Home
+
+      - href: resume.qmd
+        text: Resume
+
+      - href: projects.qmd
+        text: Projects
+
+      - href: experience.qmd
+        text: Experience
+      
+      - href: leadership_and_training.qmd
+        text: Leadership and Training
+
+
+format:
+  html:
+    theme:
+      - slate
+    css: styles.css
+    toc: true
+    include-in-header: 
+      text: |
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+resources:
+  - Projects/
+
+
+

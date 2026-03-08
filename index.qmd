@@ -1,0 +1,89 @@
+---
+title: "Joselyne MPAYIMANA"
+subtitle: "Geospatial Data Analyst"
+format:
+  html:
+    other-links:
+      - text: GitHub
+        href: https://github.com/Joselyne97
+      - text: LinkedIn
+        href: https://www.linkedin.com/in/joselyne-mpayimana-718419111/
+---
+
+::: {.contact-bar}
+<span><i class="fa-solid fa-location-dot"></i> Vancouver, BC</span> <a href="joselynejojo740@gmail.com"><i class="fa-solid fa-envelope"></i> </a> <a href="https://github.com/Joselyne97" target="_blank"><i class="fa-brands fa-github"></i></a> <a href="https://www.linkedin.com/in/joselyne-mpayimana-718419111/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+:::
+
+:::: {.hero-section}
+
+::: {.hero-text}
+
+## About Me
+
+Geomatics and spatial data found me through a genuine curiosity about land, the people who depend on it, and the decisions that shape it. I am completing my Master of Geomatics for Environmental Management at the University of British Columbia, where my research looks at how historical land use and landscape structure relate to climate stressors on the Southern Gulf Islands. It is the kind of work that constantly reminds me that behind every dataset, there is a real place and real consequences.
+
+I grew up and studied in Rwanda, where land, environment, and people are tied together in ways that are hard to separate. That context shaped why I care about this work, not just the technical side, but the real decisions that spatial analysis is supposed to support. I completed my undergraduate degree in Geography with a specialization in Environmental Management at the University of Rwanda, and that foundation still shows up in how I approach problems today. Coming from a different environmental and institutional context has sharpened my ability to ask better questions about how data is collected, what it represents, and who it serves.
+
+I work with ArcGIS Pro, QGIS, R, and Python for spatial analysis and geoprocessing workflows, and I have hands-on experience in LiDAR processing, multispectral remote sensing, spatial data management using PostGIS and PostgreSQL, Google Earth Engine for large-scale analysis, and web mapping with Leaflet and ArcGIS Online. I enjoy the part of the work where you bring different data sources together and something meaningful starts to emerge from the patterns.
+
+My background sits at the intersection of spatial analysis, environmental science, and data-driven problem solving. I thrive in GIS, remote sensing, and environmental consulting, and I am always looking to grow in roles where these skills can be pushed further, whether that is in environmental fields or anywhere data needs to be processed, interpreted, and communicated with purpose.
+:::
+
+::: {.hero-image}
+<div class="image-circle">
+![](./images/Joselyne.jpg)
+</div>
+:::
+
+::::
+
+## Skills
+
+::: {.card-grid}
+
+::: {.card}
+### Programming Languages
+`Python` `R` `SQL`
+
+- ArcPy & GeoPandas
+- Geospatial scripting & automation
+:::
+
+::: {.card}
+### GIS & Remote Sensing
+`ArcGIS Pro` `QGIS` `Google Earth Engine` `ENVI`
+
+- LiDAR Processing
+- Multispectral Imagery Analysis
+- Web Mapping (Leaflet, ArcGIS Online)
+- Field Data Collection & Validation (Survey123, ArcGIS Field Maps)
+:::
+
+::: {.card}
+### Spatial Data Management
+`PostGIS` `PostgreSQL`
+
+- Spatial database design & querying
+- Multi-source data integration
+- Geoprocessing workflows
+:::
+
+::: {.card}
+### Environmental Analysis
+- Environmental Impact Assessment (EIA)
+- Land Use & Land Cover Change Analysis
+- Ecosystem & Vegetation Mapping
+- Climate Resilience & Adaptation Analysis
+- Cartography & Map Production
+:::
+
+::: {.card}
+### Data Analysis & Visualization
+`R (ggplot2, tidyverse, terra, raster, sf, lidR)` `Python (matplotlib, seaborn, rasterio, geopandas, numpy, pandas, shapely, earthpy)`
+
+- Statistical & spatial data analysis
+- Data storytelling & reporting
+- Field data collection (Survey123, ArcGIS Field Maps)
+:::
+
+:::
