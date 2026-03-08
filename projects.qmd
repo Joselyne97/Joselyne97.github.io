@@ -14,6 +14,8 @@ ready to bring to a professional setting.
 
 ::: {.project-grid}
 
+
+
 ::: {.project-card}
 ### Wildfire Burn Severity and Post-Fire Vegetation Recovery
 #### Remote Sensing for Ecosystem Management
@@ -89,4 +91,21 @@ I used the City of Vancouver's open street tree dataset to explore how trees are
 ::: {.project-links}
 [View Project](Projects/Lab3_lidar/GEM520_Lab3_StreetTrees_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
 :::
+:::
+
+
+::: {.project-card}
+### Old Growth Forest Assessment on Vancouver Island
+#### GIS · Cartographic Modelling · Forest Inventory
+
+I used the BC Vegetation Resources Inventory (2024) to assess how well old growth retention across Vancouver Island's crown forests meets provincial high threshold targets, broken down by Landscape Unit and BEC subzone. I queried the VRI data directly from a UBC PostgreSQL server using SQL, classified each polygon into seral stages using a custom Python expression in ArcGIS Pro, and reset disturbed areas using the CEF Human Disturbance layer. The final output compares calculated percent old growth against subzone-specific provincial targets across 260 landscape units, showing a clear divide between remote high-elevation forests that exceed targets and heavily logged lowland areas that fall well short.
+
+`ArcGIS Pro` `PostGIS` `SQL` `Python` `VRI 2024` `BEC Zones` `Old Growth` `Cartographic Modelling`
+
+::: {.project-links}
+[View Project](Projects/Lab3/GEM510_Lab3_OldGrowth_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+
+:::
+:::
+
 :::
