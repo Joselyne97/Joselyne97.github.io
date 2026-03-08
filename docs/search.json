@@ -238,20 +238,6 @@
     "text": "Skills\n\n\nProgramming Languages\nPython R SQL\n\nArcPy & GeoPandas\nGeospatial scripting & automation\n\n\n\nGIS & Remote Sensing\nArcGIS Pro QGIS Google Earth Engine ENVI\n\nLiDAR Processing\nMultispectral Imagery Analysis\nWeb Mapping (Leaflet, ArcGIS Online)\nField Data Collection & Validation (Survey123, ArcGIS Field Maps)\n\n\n\nSpatial Data Management\nPostGIS PostgreSQL\n\nSpatial database design & querying\nMulti-source data integration\nGeoprocessing workflows\n\n\n\nEnvironmental Analysis\n\nEnvironmental Impact Assessment (EIA)\nLand Use & Land Cover Change Analysis\nEcosystem & Vegetation Mapping\nClimate Resilience & Adaptation Analysis\nCartography & Map Production\n\n\n\nData Analysis & Visualization\nR (ggplot2, tidyverse, terra, raster, sf, lidR) Python (matplotlib, seaborn, rasterio, geopandas, numpy, pandas, shapely, earthpy)\n\nStatistical & spatial data analysis\nData storytelling & reporting\nField data collection (Survey123, ArcGIS Field Maps)"
   },
   {
-    "objectID": "experience.html",
-    "href": "experience.html",
-    "title": "Experiences",
-    "section": "",
-    "text": "Geospatial Analyst (Volunteer)\n\nTayo Climate Partners • 2025 - Present • Remote\nVoluntary geospatial role supporting blue carbon and coastal restoration projects. Work covers data pre-processing, spatial analysis workflows, and site suitability assessments to evaluate the potential of sites for mangrove and other ecosystem restoration initiatives.\nTools: GIS, ArcGIS, Python, R\n\n\n\nEnvironmental Officer\n\nLilongwe City Council • July 2024 - May 2025 • Lilongwe, Malawi\nHands-on environmental planning role focused on urban development compliance and impact assessment. Work covered spatial data analysis, environmental auditing, stakeholder engagement, and regulatory monitoring across infrastructure and waste projects.\nTools: GIS, ArcGIS, ESMPs, Environmental Auditing, Stakeholder Consultation\n\n\n\nEnvironmental Consultant\n\nWater, Waste and Environmental Consultants • August 2022 - June 2024 • Lilongwe, Malawi\nConsulting role focused on environmental and social impact assessment across energy and infrastructure projects. Work covered field data collection, geospatial analysis, and statistical modelling to inform compliance decisions and mitigation strategies.\nTools: GIS, ArcGIS, SPSS, STATA"
-  },
-  {
-    "objectID": "leadership_and_training.html",
-    "href": "leadership_and_training.html",
-    "title": "Leadership and Training",
-    "section": "",
-    "text": "Mastercard Foundation Graduate Scholar at UBC, 2025\n\n\nNominee, Total Energies Start-upper of the year, 2024\n\n\nFinalist, YALI RLC-SA Innovation Challenge 2024\n\n\nAfrican Drone and Data Academy, Certificate in Drone & Data Technology, 2023\n\n\nDean’s List Award, University of Malawi, 2022\n\n\nYoung African Leaders Initiative (YALI) Civic Leadership Certificate, 2021\n\n\nPollination Project Grant Awardee, $1,000 social impact grant, 2021"
-  },
-  {
     "objectID": "Projects/Lab5_spectral/GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA.html#data-sources",
     "href": "Projects/Lab5_spectral/GEM520_Lab5_SpatialAnalysis_Joselyne_MPAYIMANA.html#data-sources",
     "title": "Spatial Data Analysis of the Gulf Islands",

@@ -18,12 +18,7 @@ website:
       - href: projects.qmd
         text: Projects
 
-      - href: experience.qmd
-        text: Experience
       
-      - href: leadership_and_training.qmd
-        text: Leadership and Training
-
 
 format:
   html:
