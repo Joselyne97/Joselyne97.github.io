@@ -54,6 +54,19 @@ spectral confusion.
 :::
 
 ::: {.project-card}
+### Grizzly Bear Movement Corridor Modelling
+#### Conservation GIS · Raster Analysis · Least Cost Path
+
+I built a least cost path model to identify the optimal movement corridor for Grizzly Bears across the Yellowhead Bear Management Area in western Alberta. Working from the command line with GDAL utilities, I processed 14 ASTER DEM tiles into a seamless terrain model, reprojected a national land cover dataset using nearest neighbor resampling to preserve categorical class values, and computed a road proximity cost surface using an inverse distance formula. The three layers were combined into a weighted cost surface giving land cover the highest weight at 40%, reflecting its dominant role in bear movement decisions, with slope and road distance weighted equally at 30% each. The least cost path was traced in ArcGIS Pro using the Distance Accumulation and Optimal Path as Line tools, producing a corridor that consistently follows forested valley terrain between core and secondary habitat areas.
+
+`GDAL` `QGIS` `ArcGIS Pro` `Weighted Overlay` `Least Cost Path` `VLCE 2019` `ASTER DEM` `Conservation Planning`
+
+::: {.project-links}
+[View Project](Projects/Lab5/GEM510_Lab5_LeastCostPath_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+:::
+:::
+
+::: {.project-card}
 ### Vegetation Change Detection and Forest Cover Dynamics
 #### Remote Sensing · Time-Series Analysis
 
@@ -107,5 +120,7 @@ I used the BC Vegetation Resources Inventory (2024) to assess how well old growt
 
 :::
 :::
+
+
 
 :::

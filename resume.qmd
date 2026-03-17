@@ -1,11 +1,11 @@
 ---
 title: "Resume"
 ---
-
+<!--
 ::: {.download-btn}
 [Download PDF](){.btn .btn-primary .disabled}
 :::
-
+-->
 ---
 
 ## Education
@@ -21,7 +21,8 @@ title: "Resume"
 ## Research
 
 **Land-Use Change & Climate Resilience Analysis — Mudge Island & Link Island, BC**
-*Master's Research Project · Sept 2025 – Present*
+
+*Master's Research Project ·                                                Sept 2025 – Present*
 
 - Conducting spatial and temporal land-use and land-cover change analysis on the Southern Gulf Islands using LiDAR and multispectral remote sensing data
 - Integrating multi-source geospatial datasets to analyze vegetation structure, land cover classification, and environmental change patterns
@@ -32,40 +33,46 @@ title: "Resume"
 ## Professional Experience
 
 **GIS Specialist Assistant**
-*Environmental Digital Technology Ltd · Burera, Rwanda · Feb 2021 – Aug 2021*
+
+*Environmental Digital Technology Ltd                    · Burera, Rwanda ·                  Feb 2021 – Aug 2021*
 
 - Supervised field data collection for an energy needs assessment in Burera District, coordinating enumerators and managing logistics across rural areas
 - Verified geographic data accuracy to ensure quality inputs for spatial analysis and infrastructure planning reports
 - Contributed to data integration and reporting to support evidence-based decision-making for sustainable development
 
 **Field Research Coordinator**
-*ESRI Rwanda · Nyagatare, Rwanda · Nov 2023 – Oct 2024*
+
+*ESRI Rwanda                             · Nyagatare, Rwanda ·                       Nov 2023 – Oct 2024*
 
 - Coordinated field data collection for an early childhood development (ECD) facility census commissioned by the National Child Development Agency, supervising enumerators and resolving data quality issues in real time
 - Used Survey123 to collect and submit spatial data on ECD service compliance with national development standards across Nyagatare District
 - Ensured data accuracy and completeness so that findings could reliably inform government planning and child development policy decisions
 
 **Junior Environmental Consultant**
-*China Road and Bridge Corporation · Kigali, Rwanda · Jul 2019 – Mar 2022*
+
+*China Road and Bridge Corporation                   · Kigali, Rwanda ·                     Jul 2019 – Mar 2022*
 
 - Assisted in conducting an environmental impact assessment for a 14.6 km road upgrading project under senior supervision, gaining hands-on experience in EIA methodology and environmental compliance reporting
 - Participated in stakeholder engagement sessions with engineers, project workers, and community members to gather input for impact evaluation
 - Supported preparation of environmental compliance documentation and proposed mitigation strategies for submission to regulatory authorities
 
 **Program Development Officer**
-*Intwari Foundation · Kigali, Rwanda · Jan 2025 – Jul 2025*
+
+*Intwari Foundation                     · Kigali, Rwanda ·                   Jan 2025 – Jul 2025*
 
 - Developed concept notes, project proposals, and budgets in response to donor calls for proposals focused on gender equality, climate resilience, and poverty alleviation
 - Conducted community-based needs assessments to inform evidence-based program design
 - Engaged stakeholders including community members, local government, and partners to support inclusive project development and implementation
 
-**Youth Mentor**
-*Duhamic-Adri · Kigali, Rwanda · Jan 2020 – Dec 2024*
+**Youth Mentor** 
+
+*Duhamic-Adri                    · Kigali, Rwanda ·                     Jan 2020 – Dec 2024*
 
 - Mentored 244 adolescent girls and young women on health, leadership, and life skills across Rwanda
 
 **Non-Academic Program Coordinator**
-*Bridge2Rwanda (Isomo Academy) · Kigali, Rwanda · Jul 2022 – Dec 2022*
+
+*Bridge2Rwanda (Isomo Academy)                  · Kigali, Rwanda ·                  Jul 2022 – Dec 2022*
 
 - Managed residential and extracurricular programs for 250 scholars, supporting their well-being, leadership development, and personal growth beyond the classroom
 

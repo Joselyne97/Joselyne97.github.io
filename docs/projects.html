@@ -164,6 +164,17 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </section>
 </section>
+<section id="grizzly-bear-movement-corridor-modelling" class="level3 project-card">
+<h3 class="anchored" data-anchor-id="grizzly-bear-movement-corridor-modelling">Grizzly Bear Movement Corridor Modelling</h3>
+<section id="conservation-gis-raster-analysis-least-cost-path" class="level4">
+<h4 class="anchored" data-anchor-id="conservation-gis-raster-analysis-least-cost-path">Conservation GIS · Raster Analysis · Least Cost Path</h4>
+<p>I built a least cost path model to identify the optimal movement corridor for Grizzly Bears across the Yellowhead Bear Management Area in western Alberta. Working from the command line with GDAL utilities, I processed 14 ASTER DEM tiles into a seamless terrain model, reprojected a national land cover dataset using nearest neighbor resampling to preserve categorical class values, and computed a road proximity cost surface using an inverse distance formula. The three layers were combined into a weighted cost surface giving land cover the highest weight at 40%, reflecting its dominant role in bear movement decisions, with slope and road distance weighted equally at 30% each. The least cost path was traced in ArcGIS Pro using the Distance Accumulation and Optimal Path as Line tools, producing a corridor that consistently follows forested valley terrain between core and secondary habitat areas.</p>
+<p><code>GDAL</code> <code>QGIS</code> <code>ArcGIS Pro</code> <code>Weighted Overlay</code> <code>Least Cost Path</code> <code>VLCE 2019</code> <code>ASTER DEM</code> <code>Conservation Planning</code></p>
+<div class="project-links">
+<p><a href="Projects/Lab5/GEM510_Lab5_LeastCostPath_Joselyne_MPAYIMANA.html" class="btn btn-primary" target="_blank">View Project</a></p>
+</div>
+</section>
+</section>
 <section id="vegetation-change-detection-and-forest-cover-dynamics" class="level3 project-card">
 <h3 class="anchored" data-anchor-id="vegetation-change-detection-and-forest-cover-dynamics">Vegetation Change Detection and Forest Cover Dynamics</h3>
 <section id="remote-sensing-time-series-analysis" class="level4">
