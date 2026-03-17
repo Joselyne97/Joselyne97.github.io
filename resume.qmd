@@ -1,11 +1,11 @@
 ---
 title: "Resume"
 ---
-<!--
+
 ::: {.download-btn}
-[Download PDF](){.btn .btn-primary .disabled}
+[<!-- Download PDF](){.btn .btn-primary .disabled} -->
 :::
--->
+
 ---
 
 ## Education
@@ -32,9 +32,9 @@ title: "Resume"
 
 ## Professional Experience
 
-**GIS Specialist Assistant**
+**GIS Specialist Assistant** . Feb 2021 – Aug 2021  
 
-*Environmental Digital Technology Ltd                    · Burera, Rwanda ·                  Feb 2021 – Aug 2021*
+*Environmental Digital Technology Ltd                    · Burera, Rwanda*
 
 - Supervised field data collection for an energy needs assessment in Burera District, coordinating enumerators and managing logistics across rural areas
 - Verified geographic data accuracy to ensure quality inputs for spatial analysis and infrastructure planning reports
