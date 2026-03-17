@@ -1,0 +1,955 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Wildfire Burn Severity and Post-Fire Vegetation Recovery},
+  pdfauthor={Joselyne MPAYIMANA},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Wildfire Burn Severity and Post-Fire Vegetation Recovery}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{A Landsat 8 Time-Series Analysis of the 2017 Prouton Lakes
+Fire, British Columbia}
+\author{Joselyne MPAYIMANA}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Project Overview}\label{project-overview}
+
+The summer of 2017 was one of the most destructive wildfire seasons in
+British Columbia's recorded history, with over 1.2 million hectares
+burned, approximately 65,000 people displaced, and an estimated \$649
+million spent on fire suppression. This project focuses on the
+\textbf{Prouton Lakes fire (Fire ID: C30870)}, which burned part of the
+Alex Fraser Research Forest near Williams Lake, BC --- situated on the
+traditional, ancestral, and unceded territory of the T'exelcemc,
+Xatsu'll, and Esket First Nations.
+
+The analysis addresses two interconnected questions:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{How severe was the burn?} Using the delta Normalized Burn
+  Ratio (dNBR) derived from Landsat 8 imagery, burn severity is
+  classified across four categories, from unburned to high severity and
+  mapped spatially across the fire perimeter.
+\item
+  \textbf{How has vegetation recovered since the fire?} Using NDVI
+  time-series composites from 2018 to 2021, post-fire vegetation
+  recovery is tracked and compared across burn severity classes.
+\end{enumerate}
+
+This type of analysis is directly applicable to forest ecosystem
+monitoring, wildfire impact assessment, and climate resilience planning,
+all of which are growing priorities for land managers and environmental
+consultants in British Columbia.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Data Sources}\label{data-sources}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Dataset
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Source
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Landsat 8 OLI Collection 2 Level-2 & Surface reflectance time-series,
+July--August 2013--2021 & \href{https://earthexplorer.usgs.gov/}{USGS
+Earth Explorer} \\
+BC Historical Fire Perimeters & Polygon shapefile of historical wildfire
+boundaries &
+\href{https://catalogue.data.gov.bc.ca/dataset/fire-perimeters-historical}{BC
+Data Catalogue} \\
+\end{longtable}
+
+\textbf{Landsat 8 Bands Used:}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule\noalign{}
+Band & Name & Wavelength (μm) & Resolution \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Band 2 & Blue & 0.45--0.51 & 30 m \\
+Band 3 & Green & 0.53--0.59 & 30 m \\
+Band 4 & Red & 0.64--0.67 & 30 m \\
+Band 5 & Near Infrared (NIR) & 0.85--0.88 & 30 m \\
+Band 6 & SWIR 1 & 1.57--1.65 & 30 m \\
+Band 7 & SWIR 2 & 2.11--2.29 & 30 m \\
+\end{longtable}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Packages}\label{packages}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(sf)         }\CommentTok{\# Vector data handling}
+\FunctionTok{library}\NormalTok{(dplyr)      }\CommentTok{\# Data manipulation}
+\FunctionTok{library}\NormalTok{(ggplot2)    }\CommentTok{\# Data visualization}
+\FunctionTok{library}\NormalTok{(terra)      }\CommentTok{\# Raster data processing}
+\FunctionTok{library}\NormalTok{(stringr)    }\CommentTok{\# String manipulation}
+\FunctionTok{library}\NormalTok{(lubridate)  }\CommentTok{\# Date parsing}
+\FunctionTok{library}\NormalTok{(tmap)       }\CommentTok{\# Thematic mapping}
+\FunctionTok{library}\NormalTok{(purrr)      }\CommentTok{\# Functional programming tools}
+\FunctionTok{library}\NormalTok{(tidyr)      }\CommentTok{\# Data tidying}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Historical Wildfire Context in British
+Columbia}\label{historical-wildfire-context-in-british-columbia}
+
+Before focusing on the Prouton Lakes fire, it is important to understand
+the broader wildfire context in BC. This section uses the provincial
+historical fire perimeters dataset to characterize the 2017 fire season
+and situate the Prouton Lakes fire within it.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Loading the BC historical fire perimeters shapefile}
+\NormalTok{fire\_shp }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(fire\_shp\_path, }\AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Creating a non{-}spatial data frame for fast tabular summaries}
+\NormalTok{fire\_df }\OtherTok{\textless{}{-}} \FunctionTok{st\_drop\_geometry}\NormalTok{(fire\_shp) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{SIZE\_HA =} \FunctionTok{as.numeric}\NormalTok{(SIZE\_HA))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Filtering to 2017 fire season}
+\NormalTok{fires\_2017 }\OtherTok{\textless{}{-}}\NormalTok{ fire\_df }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(FIRE\_YEAR }\SpecialCharTok{==} \DecValTok{2017}\NormalTok{)}
+
+\NormalTok{n\_fires\_2017      }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(fires\_2017)}
+\NormalTok{total\_area\_2017   }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(fires\_2017}\SpecialCharTok{$}\NormalTok{SIZE\_HA, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Three largest fires in 2017}
+\NormalTok{top3\_2017 }\OtherTok{\textless{}{-}}\NormalTok{ fires\_2017 }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(SIZE\_HA)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice\_head}\NormalTok{(}\AttributeTok{n =} \DecValTok{3}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(FIRE\_NO, FIRE\_CAUSE, SIZE\_HA)}
+
+\CommentTok{\# Prouton Lakes fire specifically}
+\NormalTok{prouton\_stats }\OtherTok{\textless{}{-}}\NormalTok{ fire\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(FIRE\_NO }\SpecialCharTok{==} \StringTok{"C30870"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(FIRE\_NO, SIZE\_HA)}
+
+\CommentTok{\# Annual burned area summarized by fire cause (for bar plot)}
+\NormalTok{burned\_per\_year }\OtherTok{\textless{}{-}}\NormalTok{ fire\_df }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(FIRE\_YEAR, FIRE\_CAUSE) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{total\_area =} \FunctionTok{sum}\NormalTok{(SIZE\_HA, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(FIRE\_YEAR))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Annual Burned Area in BC by Fire
+Cause}\label{annual-burned-area-in-bc-by-fire-cause}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(burned\_per\_year, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ FIRE\_YEAR, }\AttributeTok{y =}\NormalTok{ total\_area }\SpecialCharTok{/} \DecValTok{1000}\NormalTok{, }\AttributeTok{fill =}\NormalTok{ FIRE\_CAUSE)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}
+    \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"Lightning"} \OtherTok{=} \StringTok{"\#e07b39"}\NormalTok{, }\StringTok{"Person"} \OtherTok{=} \StringTok{"\#5b8db8"}\NormalTok{, }\StringTok{"Unknown"} \OtherTok{=} \StringTok{"\#a0a0a0"}\NormalTok{),}
+    \AttributeTok{na.value =} \StringTok{"\#d0d0d0"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title    =} \StringTok{"Total Area Burned Per Year in British Columbia"}\NormalTok{,}
+    \AttributeTok{subtitle =} \StringTok{"Categorized by fire cause — 1950 to present"}\NormalTok{,}
+    \AttributeTok{x        =} \StringTok{"Year"}\NormalTok{,}
+    \AttributeTok{y        =} \StringTok{"Total Burned Area (thousands of hectares)"}\NormalTok{,}
+    \AttributeTok{fill     =} \StringTok{"Fire Cause"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{13}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{axis.text.x     =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{),}
+    \AttributeTok{plot.title      =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{),}
+    \AttributeTok{legend.position =} \StringTok{"top"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics{GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-latex/step1-barplot-1} 
+
+}
+
+\caption{Total area burned per year in BC, coloured by the cause of fire. The 2017 season is visibly one of the most severe on record, dominated by lightning-caused fires.}\label{fig:step1-barplot}
+\end{figure}
+
+\subsection{Key Findings: 2017 Fire
+Season}\label{key-findings-2017-fire-season}
+
+\begin{itemize}
+\tightlist
+\item
+  In 2017, \textbf{342 wildfires} were recorded across British Columbia,
+  burning a total of \textbf{1,222,205 hectares} of land.
+\item
+  The three largest fires of 2017 were:
+\end{itemize}
+
+\begin{longtable}[]{@{}llr@{}}
+\caption{Three largest wildfires recorded in BC in 2017}\tabularnewline
+\toprule\noalign{}
+Fire ID & Cause & Area (ha) \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Fire ID & Cause & Area (ha) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+C10784 & Lightning & 520885.2 \\
+C50647 & Lightning & 239339.6 \\
+K20637 & Person & 192016.5 \\
+\end{longtable}
+
+\begin{itemize}
+\tightlist
+\item
+  The \textbf{Prouton Lakes fire (C30870)} burned approximately
+  \textbf{859.3 hectares}, representing a relatively localized but
+  well-documented fire with variable burn severity, making it
+  well-suited for detailed remote sensing analysis.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Landsat 8 Pre-processing and Vegetation Index
+Calculation}\label{landsat-8-pre-processing-and-vegetation-index-calculation}
+
+Landsat 8 Collection 2 Level-2 surface reflectance products were used
+for this analysis. These products have been atmospherically corrected
+using the LaSRC algorithm, meaning pixel values represent
+bottom-of-atmosphere (BOA) reflectance and are directly comparable
+across time and space, a critical property for multi-temporal change
+detection.
+
+Each product was processed through the following pipeline:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Stack} the seven surface reflectance bands into a single
+  multi-layer raster
+\item
+  \textbf{Mask} pixels flagged as non-clear in the \texttt{QA\_PIXEL}
+  layer (retaining only pixels with QA value \texttt{21824}, indicating
+  clear conditions)
+\item
+  \textbf{Crop} the masked stack to the Prouton Lakes fire extent
+\item
+  \textbf{Calculate} NDVI and NBR for each cropped and masked product
+\item
+  \textbf{Save} all outputs to disk for use in subsequent analysis steps
+\end{enumerate}
+
+\[NDVI = \frac{NIR - Red}{NIR + Red}\]
+
+\[NBR = \frac{NIR - SWIR2}{NIR + SWIR2}\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Loading the Prouton Lakes fire polygon}
+\NormalTok{fire\_shp\_all     }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(fire\_shp\_path, }\AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{prouton\_fire\_sf  }\OtherTok{\textless{}{-}}\NormalTok{ fire\_shp\_all }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(FIRE\_NO }\SpecialCharTok{==} \StringTok{"C30870"}\NormalTok{)}
+\NormalTok{prouton\_fire\_vect }\OtherTok{\textless{}{-}} \FunctionTok{vect}\NormalTok{(prouton\_fire\_sf)}
+
+\CommentTok{\# Getting all Landsat product folders}
+\NormalTok{product\_folders }\OtherTok{\textless{}{-}} \FunctionTok{list.dirs}\NormalTok{(}\AttributeTok{path =}\NormalTok{ landsat\_path, }\AttributeTok{recursive =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{full.names =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Total Landsat products found:"}\NormalTok{, }\FunctionTok{length}\NormalTok{(product\_folders), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Total Landsat products found: 35
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Creating output subdirectories}
+\NormalTok{sr\_out   }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(output\_path, }\StringTok{"LC08\_L2SP\_048023\_SR"}\NormalTok{)}
+\NormalTok{ndvi\_out }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(output\_path, }\StringTok{"LC08\_L2SP\_048023\_NDVI"}\NormalTok{)}
+\NormalTok{nbr\_out  }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(output\_path, }\StringTok{"LC08\_L2SP\_048023\_NBR"}\NormalTok{)}
+
+\ControlFlowTok{for}\NormalTok{ (d }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(sr\_out, ndvi\_out, nbr\_out)) \{}
+  \ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{dir.exists}\NormalTok{(d)) }\FunctionTok{dir.create}\NormalTok{(d, }\AttributeTok{showWarnings =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{\}}
+
+\CommentTok{\# Processing loop — iterates over all 35 Landsat products}
+\ControlFlowTok{for}\NormalTok{ (folder }\ControlFlowTok{in}\NormalTok{ product\_folders) \{}
+\NormalTok{  productID }\OtherTok{\textless{}{-}} \FunctionTok{basename}\NormalTok{(folder)}
+
+  \CommentTok{\# Locating surface reflectance bands (B1–B7) and QA layer}
+\NormalTok{  sr\_files }\OtherTok{\textless{}{-}} \FunctionTok{list.files}\NormalTok{(folder, }\AttributeTok{pattern =} \StringTok{"SR\_B[1{-}7]}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.TIF$"}\NormalTok{,}
+                         \AttributeTok{full.names =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  qa\_files }\OtherTok{\textless{}{-}} \FunctionTok{list.files}\NormalTok{(folder, }\AttributeTok{pattern =} \StringTok{"QA\_PIXEL}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.TIF$"}\NormalTok{,}
+                         \AttributeTok{full.names =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{TRUE}\NormalTok{)}
+
+  \CommentTok{\# Skipping incomplete products}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(sr\_files) }\SpecialCharTok{\textless{}} \DecValTok{7} \SpecialCharTok{||} \FunctionTok{length}\NormalTok{(qa\_files) }\SpecialCharTok{==} \DecValTok{0}\NormalTok{) \{}
+    \FunctionTok{message}\NormalTok{(}\StringTok{"Skipping incomplete product: "}\NormalTok{, productID)}
+    \ControlFlowTok{next}
+\NormalTok{  \}}
+
+  \CommentTok{\# Sorting bands in order (B1 to B7) to ensure consistent indexing}
+\NormalTok{  band\_nums }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(}\FunctionTok{basename}\NormalTok{(sr\_files), }\StringTok{"(?\textless{}=SR\_B)}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d"}\NormalTok{))}
+\NormalTok{  sr\_files  }\OtherTok{\textless{}{-}}\NormalTok{ sr\_files[}\FunctionTok{order}\NormalTok{(band\_nums)]}
+
+  \CommentTok{\# Stacking bands and scaling to reflectance (0–1)}
+\NormalTok{  sr\_stack }\OtherTok{\textless{}{-}} \FunctionTok{rast}\NormalTok{(sr\_files) }\SpecialCharTok{/} \DecValTok{10000}
+\NormalTok{  qa\_rast  }\OtherTok{\textless{}{-}} \FunctionTok{rast}\NormalTok{(qa\_files[}\DecValTok{1}\NormalTok{])}
+
+  \CommentTok{\# Reprojecting fire vector to match raster CRS}
+\NormalTok{  prouton\_fire\_vect }\OtherTok{\textless{}{-}} \FunctionTok{project}\NormalTok{(prouton\_fire\_vect, }\FunctionTok{crs}\NormalTok{(sr\_stack))}
+
+  \CommentTok{\# Cloud masking: retaining only clear pixels (QA = 21824)}
+\NormalTok{  sr\_masked }\OtherTok{\textless{}{-}} \FunctionTok{ifel}\NormalTok{(qa\_rast }\SpecialCharTok{==} \DecValTok{21824}\NormalTok{, sr\_stack, }\ConstantTok{NA}\NormalTok{)}
+
+  \CommentTok{\# Cropping to the Prouton Lakes fire extent}
+\NormalTok{  sr\_crop }\OtherTok{\textless{}{-}} \FunctionTok{crop}\NormalTok{(sr\_masked, prouton\_fire\_vect)}
+
+  \CommentTok{\# Calculating spectral indices}
+  \CommentTok{\# Band indices: B4 = Red, B5 = NIR, B7 = SWIR2}
+\NormalTok{  ndvi\_r }\OtherTok{\textless{}{-}}\NormalTok{ (sr\_crop[[}\DecValTok{5}\NormalTok{]] }\SpecialCharTok{{-}}\NormalTok{ sr\_crop[[}\DecValTok{4}\NormalTok{]]) }\SpecialCharTok{/}\NormalTok{ (sr\_crop[[}\DecValTok{5}\NormalTok{]] }\SpecialCharTok{+}\NormalTok{ sr\_crop[[}\DecValTok{4}\NormalTok{]])}
+\NormalTok{  nbr\_r  }\OtherTok{\textless{}{-}}\NormalTok{ (sr\_crop[[}\DecValTok{5}\NormalTok{]] }\SpecialCharTok{{-}}\NormalTok{ sr\_crop[[}\DecValTok{7}\NormalTok{]]) }\SpecialCharTok{/}\NormalTok{ (sr\_crop[[}\DecValTok{5}\NormalTok{]] }\SpecialCharTok{+}\NormalTok{ sr\_crop[[}\DecValTok{7}\NormalTok{]])}
+
+  \CommentTok{\# Writing outputs to disk}
+  \FunctionTok{writeRaster}\NormalTok{(sr\_crop, }\FunctionTok{file.path}\NormalTok{(sr\_out,   }\FunctionTok{paste0}\NormalTok{(productID, }\StringTok{"\_SR.tif"}\NormalTok{)),   }\AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
+  \FunctionTok{writeRaster}\NormalTok{(ndvi\_r,  }\FunctionTok{file.path}\NormalTok{(ndvi\_out, }\FunctionTok{paste0}\NormalTok{(productID, }\StringTok{"\_NDVI.tif"}\NormalTok{)), }\AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
+  \FunctionTok{writeRaster}\NormalTok{(nbr\_r,   }\FunctionTok{file.path}\NormalTok{(nbr\_out,  }\FunctionTok{paste0}\NormalTok{(productID, }\StringTok{"\_NBR.tif"}\NormalTok{)),  }\AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{True Color Composites: Before and After the
+Fire}\label{true-color-composites-before-and-after-the-fire}
+
+Comparing true color composites from before (July 7, 2015) and after
+(July 15, 2018) the fire provides immediate visual confirmation of the
+fire's impact on the landscape. Healthy forest appears as deep green in
+the pre-fire image, while the post-fire image reveals large areas of
+exposed soil and dead vegetation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Helper function to locate a product folder by acquisition date}
+\NormalTok{find\_product\_by\_date }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(products, date\_str) \{}
+\NormalTok{  match }\OtherTok{\textless{}{-}}\NormalTok{ products[}\FunctionTok{str\_detect}\NormalTok{(products, date\_str)]}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(match) }\SpecialCharTok{==} \DecValTok{0}\NormalTok{) }\FunctionTok{return}\NormalTok{(}\ConstantTok{NA\_character\_}\NormalTok{)}
+  \FunctionTok{return}\NormalTok{(match[}\DecValTok{1}\NormalTok{])}
+\NormalTok{\}}
+
+\CommentTok{\# Helper function to build a true color RGB raster cropped to the AOI}
+\NormalTok{build\_truecolor }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(folder, aoi\_vect) \{}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{is.na}\NormalTok{(folder) }\SpecialCharTok{||} \FunctionTok{is.null}\NormalTok{(folder)) }\FunctionTok{return}\NormalTok{(}\ConstantTok{NULL}\NormalTok{)}
+\NormalTok{  sr\_files  }\OtherTok{\textless{}{-}} \FunctionTok{list.files}\NormalTok{(folder, }\AttributeTok{pattern =} \StringTok{"SR\_B[2{-}4]}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.TIF$"}\NormalTok{,}
+                           \AttributeTok{full.names =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{ignore.case =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  band\_nums }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(}\FunctionTok{basename}\NormalTok{(sr\_files), }\StringTok{"(?\textless{}=SR\_B)}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d"}\NormalTok{))}
+\NormalTok{  sr\_files  }\OtherTok{\textless{}{-}}\NormalTok{ sr\_files[}\FunctionTok{order}\NormalTok{(band\_nums)]}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(sr\_files) }\SpecialCharTok{\textless{}} \DecValTok{3}\NormalTok{) }\FunctionTok{return}\NormalTok{(}\ConstantTok{NULL}\NormalTok{)}
+\NormalTok{  rgb      }\OtherTok{\textless{}{-}} \FunctionTok{rast}\NormalTok{(sr\_files) }\SpecialCharTok{/} \DecValTok{10000}
+\NormalTok{  aoi\_proj }\OtherTok{\textless{}{-}} \FunctionTok{project}\NormalTok{(aoi\_vect, }\FunctionTok{crs}\NormalTok{(rgb))}
+\NormalTok{  rgb      }\OtherTok{\textless{}{-}} \FunctionTok{crop}\NormalTok{(rgb, aoi\_proj)}
+\NormalTok{  rgb      }\OtherTok{\textless{}{-}} \FunctionTok{mask}\NormalTok{(rgb, aoi\_proj)}
+  \FunctionTok{return}\NormalTok{(rgb)}
+\NormalTok{\}}
+
+\NormalTok{pre\_folder  }\OtherTok{\textless{}{-}} \FunctionTok{find\_product\_by\_date}\NormalTok{(product\_folders, }\StringTok{"20150707"}\NormalTok{)}
+\NormalTok{post\_folder }\OtherTok{\textless{}{-}} \FunctionTok{find\_product\_by\_date}\NormalTok{(product\_folders, }\StringTok{"20180715"}\NormalTok{)}
+
+\NormalTok{pre\_rgb  }\OtherTok{\textless{}{-}} \FunctionTok{build\_truecolor}\NormalTok{(pre\_folder,  prouton\_fire\_vect)}
+\NormalTok{post\_rgb }\OtherTok{\textless{}{-}} \FunctionTok{build\_truecolor}\NormalTok{(post\_folder, prouton\_fire\_vect)}
+
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(pre\_rgb) }\SpecialCharTok{\&\&} \SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(post\_rgb)) \{}
+\NormalTok{  old\_par }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{no.readonly =} \ConstantTok{TRUE}\NormalTok{)}
+  \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{oma =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+
+  \FunctionTok{plotRGB}\NormalTok{(pre\_rgb,  }\AttributeTok{r =} \DecValTok{3}\NormalTok{, }\AttributeTok{g =} \DecValTok{2}\NormalTok{, }\AttributeTok{b =} \DecValTok{1}\NormalTok{, }\AttributeTok{stretch =} \StringTok{"lin"}\NormalTok{, }\AttributeTok{axes =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{main =} \StringTok{"Pre{-}Fire: July 7, 2015"}\NormalTok{)}
+\NormalTok{  terra}\SpecialCharTok{::}\FunctionTok{lines}\NormalTok{(prouton\_fire\_vect, }\AttributeTok{col =} \StringTok{"yellow"}\NormalTok{, }\AttributeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
+
+  \FunctionTok{plotRGB}\NormalTok{(post\_rgb, }\AttributeTok{r =} \DecValTok{3}\NormalTok{, }\AttributeTok{g =} \DecValTok{2}\NormalTok{, }\AttributeTok{b =} \DecValTok{1}\NormalTok{, }\AttributeTok{stretch =} \StringTok{"lin"}\NormalTok{, }\AttributeTok{axes =} \ConstantTok{TRUE}\NormalTok{,}
+          \AttributeTok{main =} \StringTok{"Post{-}Fire: July 15, 2018"}\NormalTok{)}
+\NormalTok{  terra}\SpecialCharTok{::}\FunctionTok{lines}\NormalTok{(prouton\_fire\_vect, }\AttributeTok{col =} \StringTok{"yellow"}\NormalTok{, }\AttributeTok{lwd =} \FloatTok{1.5}\NormalTok{)}
+
+  \FunctionTok{mtext}\NormalTok{(}\StringTok{"True Color Composites — Prouton Lakes Fire Area"}\NormalTok{,}
+        \AttributeTok{side =} \DecValTok{3}\NormalTok{, }\AttributeTok{outer =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{line =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{font =} \DecValTok{2}\NormalTok{, }\AttributeTok{cex =} \FloatTok{1.1}\NormalTok{)}
+  \FunctionTok{par}\NormalTok{(old\_par)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics{GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-latex/step2-truecolor-1} 
+
+}
+
+\caption{True color composites of the Prouton Lakes fire area. Left: pre-fire (July 7, 2015). Right: post-fire (July 15, 2018). The yellow boundary delineates the fire perimeter.}\label{fig:step2-truecolor}
+\end{figure}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{NDVI and NBR Yearly
+Composites}\label{ndvi-and-nbr-yearly-composites}
+
+For each year between 2013 and 2021, a yearly composite was created by
+averaging all available NDVI and NBR values from July and August
+acquisitions. Using the summer growing season window ensures that
+inter-annual comparisons reflect vegetation productivity rather than
+seasonal phenological differences.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Function to list index files, extract acquisition dates, and filter for Jul/Aug}
+\NormalTok{get\_composite\_files }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(folder\_path, index\_name) \{}
+  \FunctionTok{list.files}\NormalTok{(folder\_path,}
+             \AttributeTok{pattern  =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"\_"}\NormalTok{, index\_name, }\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.tif$"}\NormalTok{),}
+             \AttributeTok{full.names =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{tibble}\NormalTok{(}\AttributeTok{file =}\NormalTok{ .) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mutate}\NormalTok{(}
+      \AttributeTok{date\_str =} \FunctionTok{str\_extract}\NormalTok{(}\FunctionTok{basename}\NormalTok{(file), }\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d\{8\}"}\NormalTok{),}
+      \AttributeTok{date     =} \FunctionTok{ymd}\NormalTok{(date\_str),}
+      \AttributeTok{year     =} \FunctionTok{year}\NormalTok{(date),}
+      \AttributeTok{month    =} \FunctionTok{month}\NormalTok{(date)}
+\NormalTok{    ) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{filter}\NormalTok{(month }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{select}\NormalTok{(file, year, month)}
+\NormalTok{\}}
+
+\NormalTok{ndvi\_info }\OtherTok{\textless{}{-}} \FunctionTok{get\_composite\_files}\NormalTok{(ndvi\_out, }\StringTok{"NDVI"}\NormalTok{)}
+\NormalTok{nbr\_info  }\OtherTok{\textless{}{-}} \FunctionTok{get\_composite\_files}\NormalTok{(nbr\_out,  }\StringTok{"NBR"}\NormalTok{)}
+
+\CommentTok{\# Grouping files by year}
+\NormalTok{grouped\_ndvi }\OtherTok{\textless{}{-}}\NormalTok{ ndvi\_info }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(year) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarise}\NormalTok{(}\AttributeTok{files =} \FunctionTok{list}\NormalTok{(file), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{)}
+\NormalTok{grouped\_nbr  }\OtherTok{\textless{}{-}}\NormalTok{ nbr\_info  }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{group\_by}\NormalTok{(year) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{summarise}\NormalTok{(}\AttributeTok{files =} \FunctionTok{list}\NormalTok{(file), }\AttributeTok{.groups =} \StringTok{"drop"}\NormalTok{)}
+
+\CommentTok{\# Initializing results data frame}
+\NormalTok{yearly\_avg\_ndvi\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{year =} \FunctionTok{integer}\NormalTok{(), }\AttributeTok{avg\_ndvi =} \FunctionTok{numeric}\NormalTok{())}
+
+\CommentTok{\# Loop: creating yearly composites and extracting mean NDVI across fire area}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(grouped\_ndvi)) \{}
+\NormalTok{  y               }\OtherTok{\textless{}{-}}\NormalTok{ grouped\_ndvi}\SpecialCharTok{$}\NormalTok{year[i]}
+\NormalTok{  ndvi\_year\_files }\OtherTok{\textless{}{-}}\NormalTok{ grouped\_ndvi}\SpecialCharTok{$}\NormalTok{files[[i]]}
+\NormalTok{  nbr\_year\_files  }\OtherTok{\textless{}{-}}\NormalTok{ grouped\_nbr}\SpecialCharTok{$}\NormalTok{files[[i]]}
+
+  \CommentTok{\# Stacking all images for the year and computing pixel{-}wise mean}
+\NormalTok{  ndvi\_composite }\OtherTok{\textless{}{-}} \FunctionTok{app}\NormalTok{(}\FunctionTok{rast}\NormalTok{(ndvi\_year\_files), }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  nbr\_composite  }\OtherTok{\textless{}{-}} \FunctionTok{app}\NormalTok{(}\FunctionTok{rast}\NormalTok{(nbr\_year\_files),  }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+
+  \CommentTok{\# Saving yearly composites}
+  \FunctionTok{writeRaster}\NormalTok{(ndvi\_composite,}
+              \FunctionTok{file.path}\NormalTok{(composite\_dir, }\FunctionTok{paste0}\NormalTok{(}\StringTok{"NDVI\_YearlyComposite\_"}\NormalTok{, y, }\StringTok{".tif"}\NormalTok{)),}
+              \AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
+  \FunctionTok{writeRaster}\NormalTok{(nbr\_composite,}
+              \FunctionTok{file.path}\NormalTok{(composite\_dir, }\FunctionTok{paste0}\NormalTok{(}\StringTok{"NBR\_YearlyComposite\_"}\NormalTok{,  y, }\StringTok{".tif"}\NormalTok{)),}
+              \AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
+
+  \CommentTok{\# Extracting spatially averaged NDVI across the fire perimeter}
+\NormalTok{  avg\_ndvi }\OtherTok{\textless{}{-}} \FunctionTok{global}\NormalTok{(ndvi\_composite, }\AttributeTok{fun =} \StringTok{"mean"}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  yearly\_avg\_ndvi\_df }\OtherTok{\textless{}{-}}\NormalTok{ yearly\_avg\_ndvi\_df }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{add\_row}\NormalTok{(}\AttributeTok{year =}\NormalTok{ y, }\AttributeTok{avg\_ndvi =}\NormalTok{ avg\_ndvi}\SpecialCharTok{$}\NormalTok{mean)}
+\NormalTok{\}}
+
+\NormalTok{yearly\_avg\_ndvi\_df}\SpecialCharTok{$}\NormalTok{year }\OtherTok{\textless{}{-}} \FunctionTok{as.integer}\NormalTok{(yearly\_avg\_ndvi\_df}\SpecialCharTok{$}\NormalTok{year)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{NDVI Time-Series Across the Prouton Lakes Fire
+Area}\label{ndvi-time-series-across-the-prouton-lakes-fire-area}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(yearly\_avg\_ndvi\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year, }\AttributeTok{y =}\NormalTok{ avg\_ndvi, }\AttributeTok{group =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#3a7d44"}\NormalTok{, }\AttributeTok{linewidth =} \FloatTok{1.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color =} \StringTok{"\#3a7d44"}\NormalTok{, }\AttributeTok{size =} \FloatTok{3.5}\NormalTok{, }\AttributeTok{shape =} \DecValTok{21}\NormalTok{,}
+             \AttributeTok{fill =} \StringTok{"white"}\NormalTok{, }\AttributeTok{stroke =} \FloatTok{1.5}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_vline}\NormalTok{(}\AttributeTok{xintercept =} \DecValTok{2017}\NormalTok{, }\AttributeTok{linetype =} \StringTok{"dashed"}\NormalTok{,}
+             \AttributeTok{color =} \StringTok{"firebrick"}\NormalTok{, }\AttributeTok{linewidth =} \FloatTok{0.9}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{annotate}\NormalTok{(}\StringTok{"text"}\NormalTok{, }\AttributeTok{x =} \FloatTok{2017.2}\NormalTok{, }\AttributeTok{y =} \FunctionTok{max}\NormalTok{(yearly\_avg\_ndvi\_df}\SpecialCharTok{$}\NormalTok{avg\_ndvi),}
+           \AttributeTok{label =} \StringTok{"Fire year (2017)"}\NormalTok{, }\AttributeTok{color =} \StringTok{"firebrick"}\NormalTok{,}
+           \AttributeTok{hjust =} \DecValTok{0}\NormalTok{, }\AttributeTok{size =} \FloatTok{3.8}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title    =} \StringTok{"Average NDVI Across the Prouton Lakes Fire Area (2013–2021)"}\NormalTok{,}
+    \AttributeTok{subtitle =} \StringTok{"July–August composite averages | Landsat 8 OLI"}\NormalTok{,}
+    \AttributeTok{x        =} \StringTok{"Year"}\NormalTok{,}
+    \AttributeTok{y        =} \StringTok{"Mean NDVI"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{breaks =}\NormalTok{ yearly\_avg\_ndvi\_df}\SpecialCharTok{$}\NormalTok{year) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{13}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{plot.title   =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+    \AttributeTok{axis.text.x  =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics{GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-latex/step3-plot-1} 
+
+}
+
+\caption{Average NDVI across the Prouton Lakes fire area from 2013 to 2021. The dashed red line marks 2017, the year of the fire. The sharp decline between 2016 and 2018 captures the immediate vegetation loss, while the upward trend from 2018 onward indicates progressive post-fire recovery.}\label{fig:step3-plot}
+\end{figure}
+
+The time series reveals a clear pre-fire baseline (2013--2016), a sharp
+decline in vegetation productivity following the 2017 fire, and a
+gradual recovery trajectory through 2021. This pattern is consistent
+with known post-fire succession dynamics in BC's interior forests, where
+initial recolonization by grasses and shrubs precedes the slower return
+of coniferous canopy cover.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Burn Severity
+Classification}\label{burn-severity-classification}
+
+Burn severity was estimated using the \textbf{delta Normalized Burn
+Ratio (dNBR)}, calculated as the difference between pre-fire (2015) and
+post-fire (2018) NBR composites:
+
+\[dNBR = NBR_{prefire} - NBR_{postfire}\]
+
+Higher dNBR values indicate greater spectral change between the two time
+periods, which corresponds to more severe burning. The following
+thresholds were applied:
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+dNBR Range & Burn Severity Class \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+−0.2 to 0.15 & Unburned \\
+0.15 to 0.25 & Low severity \\
+0.25 to 0.30 & Medium severity \\
+0.30 to 1.00 & High severity \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Loading pre{-} and post{-}fire NBR composites}
+\NormalTok{nbr\_pre  }\OtherTok{\textless{}{-}} \FunctionTok{rast}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(composite\_dir, }\StringTok{"NBR\_YearlyComposite\_2015.tif"}\NormalTok{))}
+\NormalTok{nbr\_post }\OtherTok{\textless{}{-}} \FunctionTok{rast}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(composite\_dir, }\StringTok{"NBR\_YearlyComposite\_2018.tif"}\NormalTok{))}
+
+\CommentTok{\# Calculating dNBR}
+\NormalTok{dnbr\_rast       }\OtherTok{\textless{}{-}}\NormalTok{ nbr\_pre }\SpecialCharTok{{-}}\NormalTok{ nbr\_post}
+\FunctionTok{names}\NormalTok{(dnbr\_rast) }\OtherTok{\textless{}{-}} \StringTok{"dNBR"}
+
+\CommentTok{\# Saving dNBR raster}
+\FunctionTok{writeRaster}\NormalTok{(dnbr\_rast,}
+            \FunctionTok{file.path}\NormalTok{(composite\_dir, }\StringTok{"dNBR\_2015\_2018.tif"}\NormalTok{),}
+            \AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{)}
+
+\CommentTok{\# Applying reclassification matrix to assign severity classes}
+\NormalTok{reclass\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}
+  \FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\ConstantTok{Inf}\NormalTok{, }\FloatTok{0.15}\NormalTok{,  }\DecValTok{1}\NormalTok{,}
+    \FloatTok{0.15}\NormalTok{, }\FloatTok{0.25}\NormalTok{,  }\DecValTok{2}\NormalTok{,}
+    \FloatTok{0.25}\NormalTok{, }\FloatTok{0.30}\NormalTok{,  }\DecValTok{3}\NormalTok{,}
+    \FloatTok{0.30}\NormalTok{,  }\ConstantTok{Inf}\NormalTok{,  }\DecValTok{4}\NormalTok{),}
+  \AttributeTok{ncol =} \DecValTok{3}\NormalTok{, }\AttributeTok{byrow =} \ConstantTok{TRUE}
+\NormalTok{)}
+
+\NormalTok{severity\_rast        }\OtherTok{\textless{}{-}} \FunctionTok{classify}\NormalTok{(dnbr\_rast, reclass\_matrix, }\AttributeTok{include.lowest =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(severity\_rast) }\OtherTok{\textless{}{-}} \StringTok{"Burn\_Severity"}
+
+\CommentTok{\# Assigning descriptive factor levels to severity classes}
+\FunctionTok{levels}\NormalTok{(severity\_rast) }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{id    =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{),}
+  \AttributeTok{label =} \FunctionTok{c}\NormalTok{(}\StringTok{"unburned"}\NormalTok{, }\StringTok{"low severity"}\NormalTok{, }\StringTok{"medium severity"}\NormalTok{, }\StringTok{"high severity"}\NormalTok{)}
+\NormalTok{)}
+
+\CommentTok{\# Saving the classified raster}
+\FunctionTok{writeRaster}\NormalTok{(severity\_rast,}
+            \FunctionTok{file.path}\NormalTok{(composite\_dir, }\StringTok{"Burn\_Severity\_Classes\_Factor.tif"}\NormalTok{),}
+            \AttributeTok{overwrite =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{datatype =} \StringTok{"INT1U"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Burn Severity Map}\label{burn-severity-map}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{severity\_colors }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"unburned"}        \OtherTok{=} \StringTok{"\#bdb76b"}\NormalTok{,}
+  \StringTok{"low severity"}    \OtherTok{=} \StringTok{"\#ffcc99"}\NormalTok{,}
+  \StringTok{"medium severity"} \OtherTok{=} \StringTok{"\#ff6600"}\NormalTok{,}
+  \StringTok{"high severity"}   \OtherTok{=} \StringTok{"\#8b0000"}
+\NormalTok{)}
+
+\CommentTok{\# Ensuring fire perimeter vector is available}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{exists}\NormalTok{(}\StringTok{"prouton\_fire\_vect"}\NormalTok{)) \{}
+\NormalTok{  prouton\_fire\_sf   }\OtherTok{\textless{}{-}} \FunctionTok{st\_read}\NormalTok{(fire\_shp\_path, }\AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(FIRE\_NO }\SpecialCharTok{==} \StringTok{"C30870"}\NormalTok{)}
+\NormalTok{  prouton\_fire\_vect }\OtherTok{\textless{}{-}} \FunctionTok{vect}\NormalTok{(prouton\_fire\_sf)}
+\NormalTok{\}}
+
+\FunctionTok{plot}\NormalTok{(severity\_rast,}
+     \AttributeTok{col  =}\NormalTok{ severity\_colors,}
+     \AttributeTok{main =} \StringTok{"Burn Severity Classification: Prouton Lakes Fire (2017)"}\NormalTok{,}
+     \AttributeTok{plg  =} \FunctionTok{list}\NormalTok{(}\AttributeTok{title =} \StringTok{"Burn Severity"}\NormalTok{),}
+     \AttributeTok{axes =} \ConstantTok{TRUE}\NormalTok{,}
+     \AttributeTok{box  =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{terra}\SpecialCharTok{::}\FunctionTok{lines}\NormalTok{(prouton\_fire\_vect, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics{GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-latex/step4-map-1} 
+
+}
+
+\caption{Classified burn severity map of the Prouton Lakes fire area (2017), derived from dNBR using Landsat 8 composites from 2015 (pre-fire) and 2018 (post-fire). The black outline delineates the official fire perimeter.}\label{fig:step4-map}
+\end{figure}
+
+The burn severity map shows considerable spatial heterogeneity within
+the fire perimeter, with a mix of unburned patches, low severity areas,
+and concentrated zones of high severity burning. This pattern is
+characteristic of mixed-severity fires in BC's interior forests, where
+topography, fuel moisture, and wind interact to produce variable burn
+intensities across the landscape.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Post-Fire Vegetation
+Recovery}\label{post-fire-vegetation-recovery}
+
+Understanding how vegetation recovers across different burn severity
+classes is critical for forest managers and ecosystem monitoring
+programs. High severity areas lose more biomass and take longer to
+recover than low severity or unburned areas. This section quantifies
+those recovery trajectories using NDVI values extracted for each burn
+severity class from 2018 to 2021.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Converting burn severity raster to dissolved polygons (one per class)}
+\NormalTok{severity\_polygons }\OtherTok{\textless{}{-}}\NormalTok{ terra}\SpecialCharTok{::}\FunctionTok{as.polygons}\NormalTok{(severity\_rast, }\AttributeTok{dissolve =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(severity\_polygons) }\OtherTok{\textless{}{-}} \StringTok{"Burn\_Severity"}
+
+\CommentTok{\# Extracting all NDVI pixel values for each post{-}fire year and severity class}
+\NormalTok{extracted\_data\_list }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2018}\NormalTok{, }\DecValTok{2019}\NormalTok{, }\DecValTok{2020}\NormalTok{, }\DecValTok{2021}\NormalTok{), }\ControlFlowTok{function}\NormalTok{(y) \{}
+\NormalTok{  ndvi\_rast   }\OtherTok{\textless{}{-}}\NormalTok{ terra}\SpecialCharTok{::}\FunctionTok{rast}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(composite\_dir,}
+                                        \FunctionTok{paste0}\NormalTok{(}\StringTok{"NDVI\_YearlyComposite\_"}\NormalTok{, y, }\StringTok{".tif"}\NormalTok{)))}
+\NormalTok{  ndvi\_extract }\OtherTok{\textless{}{-}}\NormalTok{ terra}\SpecialCharTok{::}\FunctionTok{extract}\NormalTok{(ndvi\_rast, severity\_polygons,}
+                                  \AttributeTok{ID =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{fun =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{bind =} \ConstantTok{TRUE}\NormalTok{)}
+
+  \FunctionTok{as.data.frame}\NormalTok{(ndvi\_extract, }\AttributeTok{geom =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{rename}\NormalTok{(}\AttributeTok{Burn\_Severity =} \DecValTok{1}\NormalTok{, }\AttributeTok{NDVI\_Value =} \DecValTok{2}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(NDVI\_Value)) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Year =}\NormalTok{ y)}
+\NormalTok{\})}
+
+\CommentTok{\# Combining all years and converting severity to an ordered factor}
+\NormalTok{recovery\_df }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(extracted\_data\_list) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{Burn\_Severity =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      Burn\_Severity }\SpecialCharTok{==} \DecValTok{1} \SpecialCharTok{\textasciitilde{}} \StringTok{"unburned"}\NormalTok{,}
+\NormalTok{      Burn\_Severity }\SpecialCharTok{==} \DecValTok{2} \SpecialCharTok{\textasciitilde{}} \StringTok{"low severity"}\NormalTok{,}
+\NormalTok{      Burn\_Severity }\SpecialCharTok{==} \DecValTok{3} \SpecialCharTok{\textasciitilde{}} \StringTok{"medium severity"}\NormalTok{,}
+\NormalTok{      Burn\_Severity }\SpecialCharTok{==} \DecValTok{4} \SpecialCharTok{\textasciitilde{}} \StringTok{"high severity"}\NormalTok{,}
+      \ConstantTok{TRUE}               \SpecialCharTok{\textasciitilde{}} \FunctionTok{as.character}\NormalTok{(Burn\_Severity)}
+\NormalTok{    ),}
+    \AttributeTok{Burn\_Severity =} \FunctionTok{factor}\NormalTok{(}
+\NormalTok{      Burn\_Severity,}
+      \AttributeTok{levels  =} \FunctionTok{c}\NormalTok{(}\StringTok{"unburned"}\NormalTok{, }\StringTok{"low severity"}\NormalTok{, }\StringTok{"medium severity"}\NormalTok{, }\StringTok{"high severity"}\NormalTok{),}
+      \AttributeTok{ordered =} \ConstantTok{TRUE}
+\NormalTok{    ),}
+    \AttributeTok{Year =} \FunctionTok{factor}\NormalTok{(Year)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Yearly NDVI Composites:
+2018--2021}\label{yearly-ndvi-composites-20182021}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{old\_par }\OtherTok{\textless{}{-}} \FunctionTok{par}\NormalTok{(}\AttributeTok{no.readonly =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{), }\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{oma =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\FloatTok{2.5}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+
+\ControlFlowTok{for}\NormalTok{ (y }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{2018}\NormalTok{, }\DecValTok{2019}\NormalTok{, }\DecValTok{2020}\NormalTok{, }\DecValTok{2021}\NormalTok{)) \{}
+\NormalTok{  ndvi\_rast }\OtherTok{\textless{}{-}}\NormalTok{ terra}\SpecialCharTok{::}\FunctionTok{rast}\NormalTok{(}\FunctionTok{file.path}\NormalTok{(composite\_dir,}
+                                      \FunctionTok{paste0}\NormalTok{(}\StringTok{"NDVI\_YearlyComposite\_"}\NormalTok{, y, }\StringTok{".tif"}\NormalTok{)))}
+  \FunctionTok{plot}\NormalTok{(ndvi\_rast,}
+       \AttributeTok{range =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{),}
+       \AttributeTok{col   =} \FunctionTok{hcl.colors}\NormalTok{(}\DecValTok{50}\NormalTok{, }\AttributeTok{palette =} \StringTok{"Greens"}\NormalTok{),}
+       \AttributeTok{main  =} \FunctionTok{paste}\NormalTok{(}\StringTok{"NDVI Composite —"}\NormalTok{, y),}
+       \AttributeTok{axes  =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{  terra}\SpecialCharTok{::}\FunctionTok{lines}\NormalTok{(prouton\_fire\_vect, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \FloatTok{1.2}\NormalTok{)}
+\NormalTok{\}}
+
+\FunctionTok{mtext}\NormalTok{(}\StringTok{"Post{-}Fire NDVI Recovery: Prouton Lakes Fire Area (2018–2021)"}\NormalTok{,}
+      \AttributeTok{side =} \DecValTok{3}\NormalTok{, }\AttributeTok{outer =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{line =} \FloatTok{0.8}\NormalTok{, }\AttributeTok{cex =} \FloatTok{1.2}\NormalTok{, }\AttributeTok{font =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics{GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-latex/step5-ndvi-maps-1} 
+
+}
+
+\caption{Annual NDVI composites across the Prouton Lakes fire area from 2018 to 2021 (standardized scale: 0–0.5). The progressive greening visible from 2018 onward reflects early-stage vegetation recovery, with higher NDVI values in unburned and low severity areas.}\label{fig:step5-ndvi-maps}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(old\_par)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{NDVI Distribution by Burn Severity
+Class}\label{ndvi-distribution-by-burn-severity-class}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(recovery\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Burn\_Severity, }\AttributeTok{y =}\NormalTok{ NDVI\_Value, }\AttributeTok{fill =}\NormalTok{ Year)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_boxplot}\NormalTok{(}\AttributeTok{position    =} \FunctionTok{position\_dodge}\NormalTok{(}\AttributeTok{width =} \FloatTok{0.8}\NormalTok{),}
+               \AttributeTok{outlier.alpha =} \FloatTok{0.15}\NormalTok{,}
+               \AttributeTok{linewidth     =} \FloatTok{0.4}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}
+    \AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{"2018"} \OtherTok{=} \StringTok{"\#e41a1c"}\NormalTok{,}
+               \StringTok{"2019"} \OtherTok{=} \StringTok{"\#f5a623"}\NormalTok{,}
+               \StringTok{"2020"} \OtherTok{=} \StringTok{"\#4daf4a"}\NormalTok{,}
+               \StringTok{"2021"} \OtherTok{=} \StringTok{"\#377eb8"}\NormalTok{)}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title    =} \StringTok{"Post{-}Fire NDVI Recovery by Burn Severity Class (2018–2021)"}\NormalTok{,}
+    \AttributeTok{subtitle =} \StringTok{"Each boxplot represents the distribution of NDVI pixel values per class per year"}\NormalTok{,}
+    \AttributeTok{x        =} \StringTok{"Burn Severity Class"}\NormalTok{,}
+    \AttributeTok{y        =} \StringTok{"NDVI"}\NormalTok{,}
+    \AttributeTok{fill     =} \StringTok{"Year"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{13}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}
+    \AttributeTok{plot.title      =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{face =} \StringTok{"bold"}\NormalTok{, }\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+    \AttributeTok{axis.text.x     =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{),}
+    \AttributeTok{legend.position =} \StringTok{"right"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+
+{\centering \includegraphics{GEM520_Lab8_Wildfire_Joselyne_MPAYIMANA_files/figure-latex/step5-boxplot-1} 
+
+}
+
+\caption{Distribution of NDVI values by burn severity class from 2018 to 2021. Higher burn severity classes show consistently lower median NDVI values in the immediate post-fire years, with gradual convergence toward unburned levels by 2021, particularly in low and medium severity areas.}\label{fig:step5-boxplot}
+\end{figure}
+
+The boxplots confirm a clear and ecologically meaningful pattern: high
+severity burn areas show the lowest NDVI values in 2018 and the slowest
+recovery trajectory through 2021. Unburned and low severity areas
+maintain relatively higher NDVI throughout the post-fire period,
+consistent with minimal disruption to the existing vegetation structure.
+The narrowing gap between severity classes from 2018 to 2021 suggests
+active but gradual recovery, with early successional species beginning
+to re-establish across the burned landscape.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{Reflection and Future
+Directions}\label{reflection-and-future-directions}
+
+This analysis successfully quantified the spatial distribution of burn
+severity across the Prouton Lakes fire and tracked post-fire vegetation
+recovery using a multi-year NDVI time series. Several methodological
+refinements and extensions could strengthen this work in a professional
+or research context:
+
+\textbf{Methodological refinements:}
+
+\begin{itemize}
+\item
+  In the pre-processing step, pixels were masked to the fire boundary
+  rather than cropped to the bounding extent. While this produced more
+  precise spatial outputs, a simple crop to the bounding box would have
+  been computationally faster for exploratory work. Future
+  implementations could offer both approaches depending on the use case.
+\item
+  The dNBR classification thresholds used here are based on standard
+  literature values. Field-validated severity thresholds specific to
+  BC's interior forests could improve classification accuracy and would
+  be a meaningful addition for any operational application.
+\item
+  Cloud masking was performed using a single QA flag value (21824 =
+  clear conditions). Incorporating additional masking for cloud shadow
+  and snow could further improve data quality, particularly for the
+  earlier years in the time series.
+\end{itemize}
+
+\textbf{Potential extensions:}
+
+\begin{itemize}
+\tightlist
+\item
+  Extending the time series beyond 2021 would allow monitoring of
+  longer-term recovery trajectories, including the potential return of
+  coniferous canopy cover.
+\item
+  Incorporating Sentinel-2 imagery (10 m resolution) alongside Landsat 8
+  (30 m) could provide finer spatial detail for burn severity mapping.
+\item
+  Overlaying the burn severity map with ecosystem classification layers
+  (e.g., BEC zones) would allow recovery rates to be compared across
+  different forest types.
+\item
+  This analysis framework is directly transferable to other BC
+  wildfires, including the 2023 season, which surpassed 2017 as the most
+  severe on record.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\emph{Analysis conducted using R (terra, sf, ggplot2, dplyr). Data
+sourced from USGS Earth Explorer and the BC Data Catalogue.}
+
+\end{document}

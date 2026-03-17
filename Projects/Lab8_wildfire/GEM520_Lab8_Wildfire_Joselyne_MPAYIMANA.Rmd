@@ -1,16 +1,19 @@
 ---
 title: "Wildfire Burn Severity and Post-Fire Vegetation Recovery"
-subtitle: "A Landsat 8 Time-Series Analysis of the 2017 Prouton Lakes Fire, British Columbia"
 author: "Joselyne MPAYIMANA"
-#date: "`r format(Sys.time(), '%B %d, %Y')`"
+subtitle: "A Landsat 8 Time-Series Analysis of the 2017 Prouton Lakes Fire, British
+  Columbia"
 output:
+  pdf_document:
+    toc: true
   html_document:
-    number_sections: yes
+    number_sections: true
     theme: flatly
-    toc: yes
+    toc: true
     toc_float:
       collapsed: false
       smooth_scroll: true
+      self_contained: true
     code_folding: hide
 ---
 

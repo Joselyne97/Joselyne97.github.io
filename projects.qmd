@@ -116,7 +116,7 @@ I used the BC Vegetation Resources Inventory (2024) to assess how well old growt
 `ArcGIS Pro` `PostGIS` `SQL` `Python` `VRI 2024` `BEC Zones` `Old Growth` `Cartographic Modelling`
 
 ::: {.project-links}
-[View Project](Projects/Lab3/GEM510_Lab3_OldGrowth_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+[View Project](Projects/Lab3/GEM510_Lab3_OldGrowth_Joselyne_MPAYIMANA (1).html){.btn .btn-primary target="_blank"}
 
 :::
 :::
