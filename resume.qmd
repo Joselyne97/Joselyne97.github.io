@@ -213,6 +213,7 @@ Jul 2022 - Dec 2022
 
 ## Certifications & Awards
 
+- **FME Platform Certification** (2025) · Data integration, schema transformation, workflow automation, and self-serve web app development, Safe Software Academy
 - **United People Global Sustainability Leader** (2024) · Sustainable development and social impact
 - **UNLEASH Global Talent** (2023) · Co-creation of SDG-focused solutions and innovation
 - **Wecode Rwanda** (2019) · Full-stack web development, Python, Django, and JavaScript
@@ -222,5 +223,5 @@ Jul 2022 - Dec 2022
 ## Languages
 
 - English - Fluent
-- French - Intermedite
+- French - Intermediate
 - Kinyarwanda - Native
