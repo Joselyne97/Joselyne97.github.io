@@ -34,6 +34,20 @@ delta NBR and tracks post-fire vegetation recovery through NDVI composites from
 :::
 
 ::: {.project-card}
+### Green Equity Analysis in Vancouver Using Geographically Weighted Regression
+#### Spatial Statistics · Urban Analytics · PostGIS · Census 2021
+
+This project investigates whether green space is equitably distributed across Vancouver's 1,016 Dissemination Areas by combining 2021 Canadian Census socio-economic data with Landsat 8 NDVI derived from late-summer satellite imagery. I wrote a multi-part PostGIS SQL query to pivot long-format census data into wide format and spatially join it to DA boundaries, then modelled the relationship between 14 socio-economic variables and mean NDVI using both Ordinary Least Squares and Geographically Weighted Regression. GWR explained 71.3% of the variance in vegetation greenness compared to 40.5% for OLS, with the improvement confirming that relationships between socio-economic disadvantage and green space access are spatially non-stationary across Vancouver's neighborhoods. A second analysis with 10 additional variables explored housing tenure, visible minority status, residential mobility, and educational attainment as drivers of vegetation inequality.
+
+`PostGIS` `SQL` `QGIS` `ArcGIS Pro` `Geographically Weighted Regression` `OLS` `Landsat 8` `NDVI` `Census 2021` `Zonal Statistics`
+
+::: {.project-links}
+[View Project](Projects/GEM511_GreenEquity/GEM511_Lab5_GreenEquity_GWR_Joselyne_MPAYIMANA.html){.btn .btn-primary target="_blank"}
+:::
+
+:::
+
+::: {.project-card}
 ### Land Cover Classification of the Southern Gulf Islands
 #### Remote Sensing · Land Cover Mapping
 
