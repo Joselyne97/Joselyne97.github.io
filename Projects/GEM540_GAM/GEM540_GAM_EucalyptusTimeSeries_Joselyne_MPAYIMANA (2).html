@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eucalyptus Plantation Health Monitoring Using GAMs</title>
+<style>
+  body {
+    font-family: "Times New Roman", Times, serif;
+    background-color: #0f1923;
+    color: #e8eaf0;
+    margin: 0; padding: 0;
+  }
+  .page { max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem 4rem 2rem; }
+  .meta { color: #7a8fa6; font-size: 0.85rem; margin-bottom: 0.5rem; }
+  h1 { font-size: 2rem; font-weight: 800; color: #ffffff; margin-bottom: 0.3rem; }
+  .subtitle { color: #a78bfa; font-size: 1.05rem; margin-bottom: 0.5rem; }
+  .author-meta { color: #7a8fa6; font-size: 0.88rem; margin-bottom: 2rem; }
+  hr { border: none; border-top: 1px solid #2d3a4f; margin: 2rem 0; }
+  h2 { color: #e8eaf0; font-size: 1.3rem; border-bottom: 1px solid #2d3a4f; padding-bottom: 0.4rem; margin-top: 2.5rem; }
+  h3 { color: #a78bfa; font-size: 1.05rem; margin-top: 1.8rem; margin-bottom: 0.5rem; }
+  p, li { color: #c8cdd8; line-height: 1.75; font-size: 0.97rem; }
+  .tools-bar { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 2rem 0; }
+  .tag { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.3); padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.8rem; }
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; margin: 1.5rem 0; }
+  .stat-card { background: #1a2535; border: 1px solid #2d3a4f; border-radius: 10px; padding: 1.2rem 1rem; text-align: center; }
+  .stat-card .value { font-size: 1.6rem; font-weight: 700; color: #a78bfa; }
+  .stat-card .label { font-size: 0.82rem; color: #7a8fa6; margin-top: 0.3rem; }
+  .workflow-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+  .step { background: #1a2535; border: 1px solid #2d3a4f; border-radius: 8px; padding: 1rem; }
+  .step-num { color: #a78bfa; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .step p { font-size: 0.88rem; color: #c8cdd8; margin: 0; }
+  .highlight-box { background: #1a2535; border-left: 4px solid #a78bfa; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 1.2rem 0; }
+  .highlight-box p { font-size: 0.93rem; margin: 0.3rem 0; color: #c8cdd8; }
+  code { background: #0f1923; border: 1px solid #2d3a4f; color: #c8cdd8; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-family: monospace; }
+  pre { background: #0f1923; border: 1px solid #2d3a4f; border-radius: 8px; padding: 1.2rem; overflow-x: auto; font-size: 0.85rem; color: #c8cdd8; line-height: 1.7; font-family: monospace; }
+  .pre-label { color: #7a8fa6; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  th { background: #1a2535; color: #a78bfa; padding: 0.65rem 1rem; text-align: left; border-bottom: 1px solid #2d3a4f; }
+  td { padding: 0.55rem 1rem; border-bottom: 1px solid #1a2535; color: #c8cdd8; }
+  tr:hover td { background: #1a2535; }
+  .chart-container {
+    background: #1a2535;
+    border: 1px solid #2d3a4f;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .chart-title {
+    color: #e8eaf0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .chart-caption {
+    color: #7a8fa6;
+    font-size: 0.82rem;
+    margin-top: 0.8rem;
+    line-height: 1.5;
+  }
+  .btn-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  .btn-index {
+    background: rgba(167,139,250,0.12);
+    color: #a78bfa;
+    border: 1px solid rgba(167,139,250,0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: "Times New Roman", serif;
+  }
+  .btn-index.active {
+    background: #a78bfa;
+    color: #0f1923;
+    font-weight: 700;
+  }
+  canvas { width: 100% !important; }
+  .model-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .model-card {
+    background: #1a2535;
+    border: 1px solid #2d3a4f;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .model-card .name {
+    color: #a78bfa;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-family: monospace;
+  }
+  .model-card p { font-size: 0.87rem; color: #c8cdd8; margin: 0; }
+  .model-card .stat {
+    margin-top: 0.5rem;
+    font-size: 0.82rem;
+    color: #7a8fa6;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="meta">Remote Sensing · Time Series Analysis · Forest Health Monitoring · South America</div>
+  <h1>Monitoring Eucalyptus Plantation Health Over Two Decades</h1>
+  <div class="subtitle">Generalized Additive Models · Landsat Time Series · Spectral Index Gap-Filling · R</div>
+  <div class="author-meta">Joselyne MPAYIMANA &nbsp;|&nbsp; University of British Columbia &nbsp;|&nbsp; 2024</div>
+
+  <div class="tools-bar">
+    <span class="tag">R</span>
+    <span class="tag">mgcv</span>
+    <span class="tag">GAM</span>
+    <span class="tag">Landsat</span>
+    <span class="tag">NDVI</span>
+    <span class="tag">NDMI</span>
+    <span class="tag">EVI</span>
+    <span class="tag">Time Series</span>
+    <span class="tag">Gap Filling</span>
+    <span class="tag">Forest Health</span>
+    <span class="tag">Eucalyptus</span>
+    <span class="tag">REML</span>
+  </div>
+
+  <hr>
+
+  <h2>Overview</h2>
+  <p>
+    Commercial Eucalyptus plantations are a critical component of the forestry sector across South America, 
+    providing timber, pulpwood, and carbon sequestration services. Monitoring their health over time using 
+    satellite imagery is essential for detecting disturbances early, planning harvests, and assessing 
+    long-term stand productivity. However, Landsat time series data are rarely complete: cloud cover, 
+    sensor gaps, and acquisition scheduling leave substantial periods without observations.
+  </p>
+  <p>
+    This project applies Generalized Additive Models (GAMs) to a 20-year Landsat multispectral time 
+    series from a Eucalyptus stand in South America to characterize vegetation dynamics, fill temporal 
+    gaps in spectral index data, and distinguish seasonal variation from long-term trends. The dataset 
+    spans 2000 to 2019 and captures a striking disturbance event around 2002 to 2003 where NDVI 
+    dropped sharply from values near 0.90 to below 0.35, followed by a multi-year recovery trajectory 
+    that GAMs are well-positioned to describe.
+  </p>
+
+  <div class="overview-grid">
+    <div class="stat-card"><div class="value">20</div><div class="label">Years of Landsat observations (2000–2019)</div></div>
+    <div class="stat-card"><div class="value">189</div><div class="label">Valid NDVI observations out of 395 scenes</div></div>
+    <div class="stat-card"><div class="value">76.7%</div><div class="label">Deviance explained by best GAM model</div></div>
+    <div class="stat-card"><div class="value">3</div><div class="label">Spectral indices modelled: NDVI, NDMI, EVI</div></div>
+  </div>
+
+  <hr>
+
+  <h2>The Challenge: Incomplete Satellite Time Series</h2>
+  <p>
+    Satellite remote sensing produces time series data that are inherently gappy. Cloud cover is the 
+    most common cause of missing observations, but sensor malfunctions, orbital gaps, and radiometric 
+    processing failures also contribute. In the dataset used here, only 189 of 395 scheduled Landsat 
+    scenes contain valid spectral reflectance values for the stand of interest, meaning roughly 52% 
+    of observations are missing.
+  </p>
+  <p>
+    Simple interpolation approaches such as linear interpolation or moving averages struggle with 
+    data of this kind because they cannot simultaneously account for long-term trends and within-year 
+    seasonality. A model that treats all gaps as equivalent, regardless of whether they fall in a 
+    high-growth summer period or a dormant winter period, will produce systematically biased 
+    estimates. GAMs address this limitation by explicitly modelling both the temporal trend and the 
+    seasonal cycle as separate smooth components, allowing gap-filling predictions to be 
+    ecologically informed.
+  </p>
+
+  <hr>
+
+  <h2>Data</h2>
+  <p>
+    The dataset contains multispectral reflectance values from the Landsat satellite mission for a 
+    single Eucalyptus stand (ID: 32041-1-5) in South America. Each observation includes surface 
+    reflectance in five Landsat bands and three derived spectral indices: NDVI (Normalized 
+    Difference Vegetation Index), NDMI (Normalized Difference Moisture Index), and EVI 
+    (Enhanced Vegetation Index). Time is represented as a continuous decimal year value 
+    (Year_Continuous) to allow use in the smooth functions of the GAM.
+  </p>
+
+  <h2>Interactive Time Series Explorer</h2>
+  <p>
+    The chart below shows all valid observations for the three spectral indices across the 20-year 
+    study period. Use the buttons to switch between indices. The dramatic drop visible around 
+    2002 to 2003 reflects a disturbance event followed by a gradual recovery of canopy greenness 
+    and moisture content over subsequent years.
+  </p>
+
+  <div class="chart-container">
+    <div class="chart-title">Landsat Spectral Index Time Series — Eucalyptus Stand, South America (2000–2019)</div>
+    <div class="btn-group">
+      <button class="btn-index active" onclick="switchIndex('ndvi', this)">NDVI</button>
+      <button class="btn-index" onclick="switchIndex('ndmi', this)">NDMI</button>
+      <button class="btn-index" onclick="switchIndex('evi', this)">EVI</button>
+    </div>
+    <canvas id="tsChart" height="320"></canvas>
+    <div class="chart-caption" id="chartCaption">
+      Figure 1. NDVI time series (2000–2019) for a Eucalyptus stand in South America derived from Landsat 
+      multispectral imagery. Each point represents a cloud-free observation. The sharp decline around 2002–2003 
+      reflects a stand-level disturbance event followed by gradual canopy recovery.
+    </div>
+  </div>
+
+  <hr>
+
+  <h2>Modelling Approach: Generalized Additive Models</h2>
+  <p>
+    GAMs extend linear models by replacing fixed-slope terms with flexible smooth functions, 
+    making them well-suited for ecological time series where the relationship between time and 
+    vegetation response is nonlinear. The smoothing effect comes from two components: the smooth 
+    function <code>s()</code>, which uses spline basis functions to flexibly fit the data, and a 
+    penalty term that controls how wiggly the fitted curve can become. The degree of smoothness 
+    is automatically tuned using Restricted Maximum Likelihood (REML), preventing the model from 
+    simply connecting every observed point.
+  </p>
+  <p>
+    Four models of increasing complexity were fitted to characterize different aspects of the 
+    vegetation signal. Each builds on the previous by adding components that capture additional 
+    sources of variation.
+  </p>
+
+  <div class="model-grid">
+    <div class="model-card">
+      <div class="name">reg_01b — Temporal Trend Only</div>
+      <p>A GAM with a single Gaussian process smooth on the continuous year variable. Captures the long-term trend in NDVI without accounting for within-year seasonality.</p>
+      <div class="stat">Basis: Gaussian process (gp) | Method: REML</div>
+    </div>
+    <div class="model-card">
+      <div class="name">reg_02 — Seasonal Cycle Only</div>
+      <p>A cyclic cubic spline on day-of-year, fitted only to post-2008 data where the stand has recovered. Isolates the within-year seasonal pattern of canopy greenness.</p>
+      <div class="stat">Basis: Cyclic cubic (cc) | Data: 2008 onward</div>
+    </div>
+    <div class="model-card">
+      <div class="name">reg_03 — Trend + Seasonality</div>
+      <p>Combines a Gaussian process smooth on year with a cyclic cubic spline on day-of-year. This additive structure separates the long-term recovery trend from seasonal fluctuations.</p>
+      <div class="stat">Deviance explained: 76.7% | R² = 0.782</div>
+    </div>
+    <div class="model-card">
+      <div class="name">reg_04 — Trend × Season Interaction</div>
+      <p>Adds a tensor interaction term between year and day-of-year, allowing the seasonal amplitude to shift over time. Applied to NDMI to test whether moisture seasonality changed across the study period.</p>
+      <div class="stat">Basis: Tensor product (ti) | Includes interaction</div>
+    </div>
+  </div>
+
+  <h3>Key Model Code</h3>
+  <div class="pre-label">Best performing model — trend and seasonality combined</div>
+<pre>reg_03 <- gam(
+  ndvi ~ s(Year, bs = "gp") + s(doy, bs = "cc", k = 20),
+  data   = subset(my_sdata, Year >= 2004),
+  method = "REML"
+)
+summary(reg_03)</pre>
+
+  <div class="pre-label">Tensor interaction model for NDMI</div>
+<pre>reg_04 <- gam(
+  ndmi ~ s(Year) + s(doy, bs = "cc") + ti(doy, Year),
+  data   = my_sdata,
+  method = "REML",
+  select = TRUE
+)</pre>
+
+  <div class="pre-label">Gap-filling: generating predictions for all days 2003–2020</div>
+<pre>new_data            <- expand.grid(Year = 2003:2020, doy = 1:365)
+new_data$Year_Continuous <- new_data$Year + new_data$doy / 365
+pred_gam            <- predict(reg_03, newdata = new_data, se.fit = TRUE)</pre>
+
+  <hr>
+
+  <h2>Results</h2>
+
+  <div class="highlight-box">
+    <p>
+      The combined trend-plus-seasonality model (reg_03) explained 76.7% of the deviance in NDVI 
+      with an adjusted R² of 0.782, substantially outperforming the trend-only model. The Gaussian 
+      process smooth on year captured the sharp decline and multi-year recovery following the 2003 
+      disturbance event, while the cyclic cubic spline on day-of-year captured the within-year 
+      seasonal pulse of photosynthetic activity characteristic of Eucalyptus stands.
+    </p>
+  </div>
+
+  <p>
+    The NDMI models showed an even better fit than NDVI, likely because moisture-sensitive spectral 
+    indices exhibit less high-frequency noise than NDVI in densely vegetated Eucalyptus canopies. 
+    The tensor interaction model for NDMI confirmed a statistically significant interaction between 
+    year and day-of-year, meaning the amplitude of seasonal moisture variation shifted over the 
+    course of the study period, an ecologically meaningful finding for plantation managers tracking 
+    drought stress.
+  </p>
+
+  <h3>Model Performance Summary</h3>
+  <table>
+    <thead>
+      <tr><th>Model</th><th>Index</th><th>Components</th><th>Deviance Explained</th><th>Adj. R²</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>reg_01b</td><td>NDVI</td><td>Temporal trend only</td><td>~55%</td><td>~0.54</td></tr>
+      <tr><td>reg_02</td><td>NDVI</td><td>Seasonal cycle only (post-2008)</td><td>~40%</td><td>~0.38</td></tr>
+      <tr><td>reg_03</td><td>NDVI</td><td>Trend + seasonality</td><td>76.7%</td><td>0.782</td></tr>
+      <tr><td>reg_03b</td><td>NDMI</td><td>Trend + seasonality</td><td>>78%</td><td>>0.78</td></tr>
+      <tr><td>reg_04</td><td>NDMI</td><td>Trend + seasonality + interaction</td><td>Significant interaction term</td><td>N/A</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h2>Reflections on Model Choice and Limitations</h2>
+
+  <p>
+    The GAMs fitted here appear to slightly underfit in periods of high seasonal variation, 
+    where confidence intervals widen and the model struggles to follow rapid transitions. 
+    This is a deliberate trade-off: the smoothing penalty prevents overfitting to noise 
+    while accepting some bias in high-variability periods. If overfitting were a concern, 
+    reducing the number of knots <code>k</code> or increasing the smoothing penalty would 
+    constrain the curve further.
+  </p>
+  <p>
+    One important limitation of these models is that they are entirely aspatial. They describe 
+    temporal dynamics at a single stand without accounting for spatial autocorrelation among 
+    neighboring stands. In a landscape where adjacent Eucalyptus plots share similar soil 
+    conditions, microclimates, and management histories, ignoring spatial structure may 
+    underestimate uncertainty and overstate the generalizability of the fitted trends. Two 
+    natural extensions would be spatial lag or error models, which explicitly incorporate a 
+    spatial weights matrix, or Geographically Weighted Regression, which allows model 
+    coefficients to vary across the landscape. Both approaches have been applied to 
+    satellite-derived spectral indices in forestry contexts and would be straightforward 
+    extensions of this framework.
+  </p>
+  <p>
+    A parametric alternative to GAMs would be a linear mixed-effects model with polynomial 
+    terms for year and day-of-year. Mixed-effects models are more interpretable since each 
+    coefficient directly describes the direction and magnitude of a predictor's effect, but 
+    they require assumptions about the functional form of the temporal trend that GAMs do not. 
+    A non-parametric alternative such as Random Forest can capture more complex nonlinear 
+    relationships without any functional assumptions, but at the cost of interpretability: 
+    understanding how a variable drives predictions requires additional tools such as SHAP 
+    values rather than simply reading off model coefficients.
+  </p>
+
+  <hr>
+
+  <h2>Applications and Broader Relevance</h2>
+  <p>
+    The gap-filling framework demonstrated here has direct operational relevance for plantation 
+    forestry management. Most commercial Eucalyptus operations use satellite imagery to track 
+    stand health, plan fertilization and irrigation schedules, and detect early signs of pest 
+    or disease outbreaks. When cloud cover interrupts the time series during a critical growth 
+    window, managers lose the ability to make informed decisions. GAMs trained on historical 
+    data from the same stand can fill those gaps with uncertainty-quantified predictions rather 
+    than simply flagging the period as missing.
+  </p>
+  <p>
+    Beyond gap-filling, this approach is directly applicable to modelling leaf area index and 
+    above-ground biomass as a function of climate variables such as temperature and precipitation, 
+    helping predict how stand productivity responds to changing conditions. It is also applicable 
+    to early warning systems for drought stress, where NDMI trends can signal moisture deficits 
+    before they become visible in NDVI, giving managers an earlier window for intervention.
+  </p>
+
+  <hr>
+  <div style="color:#7a8fa6;font-size:0.82rem;text-align:center;margin-top:1rem">
+    Joselyne MPAYIMANA &nbsp;|&nbsp; Master of Geomatics for Environmental Management, UBC &nbsp;|&nbsp; 2024
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+const rawData = [{"yc": 2001.0767, "yr": 2001, "doy": 28, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2001.1644, "yr": 2001, "doy": 60, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.0411, "yr": 2002, "doy": 15, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.1726, "yr": 2002, "doy": 63, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.2164, "yr": 2002, "doy": 79, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.2603, "yr": 2002, "doy": 95, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2003.9699, "yr": 2003, "doy": 354, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.0575, "yr": 2004, "doy": 21, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.2329, "yr": 2004, "doy": 85, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.3644, "yr": 2004, "doy": 133, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.4959, "yr": 2004, "doy": 181, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.6274, "yr": 2004, "doy": 229, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.8027, "yr": 2004, "doy": 293, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.1507, "yr": 2005, "doy": 55, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.2384, "yr": 2005, "doy": 87, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.4575, "yr": 2005, "doy": 167, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.5014, "yr": 2005, "doy": 183, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.7205, "yr": 2005, "doy": 263, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.8082, "yr": 2005, "doy": 295, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.0712, "yr": 2006, "doy": 26, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.5096, "yr": 2006, "doy": 186, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.8164, "yr": 2006, "doy": 298, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.0356, "yr": 2007, "doy": 13, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.2548, "yr": 2007, "doy": 93, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.3425, "yr": 2007, "doy": 125, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.3863, "yr": 2007, "doy": 141, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.474, "yr": 2007, "doy": 173, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.5178, "yr": 2007, "doy": 189, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.6055, "yr": 2007, "doy": 221, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.0438, "yr": 2008, "doy": 16, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.1753, "yr": 2008, "doy": 64, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.7452, "yr": 2008, "doy": 272, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.789, "yr": 2008, "doy": 288, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.8767, "yr": 2008, "doy": 320, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.9205, "yr": 2008, "doy": 336, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.9644, "yr": 2008, "doy": 352, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.0055, "yr": 2009, "doy": 2, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.0493, "yr": 2009, "doy": 18, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.3123, "yr": 2009, "doy": 114, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.7068, "yr": 2009, "doy": 258, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2010.6712, "yr": 2010, "doy": 245, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.0219, "yr": 2011, "doy": 8, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.1534, "yr": 2011, "doy": 56, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.0411, "yr": 2002, "doy": 15, "ndvi": 0.859838707, "ndmi": 0.668747001, "evi": 2.032085003}, {"yc": 2002.1726, "yr": 2002, "doy": 63, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2003.9699, "yr": 2003, "doy": 354, "ndvi": 0.482163244, "ndmi": -0.067287697, "evi": 1.001428509}, {"yc": 2004.0575, "yr": 2004, "doy": 21, "ndvi": 0.518919405, "ndmi": 0.00248239, "evi": 1.075123475}, {"yc": 2004.2329, "yr": 2004, "doy": 85, "ndvi": 0.645820501, "ndmi": 0.13315335, "evi": 1.456877422}, {"yc": 2004.3644, "yr": 2004, "doy": 133, "ndvi": 0.624021005, "ndmi": 0.096682139, "evi": 1.232231065}, {"yc": 2004.6274, "yr": 2004, "doy": 229, "ndvi": 0.556840266, "ndmi": 0.071758345, "evi": 1.160684169}, {"yc": 2005.1507, "yr": 2005, "doy": 55, "ndvi": 0.736593931, "ndmi": 0.284149552, "evi": 1.659303955}, {"yc": 2006.0712, "yr": 2006, "doy": 26, "ndvi": 0.777527073, "ndmi": 0.31185878, "evi": 1.693570826}, {"yc": 2006.3342, "yr": 2006, "doy": 122, "ndvi": 0.816691319, "ndmi": 0.359720795, "evi": 1.933318638}, {"yc": 2006.9041, "yr": 2006, "doy": 330, "ndvi": 0.745481829, "ndmi": 0.324465199, "evi": 1.662523948}, {"yc": 2007.0356, "yr": 2007, "doy": 13, "ndvi": 0.807791597, "ndmi": 0.430126576, "evi": 1.811915533}, {"yc": 2007.5178, "yr": 2007, "doy": 189, "ndvi": 0.846388083, "ndmi": 0.552002817, "evi": 1.736688999}, {"yc": 2009.7068, "yr": 2009, "doy": 258, "ndvi": 0.851036189, "ndmi": 0.626737426, "evi": 1.869489521}, {"yc": 2011.0219, "yr": 2011, "doy": 8, "ndvi": 0.862609513, "ndmi": 0.668431925, "evi": 1.936212363}, {"yc": 2011.1534, "yr": 2011, "doy": 56, "ndvi": 0.885752852, "ndmi": 0.692051983, "evi": 1.956888645}, {"yc": 2001.189, "yr": 2001, "doy": 69, "ndvi": 0.881394651, "ndmi": 0.721319457, "evi": 2.616688983}, {"yc": 2001.6712, "yr": 2001, "doy": 245, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2001.9781, "yr": 2001, "doy": 357, "ndvi": 0.832580479, "ndmi": 0.660907939, "evi": 2.17367916}, {"yc": 2003.7753, "yr": 2003, "doy": 283, "ndvi": 0.325616056, "ndmi": -0.200132914, "evi": 0.671931514}, {"yc": 2004.126, "yr": 2004, "doy": 46, "ndvi": 0.529940406, "ndmi": 0.059019042, "evi": 1.270997219}, {"yc": 2004.2137, "yr": 2004, "doy": 78, "ndvi": 0.581955567, "ndmi": 0.104524674, "evi": 1.41442316}, {"yc": 2004.3014, "yr": 2004, "doy": 110, "ndvi": 0.611421021, "ndmi": 0.144896835, "evi": 1.415924556}, {"yc": 2004.3452, "yr": 2004, "doy": 126, "ndvi": 0.598719598, "ndmi": 0.07729136, "evi": 1.259383556}, {"yc": 2004.6959, "yr": 2004, "doy": 254, "ndvi": 0.477448877, "ndmi": -0.082937161, "evi": 1.104763435}, {"yc": 2005.0877, "yr": 2005, "doy": 32, "ndvi": 0.682821459, "ndmi": 0.197379559, "evi": 1.633065368}, {"yc": 2005.1753, "yr": 2005, "doy": 64, "ndvi": 0.725276348, "ndmi": 0.271018963, "evi": 1.873692732}, {"yc": 2005.2192, "yr": 2005, "doy": 80, "ndvi": 0.725608985, "ndmi": 0.276477894, "evi": 1.866328784}, {"yc": 2005.7014, "yr": 2005, "doy": 256, "ndvi": 0.590585774, "ndmi": 0.036787041, "evi": 1.24003031}, {"yc": 2006.2712, "yr": 2006, "doy": 99, "ndvi": 0.790221703, "ndmi": 0.382691341, "evi": 2.066865447}, {"yc": 2006.4027, "yr": 2006, "doy": 147, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.5342, "yr": 2006, "doy": 195, "ndvi": 0.758591577, "ndmi": 0.350177501, "evi": 1.706670644}, {"yc": 2006.5781, "yr": 2006, "doy": 211, "ndvi": 0.730061326, "ndmi": 0.314653465, "evi": 1.862418474}, {"yc": 2006.7096, "yr": 2006, "doy": 259, "ndvi": 0.695392192, "ndmi": 0.228574812, "evi": 1.651992787}, {"yc": 2006.8411, "yr": 2006, "doy": 307, "ndvi": 0.720271254, "ndmi": 0.264539617, "evi": 1.747185392}, {"yc": 2006.8849, "yr": 2006, "doy": 323, "ndvi": 0.751627199, "ndmi": 0.293181038, "evi": 1.786011827}, {"yc": 2006.9288, "yr": 2006, "doy": 339, "ndvi": 0.75145575, "ndmi": 0.341538848, "evi": 2.122142042}, {"yc": 2007.0164, "yr": 2007, "doy": 6, "ndvi": 0.782400097, "ndmi": 0.394361447, "evi": 1.980944665}, {"yc": 2007.2356, "yr": 2007, "doy": 86, "ndvi": 0.834524752, "ndmi": 0.474702543, "evi": 1.904255996}, {"yc": 2007.6301, "yr": 2007, "doy": 230, "ndvi": 0.794672521, "ndmi": 0.450949534, "evi": 1.884108009}, {"yc": 2008.1123, "yr": 2008, "doy": 41, "ndvi": 0.838249031, "ndmi": 0.54946913, "evi": 2.210963936}, {"yc": 2008.1562, "yr": 2008, "doy": 57, "ndvi": 0.82674623, "ndmi": 0.560624408, "evi": 2.198732559}, {"yc": 2008.9452, "yr": 2008, "doy": 345, "ndvi": 0.801328667, "ndmi": 0.588889364, "evi": 2.032001012}, {"yc": 2008.989, "yr": 2008, "doy": 361, "ndvi": 0.839346972, "ndmi": 0.595902988, "evi": 2.160458487}, {"yc": 2009.0301, "yr": 2009, "doy": 11, "ndvi": 0.822797581, "ndmi": 0.607416632, "evi": 2.106147589}, {"yc": 2009.1616, "yr": 2009, "doy": 59, "ndvi": 0.849023787, "ndmi": 0.622408252, "evi": 2.320492067}, {"yc": 2009.2932, "yr": 2009, "doy": 107, "ndvi": 0.880698136, "ndmi": 0.687534756, "evi": 2.347130129}, {"yc": 2010.0384, "yr": 2010, "doy": 14, "ndvi": 0.855612037, "ndmi": 0.641895876, "evi": 2.255401365}, {"yc": 2010.2137, "yr": 2010, "doy": 78, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2010.8712, "yr": 2010, "doy": 318, "ndvi": 0.821604561, "ndmi": 0.572536908, "evi": 2.156036676}, {"yc": 2011.0027, "yr": 2011, "doy": 1, "ndvi": 0.838342328, "ndmi": 0.640193019, "evi": 2.304977053}, {"yc": 2011.1342, "yr": 2011, "doy": 49, "ndvi": 0.854745949, "ndmi": 0.672966708, "evi": 2.400705361}, {"yc": 2011.4849, "yr": 2011, "doy": 177, "ndvi": 0.899771208, "ndmi": 0.739921724, "evi": 2.087270383}, {"yc": 2000.137, "yr": 2000, "doy": 50, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2000.5315, "yr": 2000, "doy": 194, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2000.926, "yr": 2000, "doy": 338, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2001.1425, "yr": 2001, "doy": 52, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2001.6247, "yr": 2001, "doy": 228, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.1507, "yr": 2002, "doy": 55, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.2822, "yr": 2002, "doy": 103, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.589, "yr": 2002, "doy": 215, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2002.8082, "yr": 2002, "doy": 295, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2003.0274, "yr": 2003, "doy": 10, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2003.1589, "yr": 2003, "doy": 58, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2003.3342, "yr": 2003, "doy": 122, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2003.3781, "yr": 2003, "doy": 138, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2003.6411, "yr": 2003, "doy": 234, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2003.9918, "yr": 2003, "doy": 362, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.0356, "yr": 2004, "doy": 13, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.1233, "yr": 2004, "doy": 45, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.211, "yr": 2004, "doy": 77, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.2986, "yr": 2004, "doy": 109, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.0411, "yr": 2005, "doy": 15, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.0849, "yr": 2005, "doy": 31, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.1726, "yr": 2005, "doy": 63, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.2603, "yr": 2005, "doy": 95, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.5233, "yr": 2005, "doy": 191, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.6986, "yr": 2005, "doy": 255, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.9178, "yr": 2005, "doy": 335, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.9616, "yr": 2005, "doy": 351, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.0055, "yr": 2006, "doy": 2, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.137, "yr": 2006, "doy": 50, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.5315, "yr": 2006, "doy": 194, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.5753, "yr": 2006, "doy": 210, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.7507, "yr": 2006, "doy": 274, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.8822, "yr": 2006, "doy": 322, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.926, "yr": 2006, "doy": 338, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.0137, "yr": 2007, "doy": 5, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.2329, "yr": 2007, "doy": 85, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.3205, "yr": 2007, "doy": 117, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.5836, "yr": 2007, "doy": 213, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.6274, "yr": 2007, "doy": 229, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.9781, "yr": 2007, "doy": 357, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.1973, "yr": 2008, "doy": 72, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.2411, "yr": 2008, "doy": 88, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.2849, "yr": 2008, "doy": 104, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.3288, "yr": 2008, "doy": 120, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.4164, "yr": 2008, "doy": 152, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.6795, "yr": 2008, "doy": 248, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.7233, "yr": 2008, "doy": 264, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.9425, "yr": 2008, "doy": 344, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.9863, "yr": 2008, "doy": 360, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.0712, "yr": 2009, "doy": 26, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.1151, "yr": 2009, "doy": 42, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.1589, "yr": 2009, "doy": 58, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.2466, "yr": 2009, "doy": 90, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.3781, "yr": 2009, "doy": 138, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.4658, "yr": 2009, "doy": 170, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.6849, "yr": 2009, "doy": 250, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.8603, "yr": 2009, "doy": 314, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.9041, "yr": 2009, "doy": 330, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2010.1233, "yr": 2010, "doy": 45, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2010.2548, "yr": 2010, "doy": 93, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2010.6055, "yr": 2010, "doy": 221, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2010.6932, "yr": 2010, "doy": 253, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2010.8685, "yr": 2010, "doy": 317, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.0877, "yr": 2011, "doy": 32, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.1315, "yr": 2011, "doy": 48, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.3507, "yr": 2011, "doy": 128, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.4822, "yr": 2011, "doy": 176, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.6137, "yr": 2011, "doy": 224, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.7014, "yr": 2011, "doy": 256, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.8329, "yr": 2011, "doy": 304, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.8767, "yr": 2011, "doy": 320, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.9644, "yr": 2011, "doy": 352, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.0082, "yr": 2012, "doy": 3, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.0521, "yr": 2012, "doy": 19, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.1397, "yr": 2012, "doy": 51, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.1836, "yr": 2012, "doy": 67, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.2274, "yr": 2012, "doy": 83, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.5342, "yr": 2012, "doy": 195, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.5781, "yr": 2012, "doy": 211, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.9288, "yr": 2012, "doy": 339, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.1014, "yr": 2013, "doy": 37, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.2329, "yr": 2013, "doy": 85, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.2767, "yr": 2013, "doy": 101, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.9342, "yr": 2013, "doy": 341, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.9781, "yr": 2013, "doy": 357, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.0219, "yr": 2014, "doy": 8, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.0658, "yr": 2014, "doy": 24, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.1096, "yr": 2014, "doy": 40, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.1534, "yr": 2014, "doy": 56, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.1973, "yr": 2014, "doy": 72, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.3726, "yr": 2014, "doy": 136, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.4603, "yr": 2014, "doy": 168, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.5479, "yr": 2014, "doy": 200, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.7233, "yr": 2014, "doy": 264, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.7671, "yr": 2014, "doy": 280, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.8548, "yr": 2014, "doy": 312, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2015.0301, "yr": 2015, "doy": 11, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2015.1178, "yr": 2015, "doy": 43, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2015.7753, "yr": 2015, "doy": 283, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2015.9945, "yr": 2015, "doy": 363, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2016.0822, "yr": 2016, "doy": 30, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2016.126, "yr": 2016, "doy": 46, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2016.2137, "yr": 2016, "doy": 78, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2016.2575, "yr": 2016, "doy": 94, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2016.389, "yr": 2016, "doy": 142, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2016.9151, "yr": 2016, "doy": 334, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2017.0877, "yr": 2017, "doy": 32, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2017.789, "yr": 2017, "doy": 288, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2017.9205, "yr": 2017, "doy": 336, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2017.9644, "yr": 2017, "doy": 352, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2018.1397, "yr": 2018, "doy": 51, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2018.2274, "yr": 2018, "doy": 83, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2018.5781, "yr": 2018, "doy": 211, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2018.9288, "yr": 2018, "doy": 339, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2019.1041, "yr": 2019, "doy": 38, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2019.1479, "yr": 2019, "doy": 54, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2019.4548, "yr": 2019, "doy": 166, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2000.137, "yr": 2000, "doy": 50, "ndvi": 0.923743744, "ndmi": 0.725798285, "evi": 2.146164029}, {"yc": 2000.5315, "yr": 2000, "doy": 194, "ndvi": 0.866035312, "ndmi": 0.729946737, "evi": 1.96866909}, {"yc": 2000.5753, "yr": 2000, "doy": 210, "ndvi": 0.930224595, "ndmi": 0.770863481, "evi": 2.009262015}, {"yc": 2000.926, "yr": 2000, "doy": 338, "ndvi": 0.876390001, "ndmi": 0.692577231, "evi": 2.13134716}, {"yc": 2000.9699, "yr": 2000, "doy": 354, "ndvi": 0.904614699, "ndmi": 0.699566473, "evi": 2.205978493}, {"yc": 2001.6247, "yr": 2001, "doy": 228, "ndvi": 0.887753037, "ndmi": 0.714996671, "evi": 2.130920348}, {"yc": 2002.2822, "yr": 2002, "doy": 103, "ndvi": 0.903852996, "ndmi": 0.734011865, "evi": 2.103030239}, {"yc": 2003.0274, "yr": 2003, "doy": 10, "ndvi": 0.787462046, "ndmi": 0.533331166, "evi": 1.757966584}, {"yc": 2003.2027, "yr": 2003, "doy": 74, "ndvi": 0.546295679, "ndmi": 0.207401777, "evi": 1.031504681}, {"yc": 2003.2466, "yr": 2003, "doy": 90, "ndvi": 0.392770758, "ndmi": -0.045276255, "evi": 0.584367286}, {"yc": 2003.3342, "yr": 2003, "doy": 122, "ndvi": 0.346296847, "ndmi": -0.09099476, "evi": 0.54349696}, {"yc": 2003.6411, "yr": 2003, "doy": 234, "ndvi": 0.341205728, "ndmi": -0.154477673, "evi": 0.496833267}, {"yc": 2004.1233, "yr": 2004, "doy": 45, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.211, "yr": 2004, "doy": 77, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2004.6055, "yr": 2004, "doy": 221, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.0849, "yr": 2005, "doy": 31, "ndvi": 0.723703828, "ndmi": 0.253749606, "evi": 1.575994042}, {"yc": 2005.6986, "yr": 2005, "doy": 255, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2005.9178, "yr": 2005, "doy": 335, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.0932, "yr": 2006, "doy": 34, "ndvi": 0.781482707, "ndmi": 0.351220838, "evi": 1.791742094}, {"yc": 2006.5315, "yr": 2006, "doy": 194, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.5753, "yr": 2006, "doy": 210, "ndvi": 0.839500627, "ndmi": 0.346888143, "evi": 1.700957911}, {"yc": 2006.8822, "yr": 2006, "doy": 322, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.926, "yr": 2006, "doy": 338, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.5836, "yr": 2007, "doy": 213, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2007.6274, "yr": 2007, "doy": 229, "ndvi": 0.844033428, "ndmi": 0.4769163, "evi": 1.86804651}, {"yc": 2008.1973, "yr": 2008, "doy": 72, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.2411, "yr": 2008, "doy": 88, "ndvi": 0.89117194, "ndmi": 0.623477824, "evi": 2.204160439}, {"yc": 2008.2849, "yr": 2008, "doy": 104, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.4164, "yr": 2008, "doy": 152, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.5479, "yr": 2008, "doy": 200, "ndvi": 0.866485668, "ndmi": 0.673408694, "evi": 2.676797241}, {"yc": 2008.6795, "yr": 2008, "doy": 248, "ndvi": 0.893652325, "ndmi": 0.590795151, "evi": 2.173260942}, {"yc": 2008.7233, "yr": 2008, "doy": 264, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.9425, "yr": 2008, "doy": 344, "ndvi": 0.885319839, "ndmi": 0.611697275, "evi": 2.101486564}, {"yc": 2008.9863, "yr": 2008, "doy": 360, "ndvi": 0.894587723, "ndmi": 0.632322864, "evi": 2.161306263}, {"yc": 2009.0712, "yr": 2009, "doy": 26, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.1589, "yr": 2009, "doy": 58, "ndvi": 0.909829943, "ndmi": 0.642276675, "evi": 2.252434225}, {"yc": 2009.2466, "yr": 2009, "doy": 90, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.6849, "yr": 2009, "doy": 250, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.1315, "yr": 2011, "doy": 48, "ndvi": 0.866748011, "ndmi": 0.763269176, "evi": 3.404211806}, {"yc": 2011.1753, "yr": 2011, "doy": 64, "ndvi": 0.898987907, "ndmi": 0.718393331, "evi": 2.121400295}, {"yc": 2011.4822, "yr": 2011, "doy": 176, "ndvi": 0.927116422, "ndmi": 0.740535083, "evi": 1.750116267}, {"yc": 2011.6137, "yr": 2011, "doy": 224, "ndvi": 0.845845113, "ndmi": 0.747712799, "evi": 2.595937844}, {"yc": 2011.7014, "yr": 2011, "doy": 256, "ndvi": 0.901159778, "ndmi": 0.671670483, "evi": 2.224617952}, {"yc": 2011.8767, "yr": 2011, "doy": 320, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2011.9644, "yr": 2011, "doy": 352, "ndvi": 0.889982412, "ndmi": 0.677412228, "evi": 2.565032866}, {"yc": 2012.0521, "yr": 2012, "doy": 19, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.1836, "yr": 2012, "doy": 67, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.3151, "yr": 2012, "doy": 115, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.1014, "yr": 2013, "doy": 37, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.2329, "yr": 2013, "doy": 85, "ndvi": 0.909536503, "ndmi": 0.6975218, "evi": 2.094148734}, {"yc": 2013.2767, "yr": 2013, "doy": 101, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.9781, "yr": 2013, "doy": 357, "ndvi": 0.880483315, "ndmi": 0.613664486, "evi": 2.070192143}, {"yc": 2014.0219, "yr": 2014, "doy": 8, "ndvi": 0.871593774, "ndmi": 0.60595374, "evi": 2.058698138}, {"yc": 2014.1534, "yr": 2014, "doy": 56, "ndvi": 0.869679624, "ndmi": 0.612824788, "evi": 1.997134984}, {"yc": 2014.1973, "yr": 2014, "doy": 72, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.4603, "yr": 2014, "doy": 168, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.7671, "yr": 2014, "doy": 280, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.811, "yr": 2014, "doy": 296, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2015.1178, "yr": 2015, "doy": 43, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2015.6877, "yr": 2015, "doy": 251, "ndvi": 0.832683893, "ndmi": 0.58400566, "evi": 1.899456622}, {"yc": 2015.7753, "yr": 2015, "doy": 283, "ndvi": 0.826476841, "ndmi": 0.457455568, "evi": 1.921518008}, {"yc": 2015.9945, "yr": 2015, "doy": 363, "ndvi": 0.673043129, "ndmi": 0.458264547, "evi": 2.253778761}, {"yc": 2016.0822, "yr": 2016, "doy": 30, "ndvi": 0.848811995, "ndmi": 0.528233541, "evi": 1.969803886}, {"yc": 2016.389, "yr": 2016, "doy": 142, "ndvi": 0.886371261, "ndmi": 0.607076509, "evi": 1.746617249}, {"yc": 2016.9151, "yr": 2016, "doy": 334, "ndvi": 0.839579452, "ndmi": 0.488637828, "evi": 1.89776166}, {"yc": 2017.2192, "yr": 2017, "doy": 80, "ndvi": 0.507412062, "ndmi": 0.462320588, "evi": 117.3498971}, {"yc": 2017.9205, "yr": 2017, "doy": 336, "ndvi": 0.82091066, "ndmi": 0.476700992, "evi": 1.934912248}, {"yc": 2017.9644, "yr": 2017, "doy": 352, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2018.1397, "yr": 2018, "doy": 51, "ndvi": 0.845304624, "ndmi": 0.504824407, "evi": 2.160822424}, {"yc": 2018.2274, "yr": 2018, "doy": 83, "ndvi": 0.85139939, "ndmi": 0.53518771, "evi": 2.10375169}, {"yc": 2018.6658, "yr": 2018, "doy": 243, "ndvi": 0.75430492, "ndmi": 0.489239715, "evi": 2.198935486}, {"yc": 2018.9288, "yr": 2018, "doy": 339, "ndvi": 0.825057836, "ndmi": 0.4923945, "evi": 1.988282776}, {"yc": 2019.1041, "yr": 2019, "doy": 38, "ndvi": 0.861834873, "ndmi": 0.555439672, "evi": 2.02160104}, {"yc": 2019.2356, "yr": 2019, "doy": 86, "ndvi": 0.850153031, "ndmi": 0.541414996, "evi": 1.860458242}, {"yc": 2000.0301, "yr": 2000, "doy": 11, "ndvi": 0.884672247, "ndmi": 0.704941682, "evi": 2.192064521}, {"yc": 2000.2493, "yr": 2000, "doy": 91, "ndvi": 0.905146672, "ndmi": 0.754745626, "evi": 2.236974605}, {"yc": 2000.8192, "yr": 2000, "doy": 299, "ndvi": 0.865454586, "ndmi": 0.671353227, "evi": 2.228695476}, {"yc": 2001.1233, "yr": 2001, "doy": 45, "ndvi": 0.894871554, "ndmi": 0.707682178, "evi": 2.373127993}, {"yc": 2001.2548, "yr": 2001, "doy": 93, "ndvi": 0.8755949, "ndmi": 0.708410803, "evi": 2.278322208}, {"yc": 2001.7808, "yr": 2001, "doy": 285, "ndvi": 0.863927477, "ndmi": 0.62272598, "evi": 2.208150251}, {"yc": 2001.9123, "yr": 2001, "doy": 333, "ndvi": 0.870202388, "ndmi": 0.636808441, "evi": 2.272987871}, {"yc": 2002.0877, "yr": 2002, "doy": 32, "ndvi": 0.859308549, "ndmi": 0.688965529, "evi": 2.087071273}, {"yc": 2003.1397, "yr": 2003, "doy": 51, "ndvi": 0.614279998, "ndmi": 0.293308073, "evi": 1.351295021}, {"yc": 2003.2274, "yr": 2003, "doy": 83, "ndvi": 0.466242887, "ndmi": 0.076920474, "evi": 0.806530701}, {"yc": 2003.2712, "yr": 2003, "doy": 99, "ndvi": 0.380750164, "ndmi": 0.045759269, "evi": 0.612503555}, {"yc": 2003.7534, "yr": 2003, "doy": 275, "ndvi": 0.333671247, "ndmi": -0.199614244, "evi": 0.620241332}, {"yc": 2004.0603, "yr": 2004, "doy": 22, "ndvi": 0.523729078, "ndmi": 0.009958858, "evi": 1.178208684}, {"yc": 2004.1918, "yr": 2004, "doy": 70, "ndvi": 0.583652823, "ndmi": 0.089649145, "evi": 1.319036935}, {"yc": 2004.3671, "yr": 2004, "doy": 134, "ndvi": 0.58089964, "ndmi": 0.072520082, "evi": 1.201932725}, {"yc": 2004.6301, "yr": 2004, "doy": 230, "ndvi": 0.523256254, "ndmi": -0.061370316, "evi": 0.984844391}, {"yc": 2005.1096, "yr": 2005, "doy": 40, "ndvi": 0.717106641, "ndmi": 0.234098443, "evi": 1.776374402}, {"yc": 2005.2411, "yr": 2005, "doy": 88, "ndvi": 0.74830405, "ndmi": 0.300719716, "evi": 1.982406951}, {"yc": 2005.2849, "yr": 2005, "doy": 104, "ndvi": 0.693968986, "ndmi": 0.318768715, "evi": 1.924062996}, {"yc": 2005.811, "yr": 2005, "doy": 296, "ndvi": 0.663482668, "ndmi": 0.117826085, "evi": 1.448254867}, {"yc": 2005.8548, "yr": 2005, "doy": 312, "ndvi": 0.684444181, "ndmi": 0.153542008, "evi": 1.611085949}, {"yc": 2005.9425, "yr": 2005, "doy": 344, "ndvi": 0.73446052, "ndmi": 0.228510614, "evi": 1.821975933}, {"yc": 2005.9863, "yr": 2005, "doy": 360, "ndvi": 0.741035212, "ndmi": 0.277830857, "evi": 1.855167355}, {"yc": 2006.2493, "yr": 2006, "doy": 91, "ndvi": 0.84943907, "ndmi": 0.396761891, "evi": 1.763984481}, {"yc": 2006.7315, "yr": 2006, "doy": 267, "ndvi": 0.727500023, "ndmi": 0.251728575, "evi": 1.693723898}, {"yc": 2006.8192, "yr": 2006, "doy": 299, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2006.9068, "yr": 2006, "doy": 331, "ndvi": 0.555674027, "ndmi": 0.264944294, "evi": 1.853111765}, {"yc": 2007.0384, "yr": 2007, "doy": 14, "ndvi": 0.817677119, "ndmi": 0.430952252, "evi": 2.126773816}, {"yc": 2007.0822, "yr": 2007, "doy": 30, "ndvi": 0.7747921, "ndmi": 0.436057652, "evi": 2.267165005}, {"yc": 2007.3014, "yr": 2007, "doy": 110, "ndvi": 0.839293138, "ndmi": 0.560516202, "evi": 2.557345035}, {"yc": 2007.3452, "yr": 2007, "doy": 126, "ndvi": 0.855945065, "ndmi": 0.538418738, "evi": 2.051744622}, {"yc": 2007.5205, "yr": 2007, "doy": 190, "ndvi": 0.875806988, "ndmi": 0.54626478, "evi": 2.02601742}, {"yc": 2007.8712, "yr": 2007, "doy": 318, "ndvi": 0.824675601, "ndmi": 0.467208853, "evi": 1.938844115}, {"yc": 2007.9589, "yr": 2007, "doy": 350, "ndvi": 0.847284811, "ndmi": 0.506835703, "evi": 2.162625843}, {"yc": 2008.0904, "yr": 2008, "doy": 33, "ndvi": 0.866279147, "ndmi": 0.551909852, "evi": 2.289926239}, {"yc": 2008.1342, "yr": 2008, "doy": 49, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2008.3534, "yr": 2008, "doy": 129, "ndvi": 0.923266812, "ndmi": 0.652631688, "evi": 2.472223175}, {"yc": 2008.7041, "yr": 2008, "doy": 257, "ndvi": 0.79821254, "ndmi": 0.530084265, "evi": 2.526403133}, {"yc": 2008.7479, "yr": 2008, "doy": 273, "ndvi": 0.745989984, "ndmi": 0.505925695, "evi": 2.296101437}, {"yc": 2008.8795, "yr": 2008, "doy": 321, "ndvi": 0.855332333, "ndmi": 0.551076662, "evi": 2.110781759}, {"yc": 2008.9233, "yr": 2008, "doy": 337, "ndvi": 0.677529934, "ndmi": 0.435472028, "evi": 2.198613212}, {"yc": 2008.9671, "yr": 2008, "doy": 353, "ndvi": 0.859178815, "ndmi": 0.598816248, "evi": 2.448914649}, {"yc": 2009.0082, "yr": 2009, "doy": 3, "ndvi": 0.868189967, "ndmi": 0.594577821, "evi": 2.296156055}, {"yc": 2009.0521, "yr": 2009, "doy": 19, "ndvi": 0.871109589, "ndmi": 0.617670329, "evi": 2.214742634}, {"yc": 2009.1397, "yr": 2009, "doy": 51, "ndvi": 0.881817365, "ndmi": 0.632478337, "evi": 2.245436029}, {"yc": 2009.1836, "yr": 2009, "doy": 67, "ndvi": 0.877241367, "ndmi": 0.641371013, "evi": 2.266252106}, {"yc": 2009.3589, "yr": 2009, "doy": 131, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2009.5342, "yr": 2009, "doy": 195, "ndvi": 0.989924731, "ndmi": 0.697705655, "evi": 2.026312978}, {"yc": 2009.7096, "yr": 2009, "doy": 259, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2010.3671, "yr": 2010, "doy": 134, "ndvi": 0.906952618, "ndmi": 0.732589761, "evi": 2.394806445}, {"yc": 2010.5425, "yr": 2010, "doy": 198, "ndvi": 0.920072616, "ndmi": 0.721101302, "evi": 2.16839851}, {"yc": 2010.5863, "yr": 2010, "doy": 214, "ndvi": 0.90221745, "ndmi": 0.714885985, "evi": 2.412973956}, {"yc": 2010.8055, "yr": 2010, "doy": 294, "ndvi": 0.863976277, "ndmi": 0.641953124, "evi": 2.468637089}, {"yc": 2010.8932, "yr": 2010, "doy": 326, "ndvi": 0.867580431, "ndmi": 0.626682457, "evi": 2.224576399}, {"yc": 2011.0247, "yr": 2011, "doy": 9, "ndvi": 0.881145029, "ndmi": 0.658850064, "evi": 2.282842809}, {"yc": 2011.1562, "yr": 2011, "doy": 57, "ndvi": 0.886639309, "ndmi": 0.699264229, "evi": 2.255381188}, {"yc": 2011.3315, "yr": 2011, "doy": 121, "ndvi": 0.963789573, "ndmi": 0.749878421, "evi": 1.89997607}, {"yc": 2011.6384, "yr": 2011, "doy": 233, "ndvi": 0.838877912, "ndmi": 0.63982509, "evi": 2.204863179}, {"yc": 2011.726, "yr": 2011, "doy": 265, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2012.0329, "yr": 2012, "doy": 12, "ndvi": 0.87888455, "ndmi": 0.673260508, "evi": 2.260558191}, {"yc": 2012.1205, "yr": 2012, "doy": 44, "ndvi": 0.827873556, "ndmi": 0.643578121, "evi": 2.357546725}, {"yc": 2012.2521, "yr": 2012, "doy": 92, "ndvi": 0.889405314, "ndmi": 0.709860847, "evi": 2.403072791}, {"yc": 2012.6027, "yr": 2012, "doy": 220, "ndvi": 0.925885336, "ndmi": 0.703999639, "evi": 2.034570096}, {"yc": 2012.6904, "yr": 2012, "doy": 252, "ndvi": 0.874489177, "ndmi": 0.651069195, "evi": 2.329943995}, {"yc": 2012.7342, "yr": 2012, "doy": 268, "ndvi": 0.86398247, "ndmi": 0.630824446, "evi": 2.195438189}, {"yc": 2012.7781, "yr": 2012, "doy": 284, "ndvi": 0.86651187, "ndmi": 0.613562841, "evi": 2.384313926}, {"yc": 2012.8658, "yr": 2012, "doy": 316, "ndvi": 0.849418687, "ndmi": 0.583042288, "evi": 2.309676473}, {"yc": 2012.9096, "yr": 2012, "doy": 332, "ndvi": 0.864565307, "ndmi": 0.61652023, "evi": 2.207422445}, {"yc": 2013.0384, "yr": 2013, "doy": 14, "ndvi": 0.85798088, "ndmi": 0.632883817, "evi": 2.322493564}, {"yc": 2013.0822, "yr": 2013, "doy": 30, "ndvi": 0.872010462, "ndmi": 0.652064975, "evi": 2.378640053}, {"yc": 2013.1699, "yr": 2013, "doy": 62, "ndvi": 0.889950939, "ndmi": 0.651737889, "evi": 2.351457686}, {"yc": 2013.3452, "yr": 2013, "doy": 126, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2013.4329, "yr": 2013, "doy": 158, "ndvi": 0.856942905, "ndmi": 0.689712847, "evi": 2.050757364}, {"yc": 2013.7397, "yr": 2013, "doy": 270, "ndvi": 0.85618834, "ndmi": 0.613235518, "evi": 2.037133426}, {"yc": 2013.9589, "yr": 2013, "doy": 350, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.0466, "yr": 2014, "doy": 17, "ndvi": 0.868881671, "ndmi": 0.604504613, "evi": 2.454571178}, {"yc": 2014.1781, "yr": 2014, "doy": 65, "ndvi": 0.862107494, "ndmi": 0.62637403, "evi": 2.181367571}, {"yc": 2014.2219, "yr": 2014, "doy": 81, "ndvi": 0.868762576, "ndmi": 0.636907053, "evi": 2.249981253}, {"yc": 2014.6164, "yr": 2014, "doy": 225, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2014.9233, "yr": 2014, "doy": 337, "ndvi": 0.848692143, "ndmi": 0.528184222, "evi": 2.146447453}, {"yc": 2015.011, "yr": 2015, "doy": 4, "ndvi": 0.847397243, "ndmi": 0.54132352, "evi": 2.149035207}, {"yc": 2015.0548, "yr": 2015, "doy": 20, "ndvi": 0.846823526, "ndmi": 0.555569938, "evi": 2.25117551}, {"yc": 2015.0986, "yr": 2015, "doy": 36, "ndvi": 0.843692064, "ndmi": 0.566716097, "evi": 2.053047948}, {"yc": 2015.1863, "yr": 2015, "doy": 68, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2015.2301, "yr": 2015, "doy": 84, "ndvi": 0.847707776, "ndmi": 0.583023195, "evi": 2.036440303}, {"yc": 2015.274, "yr": 2015, "doy": 100, "ndvi": 0.777078597, "ndmi": 0.565100406, "evi": 1.915828373}, {"yc": 2015.6685, "yr": 2015, "doy": 244, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2015.7562, "yr": 2015, "doy": 276, "ndvi": 0.687718409, "ndmi": 0.467881424, "evi": 2.143148292}, {"yc": 2015.8438, "yr": 2015, "doy": 308, "ndvi": 0.801170347, "ndmi": 0.453690076, "evi": 2.049147111}, {"yc": 2016.0192, "yr": 2016, "doy": 7, "ndvi": 0.815953687, "ndmi": 0.481057253, "evi": 2.263354878}, {"yc": 2016.063, "yr": 2016, "doy": 23, "ndvi": 0.832445234, "ndmi": 0.497701436, "evi": 2.063701747}, {"yc": 2016.1507, "yr": 2016, "doy": 55, "ndvi": 0.847170645, "ndmi": 0.52330785, "evi": 2.108467732}, {"yc": 2016.2822, "yr": 2016, "doy": 103, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2016.6767, "yr": 2016, "doy": 247, "ndvi": 0.843871814, "ndmi": 0.501378662, "evi": 2.027196553}, {"yc": 2016.8082, "yr": 2016, "doy": 295, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2016.8959, "yr": 2016, "doy": 327, "ndvi": 0.812792037, "ndmi": 0.467429474, "evi": 2.124452393}, {"yc": 2016.9397, "yr": 2016, "doy": 343, "ndvi": 0.814240502, "ndmi": 0.473542657, "evi": 2.100469423}, {"yc": 2017.0685, "yr": 2017, "doy": 25, "ndvi": 0.830122619, "ndmi": 0.535246706, "evi": 2.228363224}, {"yc": 2017.1123, "yr": 2017, "doy": 41, "ndvi": 0.846870997, "ndmi": 0.541304219, "evi": 2.189871352}, {"yc": 2017.2877, "yr": 2017, "doy": 105, "ndvi": 0.887180117, "ndmi": 0.578529968, "evi": 1.932487791}, {"yc": 2017.9014, "yr": 2017, "doy": 329, "ndvi": 0.84025578, "ndmi": 0.46631001, "evi": 2.243556422}, {"yc": 2018.2959, "yr": 2018, "doy": 108, "ndvi": 0.927534901, "ndmi": 0.524537843, "evi": 1.858039845}, {"yc": 2018.5589, "yr": 2018, "doy": 204, "ndvi": 0.960704718, "ndmi": 0.545360822, "evi": 1.853356103}, {"yc": 2018.6904, "yr": 2018, "doy": 252, "ndvi": 0.832791745, "ndmi": 0.480684367, "evi": 2.239087295}, {"yc": 2018.8658, "yr": 2018, "doy": 316, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2019.0849, "yr": 2019, "doy": 31, "ndvi": 0.841777048, "ndmi": 0.531824475, "evi": 2.14285372}, {"yc": 2019.2164, "yr": 2019, "doy": 79, "ndvi": null, "ndmi": null, "evi": null}, {"yc": 2019.2603, "yr": 2019, "doy": 95, "ndvi": 0.870842391, "ndmi": 0.577508401, "evi": 2.131848246}];
+
+const captions = {
+  ndvi: "Figure 1. NDVI time series (2000–2019) for a Eucalyptus stand in South America derived from Landsat multispectral imagery. Each point represents a cloud-free observation. The sharp decline around 2002–2003 reflects a stand-level disturbance event followed by gradual canopy recovery.",
+  ndmi: "Figure 1. NDMI time series (2000–2019). The Normalized Difference Moisture Index is sensitive to canopy water content. The post-disturbance dip is visible though less extreme than in NDVI, and a significant interaction between year and seasonal amplitude was detected in the GAM model.",
+  evi: "Figure 1. EVI time series (2000–2019). The Enhanced Vegetation Index reduces atmospheric and soil background noise compared to NDVI. Note the 2003 disturbance signal and the multi-year recovery trajectory."
+};
+
+const colors = {
+  ndvi: '#4ade80',
+  ndmi: '#60a5fa',
+  evi:  '#f59e0b'
+};
+
+let currentIndex = 'ndvi';
+let chart;
+
+function buildDataset(index) {
+  return rawData
+    .filter(d => d[index] !== null && d[index] !== undefined)
+    .map(d => ({ x: d.yc, y: d[index] }));
+}
+
+function initChart() {
+  const ctx = document.getElementById('tsChart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'NDVI',
+        data: buildDataset('ndvi'),
+        backgroundColor: colors.ndvi + 'cc',
+        pointRadius: 4,
+        pointHoverRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `Year: ${ctx.parsed.x.toFixed(2)}, Value: ${ctx.parsed.y.toFixed(4)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          title: { display: true, text: 'Year', color: '#7a8fa6' },
+          ticks: { color: '#7a8fa6' },
+          grid: { color: '#2d3a4f' },
+          min: 2000, max: 2020
+        },
+        y: {
+          title: { display: true, text: 'Index Value', color: '#7a8fa6' },
+          ticks: { color: '#7a8fa6' },
+          grid: { color: '#2d3a4f' }
+        }
+      }
+    }
+  });
+}
+
+function switchIndex(index, btn) {
+  currentIndex = index;
+  document.querySelectorAll('.btn-index').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  chart.data.datasets[0].data = buildDataset(index);
+  chart.data.datasets[0].label = index.toUpperCase();
+  chart.data.datasets[0].backgroundColor = colors[index] + 'cc';
+  chart.update();
+  document.getElementById('chartCaption').textContent = captions[index];
+}
+
+initChart();
+</script>
+</body>
+</html>
